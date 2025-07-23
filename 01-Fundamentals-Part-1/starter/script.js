@@ -43,7 +43,7 @@ let job1 = "programmer";
 let job2 = "teacher";
 
 console.log(myFirstJob);
-*/
+
 
 let javascriptIsFun = true;
 console.log(javascriptIsFun);
@@ -64,3 +64,29 @@ year = 1991;
 console.log(typeof year);
 
 console.log(typeof null);
+*/
+
+// 변수 종류 - let, const and var
+// ① let
+let age = 30;
+age = 31;
+
+// ② const
+// const 로 만든 변수 → 값의 재배치 불가능
+const birthYear = 1991;
+// birthYear = 1990; // Uncaught TypeError: Assignment to constant variable.
+
+// const 로 만든 변수 → 초기화 필요
+// const job;    // Uncaught SyntaxError: Missing initializer in const declaration
+
+// 변수가 바뀌어야 할 때만 let 사용하고,
+// 그렇지 않다면 const 사용해 클린 코드 유지하기 (관행)
+
+// ③ var
+// var 로 만든 변수 → 추천하지 않지만 알아는 두자.
+var job = "programmer";
+job = "teacher";
+
+// 변수를 선언하지 않아도 변수가 작동하지만(global) 가급적 지양하자.
+lastName = "Schmedtmann";
+console.log(lastName);
