@@ -64,7 +64,7 @@ year = 1991;
 console.log(typeof year);
 
 console.log(typeof null);
-*/
+
 
 // 변수 종류 - let, const and var
 // ① let
@@ -90,3 +90,32 @@ job = "teacher";
 // 변수를 선언하지 않아도 변수가 작동하지만(global) 가급적 지양하자.
 lastName = "Schmedtmann";
 console.log(lastName);
+*/
+
+// Math operators
+const now = 2037;
+const ageJonas = now - 1991;
+const ageSarah = now - 2018;
+console.log(ageJonas, ageSarah);
+
+console.log(ageJonas * 2, ageJonas / 10, 2 ** 3);
+// 2 ** 3 means 2 to the power of 3 = 2 * 2 * 2
+
+const firstName = "Jonas";
+const lastName = "Schmedtmann";
+console.log(firstName + " " + lastName);
+
+// Assignment operators
+let x = 10 + 5; // → 15
+x += 10; // x = x + 10 → 25
+x *= 4; // x = x * 4 → 100
+x++; // x = x + 1 → 101
+x--; // x = x - 1 → 100
+console.log(x);
+
+// Comparaison operators
+console.log(ageJonas > ageSarah); // >, <, >=, <=
+console.log(ageSarah >= 18); // → true / false
+
+const isfullAge = ageSarah >= 18;
+console.log(now - 1991 > now - 2018); // JS calculate math first
