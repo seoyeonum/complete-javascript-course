@@ -140,21 +140,22 @@ const birthYear = 1991;
 const year = 2037;
 
 const jonas =
-  "I'm " + firstName + ", a " + (year - birthYear) + " year old " + job + "!";
+  "I'm " + firstName + ", a " + (year - birthYear) + " years old " + job + "!";
 console.log(jonas);
 
-const JonasNew = `I'm ${firstName}, a ${year - birthYear} year old ${job}!`;
-console.log(JonasNew);
+// template literals 의 활용 → backtick(`)
+const jonasNew = `I'm ${firstName}, a ${year - birthYear} years old ${job}!`;
+console.log(jonasNew);
 
-console.log("Just a regular string...");
+console.log(`Just a regular string...`);
 
-// multiLine
-console.log(
-  "String with \n\
+// multiLine(다중 문자열) 필요 시 template literals 활용하면 유용!
+// JavaScript에서는 개행문자에 백슬래시(\)가 하나 더 필요 → (\n\)
+// (단, 아래의 경우 \n\ 없이도 작동 가능! 오히려 \n\ 넣는 게 버그로 인한 결과)
+console.log(`String with \n\
 multiple \n\
-lines"
-);
+lines`);
 
 console.log(`String
-  multiple
-  lines`);
+multiple
+lines`);
