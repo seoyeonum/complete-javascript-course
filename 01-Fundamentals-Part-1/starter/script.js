@@ -184,7 +184,7 @@ if (birthYear <= 2000) {
 }
 // console.log(century);    //→ Uncaught ReferenceError: century is not defined
 console.log(century);
-*/
+
 
 // type conversion
 const inputYear = "1991";
@@ -208,3 +208,27 @@ console.log("23" / "2"); // → 11.5 (숫자로 반환)
 let n = "1" + 1;
 n = n - 1;
 console.log(n);
+*/
+
+// 5 falsy values (in JS) : 0, '', undefined, null, NaN
+// → boolean 으로 변환(coercion) 시 falsy
+
+console.log(Boolean(0)); // → false
+console.log(Boolean(undefined)); // → false
+console.log(Boolean("Jonas")); // → true
+console.log(Boolean({})); // → true
+console.log(Boolean("")); // → false
+
+const money = 100;
+if (money) {
+  console.log("Don't spend it all ;)");
+} else {
+  console.log("You should get a job!");
+}
+
+let height = 0;
+if (height) {
+  console.log("YAY! Height is defined");
+} else {
+  console.log("Height is UNDEFINED");
+}
