@@ -208,7 +208,7 @@ console.log("23" / "2"); // → 11.5 (숫자로 반환)
 let n = "1" + 1;
 n = n - 1;
 console.log(n);
-*/
+
 
 // 5 falsy values (in JS) : 0, '', undefined, null, NaN
 // → boolean 으로 변환(coercion) 시 falsy
@@ -232,3 +232,30 @@ if (height) {
 } else {
   console.log("Height is UNDEFINED");
 }
+*/
+
+// === → 정확히 같은 값인지 확인(엄격한 등호 연산자/삼중 등호 연산자)
+// == → coercion을 적용하여 같은 값인지 확인(루즈한 등호 연산자)
+// 가급적이면 엄격한 등호 연산자를 사용한다. → 에러 대응을 위해!
+// if 문의 실행문이 한 줄 뿐이라면 {중괄호}는 생략해도 된다.
+const age = "18";
+if (age === 18) console.log("You just became an adult :D (strict)");
+
+if (age == 18) console.log("You just became an adult :D (loose)");
+
+const favorite = Number(prompt("What's your favoraite number?"));
+console.log(favorite);
+console.log(typeof favorite); // → string
+
+if (favorite === 23) {
+  // 23 === 23
+  console.log("Cool! 23 is an amazing number!");
+} else if (favorite === 7) {
+  console.log("7 is also a cool number");
+} else if (favorite === 9) {
+  console.log("9 is also a cool number");
+} else {
+  console.log("Number is not 23 or 7");
+}
+
+if (favorite !== 23) console.log("Why not 23?");
