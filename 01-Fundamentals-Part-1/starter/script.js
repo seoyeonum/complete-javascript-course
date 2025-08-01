@@ -259,7 +259,7 @@ if (favorite === 23) {
 }
 
 if (favorite !== 23) console.log("Why not 23?");
-*/
+
 
 // logical operators → AND. OR, NOT
 const hasDriversLicense = true; // A
@@ -284,4 +284,47 @@ if (hasDriversLicense && hasGoodVision && !isTired) {
   console.log("Sarah is able to drive!");
 } else {
   console.log("Someone else should drive...");
+}
+*/
+
+// the switch statements
+const day = "wednesday";
+
+switch (day) {
+  case "monday": // day === 'monday'
+    console.log("Plan course structure");
+    console.log("Go to coding meetup");
+    break;
+  case "tuesday":
+    console.log("Prepare theory videos");
+    break;
+  case "wednesday":
+  case "thursday":
+    console.log("Write code examples");
+    break;
+  case "friday":
+    console.log("Record videos");
+    break;
+  case "saturday":
+  case "sunday":
+    console.log("Enjoy the weekend :D");
+    break;
+  default:
+    console.log("Not a valid day!");
+}
+
+// if/else statements 를 활용하여 위와 완전히 같은 결과의 코드를 작성해보자.
+if (day === "monday") {
+  console.log("Plan course structure");
+  console.log("Go to coding meetup");
+} else if (day === "tuesday") {
+  console.log("Prepare theory videos");
+} else if (day === "wednesday" || day === "thursday") {
+  console.log("Write code examples");
+} else if (day === "friday") {
+  console.log("Record videos");
+} else if (day === "saturday" || day === "sunday") {
+  console.log("Enjoy the weekend :D");
+} else {
+  console.log("Not a valid day!");
 }
