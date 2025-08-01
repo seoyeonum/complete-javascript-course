@@ -232,7 +232,7 @@ if (height) {
 } else {
   console.log("Height is UNDEFINED");
 }
-*/
+
 
 // === → 정확히 같은 값인지 확인(엄격한 등호 연산자/삼중 등호 연산자)
 // == → coercion을 적용하여 같은 값인지 확인(루즈한 등호 연산자)
@@ -259,3 +259,29 @@ if (favorite === 23) {
 }
 
 if (favorite !== 23) console.log("Why not 23?");
+*/
+
+// logical operators → AND. OR, NOT
+const hasDriversLicense = true; // A
+const hasGoodVision = true; // B
+
+console.log(hasDriversLicense && hasGoodVision);
+console.log(hasDriversLicense || hasGoodVision);
+console.log(!hasDriversLicense);
+
+// const shouldDrive = hasDriversLicense && hasGoodVision;
+
+// if (hasDriversLicense && hasGoodVision) {
+//   console.log("Sarah is able to drive!");
+// } else {
+//   console.log("Someone else should drive...");
+// }
+
+const isTired = false; // C
+console.log(hasDriversLicense && hasGoodVision && isTired);
+
+if (hasDriversLicense && hasGoodVision && !isTired) {
+  console.log("Sarah is able to drive!");
+} else {
+  console.log("Someone else should drive...");
+}
