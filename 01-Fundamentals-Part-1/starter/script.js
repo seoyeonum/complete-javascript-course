@@ -328,7 +328,7 @@ if (day === "monday") {
 } else {
   console.log("Not a valid day!");
 }
-*/
+
 
 // statements and expressions
 
@@ -351,3 +351,27 @@ if (23 > 10) {
 
 const me = "Seoyeon";
 console.log(`I'm ${2037 - 1991} yers old ${me}`);
+*/
+
+// the conditional (ternary) operator (조건연산자, 삼항연산자)
+// ※ ternary : 세 개의
+const age = 23;
+// age >= 18
+//   ? console.log("I like to drink wine 🍷")
+//   : console.log("I like to drink water 💧");
+// 조건식 : 참일 때 : 거짓일 때 ;
+
+const drink = age >= 18 ? "wine 🍷" : "water 💧";
+console.log(drink);
+
+let drink2;
+if (age >= 18) {
+  drink2 = "wine 🍷";
+} else {
+  drink2 = "water 💧";
+}
+console.log(drink2);
+
+// if/else 는 templete literal 에 사용할 수 없지만,
+// ternary operator 는 templete literal 에 사용할 수 있다.
+console.log(`I like to drink ${age >= 18 ? "wine 🍷" : "water 💧"}`);
