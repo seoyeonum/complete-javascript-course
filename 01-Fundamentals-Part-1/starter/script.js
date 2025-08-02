@@ -285,7 +285,7 @@ if (hasDriversLicense && hasGoodVision && !isTired) {
 } else {
   console.log("Someone else should drive...");
 }
-*/
+
 
 // the switch statements
 const day = "wednesday";
@@ -328,3 +328,26 @@ if (day === "monday") {
 } else {
   console.log("Not a valid day!");
 }
+*/
+
+// statements and expressions
+
+// 값(value)을 생성하는 모든건 expression이다.
+3 + 4;
+1991;
+true && false && !false;
+
+// 문자열 역시 expression(표현) 이지만
+// 아래 if 문은 statement(명문)이다.
+if (23 > 10) {
+  const str = "23 is bigger";
+}
+
+// console.log(`I'm ${2037 - 1991} yers old ${if (23 > 10) {
+//   const str = "23 is bigger";
+// }}`);
+// → Uncaught SyntaxError: Unexpected token 'if'
+// statement는 백릿 ${} 안에 넣을 수 없다.
+
+const me = "Seoyeon";
+console.log(`I'm ${2037 - 1991} yers old ${me}`);
