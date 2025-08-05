@@ -44,7 +44,7 @@ const appleOrangeJuice = fruitProcessor(2, 4);
 console.log(appleOrangeJuice);
 
 const num = Number("23");
-*/
+
 
 // function declarations
 const age1 = calcAge1(1991);
@@ -72,3 +72,55 @@ console.log(age1, age2);
 // 어떤 타입의 function 을 사용하는지는 개발자 개인의 퓌향 문제이다.
 // Jonas 는 expression을 선호하지만, 대부분은 expression을 선호.
 // 물론 두 가지 다 구별하고 사용하는 방법을 익혀야 한다.
+
+
+// Arrow functions
+const calcAge3 = (birthYear) => 2037 - birthYear;
+// 중괄호가 필요 없으며, 암묵적으로 return 없이 값을 반환(저장)한다.
+const age3 = calcAge3(1991);
+console.log(age3);
+
+const yearsUntilRetirement = (birthYear, firstName) => {
+  const age = 2037 - birthYear;
+  const retirement = 65 - age;
+  // return retirement;
+  return `${firstName} retires in ${retirement} years`;
+};
+
+console.log(yearsUntilRetirement(1991, "Jonas"));
+console.log(yearsUntilRetirement(1980, "Bob"));
+
+// functions calling other functions
+function cutFruitProcessor(fruit) {
+  return fruit * 3;
+}
+
+function fruitProcessor(apples, oranges) {
+  const applePieces = cutFruitProcessor(apples);
+  const orangePieces = cutFruitProcessor(oranges);
+
+  const juice = `Juice with ${applePieces} pieces of apple and ${orangePieces} pieces of orange.`;
+  return juice;
+}
+
+console.log(fruitProcessor(2, 3));
+*/
+const calcAge = function (birthYear) {
+  return 2037 - birthYear;
+};
+
+const yearsUntilRetirement = function (birthYear, firstName) {
+  const age = calcAge(birthYear);
+  const retirement = 65 - age;
+
+  if (retirement > 0) {
+    console.log(`${firstName} is retires in ${retirement} years`);
+    return retirement;
+  } else {
+    console.log(`${firstName} has already retired 🎉`);
+    return -1;
+  }
+};
+
+console.log(yearsUntilRetirement(1991, "Jonas"));
+console.log(yearsUntilRetirement(1950, "Mike"));
