@@ -104,7 +104,8 @@ function fruitProcessor(apples, oranges) {
 }
 
 console.log(fruitProcessor(2, 3));
-*/
+
+
 const calcAge = function (birthYear) {
   return 2037 - birthYear;
 };
@@ -124,3 +125,98 @@ const yearsUntilRetirement = function (birthYear, firstName) {
 
 console.log(yearsUntilRetirement(1991, "Jonas"));
 console.log(yearsUntilRetirement(1950, "Mike"));
+
+
+// arrays 는 data structure 이다.
+const friend1 = "Michael";
+const friend2 = "Steven";
+const friend3 = "Peter";
+
+const friends = ["Michael", "Steven", "Peter"];
+console.log(friends);
+
+// array는 0을 기반으로 index 값을 가진다.
+const y = new Array(1991, 1984, 2008, 2020);
+console.log(friends[0]);
+console.log(friends[2]);
+
+console.log(friends.length);
+console.log(friends[friends.length - 1]);
+
+friends[2] = "Jay";
+console.log(friends);
+// array 가 const 로 선언되었더라도 그 요소의 변경은 가능
+// → only primitive values are immutable(불변의)
+// array 는 primitive values 가 아니다. → mutated
+
+// friends = ["Bob", "Alice"];
+// → Uncaught TypeError: Assignment to constant variable.
+
+const firstName = "Jonas";
+const jonas = [firstName, "Schmedtmann", 2037 - 1991, "teacher", friends];
+console.log(jonas);
+console.log(jonas.length);
+
+// exercise
+const calcAge = function (birthYear) {
+  return 2037 - birthYear;
+};
+const years = [1990, 1967, 2002, 2010, 2018];
+
+// console.log(calcAge(years));
+// → NaN
+
+const age1 = calcAge(years[0]);
+const age2 = calcAge(years[1]);
+const age3 = calcAge(years[years.length - 1]);
+console.log(age1, age2, age3);
+
+const ages = [
+  calcAge(years[0]),
+  calcAge(years[1]),
+  calcAge(years[years.length - 1]),
+];
+console.log(ages);
+*/
+
+// Basic array operations (methods)
+const friends = ["Michael", "Steven", "Peter"];
+
+// Add elements
+const newLength = friends.push("Jay"); // push: 맨 끝에 배열 요소를 추가
+console.log(friends);
+console.log(newLength); // → 4
+// push 메서드는 배열의 길이를 반환
+
+friends.unshift("John"); // unshift: 맨 앞에 배열 요소를 추가
+// unshift 메서드는 배열의 길이 반환
+console.log(friends);
+
+// Remove elements
+friends.pop(); // pop: Last(맨 끝) element를 제거
+const popped = friends.pop();
+console.log(popped); // → Peter
+// popped 메서드는 제거된 요소를 반환
+console.log(friends);
+
+friends.shift(); // shift: Firtt(맨 앞) element를 제거
+console.log(friends);
+
+// Search elements
+console.log(friends.indexOf("Steven")); // → 1
+// indexOf 메서드는 해당 요소의 index를 반환
+console.log(friends.indexOf("Bob")); // → -1
+// 존재하지 않는 요소의 경우 -1 반환
+
+friends.push(23);
+console.log(friends.includes("Steven")); // → true
+console.log(friends.includes("Bob")); // → false
+// includes 메서드는 해당 요소의 존재 여부를 Boolean 값으로 반환
+console.log(friends.includes("23")); // → false
+console.log(friends.includes(23)); // → true
+// includes 메서드는 strict equality 를 따른다.
+// 즉, type coercion 을 행하지 않는다. (그렇기 때문에 유용함)
+
+if (friends.includes("Steven")) {
+  console.log("You have a friend called Steven");
+}
