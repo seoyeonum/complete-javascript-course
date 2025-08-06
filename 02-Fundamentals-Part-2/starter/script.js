@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /*
 // 위 문구가 맨 처음 작성되면 strict mode 가 활성화
 // 각 script 마다 strict mode를 두고 쓰는걸 beginner 에게 추천함
@@ -177,7 +177,7 @@ const ages = [
   calcAge(years[years.length - 1]),
 ];
 console.log(ages);
-*/
+
 
 // Basic array operations (methods)
 const friends = ["Michael", "Steven", "Peter"];
@@ -220,3 +220,109 @@ console.log(friends.includes(23)); // → true
 if (friends.includes("Steven")) {
   console.log("You have a friend called Steven");
 }
+
+
+// ※ 저장 시 문자열 자동 쌍따옴표 해제 방법
+// Settings > (검색) quote > Prettier: Single Quote 항목
+// ✅ Use single instead of double quotes. (체크박스 설정)
+// → 현재 자동 들여쓰기를 위하여
+// Prettier 를 Code Formatter 로 사용하고 있기 때문
+
+// ※ 저장 시 자동 개행 완화 방법
+// Settings > (검색) Prettier > Prettier: Print Width 항목
+// 기존 80 → 120 변경 (즉, 자동 개행의 기준 화면 폭을 넓힘)
+
+// objects
+const jonas = {
+  firstName: 'Jonas',
+  lastName: 'Schmetmann',
+  age: 2037 - 1991,
+  job: 'teacher',
+  friends: ['Michael', 'Peter', 'Steven'],
+};
+// 5 property(속성)를 가지고 있는 object 'jonas'
+// array 와 달리 각 개체들의 순서(order)가 중요하지 않다.
+
+console.log(jonas);
+
+// using dot notation
+// → 간단하므로 보편적으로 사용
+console.log(jonas.lastName);
+
+// using bracket notation
+// → key에 대한 조작이 필요할 때 사용
+console.log(jonas['lastName']);
+
+const nameKey = 'Name';
+console.log(jonas['first' + nameKey]);
+console.log(jonas['last' + nameKey]);
+
+// console.log(jonas.'last' + nameKey);
+// → Uncaught SyntaxError: Unexpected string
+
+const interestedIn = prompt(
+  'What do you want to know about Jonas? Choose between firstName, lastName, age, job, and friends'
+);
+// console.log(jonas.interestedIn); // → undefined
+console.log(jonas[interestedIn]);
+
+if (jonas[interestedIn]) {
+  console.log(jonas[interestedIn]);
+} else {
+  console.log(
+    'Wrong request! Choose between firstName, lastName, age, job, and friends'
+  );
+}
+
+jonas.location = 'Protugal';
+jonas['twitter'] = '@jonasschmedtmann';
+console.log(jonas);
+
+// Challenge
+// "Jonas has 3 friends, and his best friend is called Michael"
+console.log(
+  `${jonas.firstName} has ${jonas.friends.length} friends, and his best friends is called ${jonas.friends[0]}`
+);
+*/
+
+// object methods
+const jonas = {
+  firstName: 'Jonas',
+  lastName: 'Schmetmann',
+  birthYear: 1991,
+  job: 'teacher',
+  friends: ['Michael', 'Peter', 'Steven'],
+  hasDriversLicense: true,
+
+  // calcAge: function (birthYear) {
+  //   return 2037 - birthYear;
+  // },
+
+  // calcAge: function () {
+  //   // console.log(this); // → jonas
+  //   return 2037 - this.birthYear;
+  // },
+
+  calcAge: function () {
+    this.age = 2037 - this.birthYear;
+    return this.age;
+  }, // → 메서드 사이에도 콤마(,)가 있어야 한다.
+
+  getSummary: function () {
+    return `${this.firstName} is a ${this.calcAge()}-years old teacher and he has ${
+      this.hasDriversLicense ? 'a' : 'no'
+    } driver's license.`;
+  },
+};
+
+// console.log(jonas.calcAge(1991));
+// console.log(jonas['calcAge'](1991));
+console.log(jonas.calcAge());
+
+console.log(jonas.age);
+console.log(jonas.age);
+console.log(jonas.age);
+
+// Challenge
+// "Jonas is a 46-year old teacher and he has a/no driver's license"
+console.log(jonas.getSummary());
