@@ -283,7 +283,7 @@ console.log(jonas);
 console.log(
   `${jonas.firstName} has ${jonas.friends.length} friends, and his best friends is called ${jonas.friends[0]}`
 );
-*/
+
 
 // object methods
 const jonas = {
@@ -326,3 +326,24 @@ console.log(jonas.age);
 // Challenge
 // "Jonas is a 46-year old teacher and he has a/no driver's license"
 console.log(jonas.getSummary());
+*/
+
+// iteration: the for loop
+// console.log('Lifting weights repetition 1 🔥');
+// console.log('Lifting weights repetition 2 🔥');
+// console.log('Lifting weights repetition 3 🔥');
+// console.log('Lifting weights repetition 4 🔥');
+// console.log('Lifting weights repetition 5 🔥');
+// console.log('Lifting weights repetition 6 🔥');
+// console.log('Lifting weights repetition 7 🔥');
+// console.log('Lifting weights repetition 8 🔥');
+// console.log('Lifting weights repetition 9 🔥');
+// console.log('Lifting weights repetition 10 🔥');
+// 이렇게 일일히 하는 것은 너무 비 효율적이다..
+// 따라서 for loop 문이 필요하다.
+
+// rep 는 추후 변경될 것이므로 let 타입으로 선언
+// for loop keeps running while condition is TRUE
+for (let rep = 1; rep <= 30; rep++) {
+  console.log(`Lifting weights repetition ${rep} 🔥`);
+}
