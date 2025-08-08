@@ -326,7 +326,7 @@ console.log(jonas.age);
 // Challenge
 // "Jonas is a 46-year old teacher and he has a/no driver's license"
 console.log(jonas.getSummary());
-*/
+
 
 // iteration: the for loop
 // console.log('Lifting weights repetition 1 🔥');
@@ -346,4 +346,57 @@ console.log(jonas.getSummary());
 // for loop keeps running while condition is TRUE
 for (let rep = 1; rep <= 30; rep++) {
   console.log(`Lifting weights repetition ${rep} 🔥`);
+}
+*/
+
+// looping arrays, breaking, continuing
+const jonas = [
+  'Jonas',
+  'Schmetmann',
+  2037 - 1991,
+  'teacher',
+  ['Michael', 'Peter', 'Steven'],
+  true,
+];
+const types = [];
+
+// console.log(jonasArray[0]);
+// console.log(jonasArray[1]);
+// ...
+// console.log(jonasArray[4]);
+// jonas[5] does NOT exist
+
+for (let i = 0; i < jonas.length; i++) {
+  // Reading from jonas array
+  console.log(jonas[i], typeof jonas[i]);
+
+  // Filling types array
+  // types[i] = typeof jonas[i];
+  types.push(typeof jonas[i]);
+  // i번째에 넣든, push()로 넣든 결과는 같지만 후자가 더 깔끔!
+}
+
+console.log(types);
+
+const years = [1991, 2007, 1969, 2020];
+const ages = [];
+
+for (let i = 0; i < years.length; i++) {
+  ages.push(2037 - years[i]);
+}
+console.log(ages);
+
+// continue and break
+console.log('--- ONLY STRING ---');
+for (let i = 0; i < jonas.length; i++) {
+  if (typeof jonas[i] !== 'string') continue;
+
+  console.log(jonas[i], typeof jonas[i]);
+}
+
+console.log('--- BREAK WITH NUMBER ---');
+for (let i = 0; i < jonas.length; i++) {
+  if (typeof jonas[i] === 'number') break;
+
+  console.log(jonas[i], typeof jonas[i]);
 }
