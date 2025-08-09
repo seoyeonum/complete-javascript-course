@@ -400,7 +400,7 @@ for (let i = 0; i < jonas.length; i++) {
 
   console.log(jonas[i], typeof jonas[i]);
 }
-*/
+
 
 // looping backwards and loops in loops
 const jonas = [
@@ -424,4 +424,30 @@ for (let exercise = 1; exercise < 4; exercise++) {
   for (let rep = 1; rep < 6; rep++) {
     console.log(`Exercise ${exercise}: Lifting weight repetition ${rep} 🏋🏻‍♀️`);
   }
+}
+*/
+
+// the while loop
+// for (let rep = 1; rep <= 10; rep++) {
+//   console.log(`Lifting weight repetition ${rep} 🏋🏻‍♀️`);
+// }
+
+let rep = 1;
+while (rep <= 10) {
+  console.log(`WHILE: Lifting weight repetition ${rep} 🏋🏻‍♀️`);
+  rep++;
+}
+
+// Math.random() 시 0 ~ 1 사이 값이 나온다.
+// Math.trunc() 시 정수 부분만 남기고 절삭
+let dice = Math.trunc(Math.random() * 6) + 1;
+console.log(dice);
+
+while (dice !== 6) {
+  console.log(`You rolled a ${dice}`);
+
+  // 위 상태로는 무한 루프에 빠질 수 있다. (주사위를 한 번만 돌리므로.)
+  // 따라서 주사위 값을 매 루프마다 업데이트 해주어야 한다.
+  dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice === 6) console.log('Loop is about to end...');
 }
