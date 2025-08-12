@@ -131,7 +131,7 @@ const calcTempAmplitudeNew = function (t1, t2) {
 
 const amplitudeNew = calcTempAmplitudeNew([3, 5, 1], [9, 0, 5]);
 console.log(amplitudeNew);
-*/
+
 
 // debugging (fixing errors)
 
@@ -192,3 +192,36 @@ const calcTempAmplitudeBug = function (t1, t2) {
 const amplitudeBug = calcTempAmplitudeBug([3, 5, 1], [9, 4, 5]);
 // A) Identify
 console.log(amplitudeBug);
+*/
+
+// The rise of AI tools (ChatGPT, Copilot, Cursor AI etc.)
+
+// 1. 문제를 이해하고 작게 나누기
+// 2. 어떤 AI를 사용할지 선택하기
+// 3. AI가 코드를 생성
+// 4. ★중요★ 검토하고 테스트하기: AI 코드에는 Bug나 Bad Code가 다량 존재할 수 있다.
+// → solution 을 수정/향상시키며 2.~4. 반복
+// 5. 코드 베이스에 merge 하기
+
+// Before you use AI...
+// - (AI에 의존하지 않고) 코드를 스스로 작성할 줄 알아야 한다. (Fundamental skills are 100% essectial!)
+// - (AI에 의존하지 않고) 문제를 스스로 해결할 줄 알아야 한다.
+// - 비판적으로 생각하는 힘이 필요하다.
+// - 코딩하는 동안 호기심과 즐거움을 가져야 한다.
+
+// ※ AI는 우리를 위협하기 위한 것이 아니라, 시간을 아껴주고 단순 작업을 줄여주기 위한 것이다.
+
+// Incorporate AI code - AI 코드를 언제 사용(포함)해도 좋을까?
+// - (AI 사용 전에) 스스로 코드를 머릿속으로 그릴 수 있는 경우
+// - AI의 코드를 온전히 이해할 수 있는 경우
+// - AI의 코드가 100% 맞다고 확신하는 경우
+// - mission-critical parsts 에 사용하는 코드가 아닌 경우
+
+// Will AI take our job?
+// - 이미 AI 기반의 tool 은 우리 주변에 존재한다. AI 위협이 확대해석 되고 있을 뿐이다.
+// - 자동화, 일상적 작업에 있어 번거로운 일이 크게 줄어들 것이다.
+// - 핵심 비즈니스 로직 등 앱 구조에 있어서 제어 및 구현은 여전히 필요하다.
+// - SW 개발자란 단순히 코드를 작성하는 것 이상으로 큰 그림을 그릴 수 있는 사람이다.
+// - 다른 개발자, 특히 고객과 협업할 수 있는 것은 "사람" 개발자이다.
+// - 여전히 AI 코드는 bug가 많으며, debugging이 어렵다. → 개선하는 사람은 필요하다.
+// - 개발자보다 개발자가 만들어야 하는 SW가 지구상에 훨씬 많다.
