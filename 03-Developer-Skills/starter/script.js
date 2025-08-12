@@ -57,7 +57,7 @@ console.log('Success installing node.js and live-server');
 //      : 규칙은 없다. 이해할 수 있는 수준이면 된다.
 
 // + 세상 일에 대해 호기심과 자신감을 키우자.
-*/
+
 
 // using google, stackoverflow, and mdn
 
@@ -75,7 +75,7 @@ const temperatures = [3, -2, -6, -1, 'error', 9, 13, 17, 15, 14, 9, 5];
 // - What's a sensor error? And what to do?
 
 // 2) Breaking up into sub-problems
-// - How to igmore errors?
+// - How to ignore errors?
 // - Find max value in temp array?
 // - subtract min from max (amplitude) and return it
 
@@ -131,3 +131,64 @@ const calcTempAmplitudeNew = function (t1, t2) {
 
 const amplitudeNew = calcTempAmplitudeNew([3, 5, 1], [9, 0, 5]);
 console.log(amplitudeNew);
+*/
+
+// debugging (fixing errors)
+
+// 1. Identify: Becoming aware that there is a bug
+// 2. Find: Isolating where exactly the bug is happening in code
+// 3. Fix: Correct the bug
+// 4. Prevent: Preventing it from happening again
+
+const measureKelvin = function () {
+  const measurement = {
+    type: 'temp',
+    unit: 'celsius',
+
+    // C) Fix
+    // value: Number(prompt('Degrees celsious:')),
+    value: 10,
+  };
+
+  // B) Find
+  console.table(measurement);
+
+  // console.log(measurement.value);
+  // console.warn(measurement.value); → ⚠
+  // console.error(measurement.value); → ⛔
+
+  const kelvin = measurement.value + 273;
+  return kelvin;
+};
+// A) Identify
+console.log(measureKelvin());
+
+// Using a debugger
+const calcTempAmplitudeBug = function (t1, t2) {
+  // const array1 = ['a', 'b', 'c'];
+  // const array2 = ['d', 'e', 'f'];
+  // const array3 = array1.concat(array2);
+
+  const temps = t1.concat(t2);
+  console.log(temps);
+
+  let max = 0;
+  let min = 0;
+
+  for (let i = 0; i < temps.length; i++) {
+    const curTemp = temps[i];
+    if (typeof curTemp !== 'number') continue;
+
+    // Chrome > inspection > source 에서 직접 breakpoint 설정하는 대신,
+    // 아래와 같이 JavaScript 내장 기능 사용 가능
+    debugger; // → breakpoint로 인식
+    if (curTemp > max) max = curTemp;
+    if (curTemp < min) min = curTemp;
+  }
+  console.log(max, min);
+  return max - min;
+};
+
+const amplitudeBug = calcTempAmplitudeBug([3, 5, 1], [9, 4, 5]);
+// A) Identify
+console.log(amplitudeBug);
