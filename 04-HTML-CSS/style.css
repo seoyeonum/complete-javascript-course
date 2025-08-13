@@ -1,0 +1,70 @@
+/* star selector (for global reset) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 안쪽 여백(padding)과 관계없이 box 값 유지*/
+}
+
+/* element selector */
+body {
+  background-color: rgb(190, 204, 243);
+  font-family: Arial;
+  font-size: 20px;
+  padding: 50px;
+}
+
+h1 {
+  font-size: 35px;
+  margin-bottom: 25px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center; /* 글자 정렬 */
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* class selector */
+.first {
+  color: red;
+}
+
+/* id selector */
+#your-name {
+  background-color: rgb(140, 167, 218);
+  border: 5px solid #444;
+  width: 400px;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+input,
+button {
+  padding: 10px;
+  font-size: 16px;
+}
+
+a {
+  background-color: rgb(243, 240, 65);
+}
+
+#course-image {
+  width: 300px;
+  /* height: 300px; */
+}
+
+#your-name h2 {
+  color: darkblue;
+}
+
+/* 
+<The CSS Box Model>
+- Content: text, umages, etc;
+- Padding: transparent area around the content, inside of the box;
+- Border: goes around the padding and the content;
+- Margin: space between boxes;
+- Fill area: area that gets filled with background color or background image
+*/
