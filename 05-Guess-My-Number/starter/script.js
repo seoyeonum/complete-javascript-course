@@ -25,9 +25,17 @@ document.querySelector('.guess').value = 23;
 console.log(document.querySelector('.guess').value);
 */
 
-// events is something that happens on the page.
-// with an event listener,
+// Events is something that happens on the page.
+// With an EventListener,
 // we can wait that certain events happen and then reat to it.
+
+// making the random number
+// Math.random(): between 0 and 1 (never include 1)
+const secretNumber = Math.trunc(Math.random() * 20) + 1;
+document.querySelector('.number').textContent = secretNumber;
+
+// 점수는 값이 계속 변경되어야 하므로 let 타입으로 선언
+let score = 20;
 
 // addEventListener 는 특수한 형태의 function이라고 보면 된다.
 // → parameter를 2개 건네 받는다.
@@ -39,5 +47,25 @@ document.querySelector('.check').addEventListener('click', function () {
 
   if (!guess) {
     document.querySelector('.message').textContent = '⛔ No number!';
+  } else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = '🎉 Correct Number!';
+  } else if (guess > secretNumber) {
+    if (score > 1) {
+      document.querySelector('.message').textContent = '📈 Too high!';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 You lost the game!';
+      document.querySelector('.score').textContent = 0;
+    }
+  } else if (guess < secretNumber) {
+    if (score > 1) {
+      document.querySelector('.message').textContent = '📉 Too low!';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 You lost the game!';
+      document.querySelector('.score').textContent = 0;
+    }
   }
 });
