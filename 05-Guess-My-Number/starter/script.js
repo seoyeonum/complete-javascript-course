@@ -31,11 +31,11 @@ console.log(document.querySelector('.guess').value);
 
 // making the random number
 // Math.random(): between 0 and 1 (never include 1)
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
-document.querySelector('.number').textContent = secretNumber;
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
 
 // 점수는 값이 계속 변경되어야 하므로 let 타입으로 선언
 let score = 20;
+let highscore = 0;
 
 // addEventListener 는 특수한 형태의 function이라고 보면 된다.
 // → parameter를 2개 건네 받는다.
@@ -52,12 +52,17 @@ document.querySelector('.check').addEventListener('click', function () {
     // When player wins
   } else if (guess === secretNumber) {
     document.querySelector('.message').textContent = '🎉 Correct Number!';
+    document.querySelector('.number').textContent = secretNumber;
 
     // element 선택 시 . 이나 # 없이 엘리먼트명만 작성!
     // css 속성 편집 시 .style 붙여준 뒤 필요한 속성 작성(속성명은 Camel 표기법을 따름)
     document.querySelector('body').style.backgroundColor = '#60b347';
-
     document.querySelector('.number').style.width = '30rem';
+
+    if (score > highscore) {
+      highscore = score;
+      document.querySelector('.highscore').textContent = highscore;
+    }
 
     // When guess is too high
   } else if (guess > secretNumber) {
@@ -81,4 +86,37 @@ document.querySelector('.check').addEventListener('click', function () {
       document.querySelector('.score').textContent = 0;
     }
   }
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// Coding Challenge #1
+
+/*
+Implement a game rest functionality,
+so that the player can make a new guess!
+Here is how:
+
+1. Select the element with the 'again' class and attach a click event handler
+2. In the handler function, restore initial values of the score and number variables
+3. Restore the initial conditions of the message, number, score and guess input field
+4. Also restore the original background color (#222) and number width (15rem)
+
+GOOD LUCK 🙂
+*/
+
+// 1. selecting element with the 'again' class and attach a click event handler
+document.querySelector('.again').addEventListener('click', function () {
+  // 2. restore initial values
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  // 3. restore the initail conditions
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.guess').value = '';
+
+  // 4. restore the original styles
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
 });
