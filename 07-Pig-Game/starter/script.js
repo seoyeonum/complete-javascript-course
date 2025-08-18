@@ -1,9 +1,8 @@
 'use strict';
-// - setting each socre to 0
-// - hiding the dice
-// - 주사위 굴리기, 누적합 만들기
 
 // Selecting elements
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
 const score0El = document.querySelector('#score--0'); // id 선택 시 # 이용
 const score1El = document.getElementById('score--1'); // id 로 선택하는 다른 방법
 const current0El = document.getElementById('current--0');
@@ -39,10 +38,18 @@ btnRoll.addEventListener('click', function () {
   if (dice !== 1) {
     // Add dive to current score
     currentScore += dice;
-    current0El.textContent = currentScore; // CHANGE LATER
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
 
-    // Switch to next player
     // another case 작성
   } else {
+    // Switch to next player
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    currentScore = 0;
+    activePlayer = activePlayer === 0 ? 1 : 0;
+
+    // toggle → 있으면 없애고, 없으면 추가함
+    player0El.classList.toggle('player--active');
+    player1El.classList.toggle('player--active');
   }
 });
