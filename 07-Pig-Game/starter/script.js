@@ -22,34 +22,68 @@ diceEl.classList.add('hidden');
 const scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
+let playing = true;
+
+const switchPlayer = function () {
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+
+  // toggle → 있으면 없애고, 없으면 추가함
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+};
 
 // Rolling dice functionality
 btnRoll.addEventListener('click', function () {
-  // 1. Generating a random dice roll
-  const dice = Math.trunc(Math.random() * 6) + 1;
-  console.log(dice);
+  if (playing) {
+    // 1. Generating a random dice roll
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    console.log(dice);
 
-  // 2. Display dice
-  diceEl.classList.remove('hidden');
-  diceEl.src = `dice-${dice}.png`; // img 태그의 src 변경
+    // 2. Display dice
+    diceEl.classList.remove('hidden');
+    diceEl.src = `dice-${dice}.png`; // img 태그의 src 변경
 
-  // 3. Check for rolled 1: if true, switch to next player
-  // main case 먼저 작성
-  if (dice !== 1) {
-    // Add dive to current score
-    currentScore += dice;
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
+    // 3. Check for rolled 1: if true, switch to next player
+    // main case 먼저 작성
+    if (dice !== 1) {
+      // Add dive to current score
+      currentScore += dice;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
 
-    // another case 작성
-  } else {
-    // Switch to next player
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-    currentScore = 0;
-    activePlayer = activePlayer === 0 ? 1 : 0;
+      // another case 작성
+    } else {
+      // Switch to next player
+      switchPlayer();
+    }
+  }
+});
 
-    // toggle → 있으면 없애고, 없으면 추가함
-    player0El.classList.toggle('player--active');
-    player1El.classList.toggle('player--active');
+btnHold.addEventListener('click', function () {
+  if (playing) {
+    // 1. Add current score to active player's score
+    scores[activePlayer] += currentScore; // scores[1] = scores[1] + currentScore; 와 같다.
+
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
+
+    // 2. Check if player's score is >= 100
+    // 테스트 편의상 20 으로 우승 기준 변경
+    if (scores[activePlayer] >= 20) {
+      // Finish the game
+      playing = false;
+      diceEl.classList.add('hidden');
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove('player--active');
+    } else {
+      // Switch to the next player
+      switchPlayer();
+    }
   }
 });
