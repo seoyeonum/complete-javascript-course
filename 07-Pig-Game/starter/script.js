@@ -87,3 +87,31 @@ btnHold.addEventListener('click', function () {
     }
   }
 });
+
+// Challenge #2
+// Resetting the game when player click the button New
+btnNew.addEventListener('click', function () {
+  // Resetting playing status
+  playing = true;
+  activePlayer = 0;
+
+  // Resetting current score
+  currentScore = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+
+  // Resetting player score
+  scores[0] = 0;
+  scores[1] = 0;
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+
+  // Resetting styles
+  if (player0El.classList.contains('player--winner')) {
+    player0El.classList.remove('player--winner');
+  } else if (player1El.classList.contains('player--winner')) {
+    player1El.classList.remove('player--winner');
+  }
+
+  player0El.classList.add('player--active');
+});
