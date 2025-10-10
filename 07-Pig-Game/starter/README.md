@@ -1,8 +1,8 @@
-# Pig Game
+# 🎲 Pig Game
 
-![프로젝트 캡처](./assets/3.while_game.JPG)
+<img src="./assets/3.while_game.JPG" alt="Pig Game 프로젝트 캡처" width="600"/>
 
-## 🎲 프로젝트 소개
+## 🎯 프로젝트 소개
 - JavaScript 를 기반으로 하는 클라이언트 사이드 웹 어플리케이션
 - 번갈아 주사위를 굴려 먼저 100점을 획득하는 플레이어가 승리하는 간단한 게임
 
