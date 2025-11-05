@@ -1,5 +1,6 @@
 'use strict';
 
+/*
 // Global scope
 function calcAge(birthYear) {
   const age = 2037 - birthYear;
@@ -37,3 +38,23 @@ const firstName = 'Seoyeon';
 calcAge(1991);
 // console.log(age);
 // printAge();
+*/
+
+// ※ Hoisting and TDZ in Practice
+// Hoisting: Makes some types of variables accessible in the code before they are actually declared.
+// "Variables lifted to the top of their scope".
+// (Behind the scenes)
+// → Before execution, code is scanned for variable declarations,
+// and for each variable, a new property is created in the variable environment object.
+
+// 1. function declarations
+// : hoisted(✅), initial value(Actual function), scope(Block)
+
+// 2. var variables
+// : hoisted(✅), initial value(undefined), scope(Function)
+
+// 3. let and const variables
+// : hoisted(🚫), initial value(<uninitialized>, TDZ), scope(Block)
+
+// 4. function expressions and arrows
+// : Depends if using var or let/const
