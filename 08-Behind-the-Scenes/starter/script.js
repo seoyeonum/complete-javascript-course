@@ -58,3 +58,52 @@ calcAge(1991);
 
 // 4. function expressions and arrows
 // : Depends if using var or let/const
+
+// Variables
+console.log(me); // → undefined
+// console.log(job); // → Uncaught ReferenceError: Cannot access 'job' before initialization
+// console.log(year); // → Uncaught ReferenceError: Cannot access 'year' before initialization
+
+var me = 'Seoyeon';
+let job = 'student';
+const year = 1991;
+// ※ 47 ~ 48 = Temporal Dead Zone
+
+// Function
+console.log(addDecl(2, 3)); // → 5
+// console.log(addExpr(2, 3)); // → Uncaught ReferenceError: Cannot access 'addExpr' before initialization
+console.log(addArrow); // → undefined
+// console.log(addArrow(2, 3)); // → Uncaught TypeError: addArrow is not a function
+
+function addDecl(a, b) {
+  return a + b;
+}
+const addExpr = function (a, b) {
+  return a + b;
+};
+var addArrow = (a, b) => a + b;
+// ※ 57 ~ 58 = Temporal Dead Zone
+
+// Example
+console.log(numProducts); // → undefined
+if (!numProducts) deleteShoppingCart(); // → All products deleted!
+// numProducts 가 0이 아님에도 hoisting 으로 인해 if 블럭 내 함수가 실행
+
+var numProducts = 10;
+
+function deleteShoppingCart() {
+  console.log('All products deleted!');
+}
+
+// ※ 위와 같은 상황을 피하기 위해서는...
+// - 변수 선언 시 const 위주로 사용
+// - 가장 위쪽에 변수를 선언
+// - 모든 함수는 먼저 선언한 후 이후에만 사용
+
+var x = 1;
+let y = 2;
+const z = 3;
+
+console.log(x === window.x); // true
+console.log(y === window.y); // false
+console.log(z === window.z); // false
