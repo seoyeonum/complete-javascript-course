@@ -38,7 +38,7 @@ const firstName = 'Seoyeon';
 calcAge(1991);
 // console.log(age);
 // printAge();
-*/
+
 
 // ※ Hoisting and TDZ in Practice
 // Hoisting: Makes some types of variables accessible in the code before they are actually declared.
@@ -107,3 +107,28 @@ const z = 3;
 console.log(x === window.x); // true
 console.log(y === window.y); // false
 console.log(z === window.z); // false
+*/
+
+// ※ How the this keyword works
+// this keyword/variable
+// : Special variable that is created for every execution context (every function)
+// Takes the value of (points to) the "owner" of the function in which the this keyword is used
+
+// 1. Method
+// this = <Object that is calling the method>
+
+// 2. Simple function call
+// this = undefined
+
+// 3. Arrow functions
+// this = <this of surrounding function (lexical this)>
+
+// 4. Event listener
+// this = <DOM element that the handler is attacheed to>
+
+// ※ this is NOT static
+// It depends on how the function is called,
+// and its value is only assigned when the function is actually called.
+
+// ※ this does NOT point to the function itself,
+// and also NOT the its variable environment
