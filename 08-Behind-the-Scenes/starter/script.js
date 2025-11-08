@@ -132,3 +132,39 @@ console.log(z === window.z); // false
 
 // ※ this does NOT point to the function itself,
 // and also NOT the its variable environment
+
+console.log(this);
+
+// 2. Simple function call
+const calcAge = function (birthYear) {
+  console.log(2037 - birthYear);
+  console.log(this); // → undefined
+};
+calcAge(1991);
+
+// 3. Arrow functions
+const calcAgeArrow = birthYear => {
+  console.log(2037 - birthYear);
+  console.log(this); // → Window 객체
+};
+calcAgeArrow(1988);
+
+// 1. Method
+const jonas = {
+  year: 1991,
+  calcAge: function () {
+    console.log(this); // → jonas Object
+    console.log(2037 - this.year);
+  },
+};
+jonas.calcAge();
+
+const matilda = {
+  year: 2017,
+};
+
+matilda.calcAge = jonas.calcAge;
+matilda.calcAge(); // matilda에는 없지만 calcAge를 받아(166) 실행!
+
+const f = jonas.calcAge;
+f(); // → Uncaught TypeError: Cannot read properties of undefined (reading 'year')
