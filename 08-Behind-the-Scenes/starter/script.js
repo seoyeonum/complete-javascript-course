@@ -107,7 +107,7 @@ const z = 3;
 console.log(x === window.x); // true
 console.log(y === window.y); // false
 console.log(z === window.z); // false
-*/
+
 
 // ※ How the this keyword works
 // this keyword/variable
@@ -168,3 +168,56 @@ matilda.calcAge(); // matilda에는 없지만 calcAge를 받아(166) 실행!
 
 const f = jonas.calcAge;
 f(); // → Uncaught TypeError: Cannot read properties of undefined (reading 'year')
+*/
+
+// var firstName = 'Matilda';
+
+const jonas = {
+  firstName: 'Jonas',
+  year: 1991,
+  calcAge: function () {
+    // console.log(this);
+    console.log(2037 - this.year);
+
+    // this 로 접근하기 위한 방법 Solution 1
+    // : self or that keywords 를 사용하여 this 값을 scope chain 을 따라 얻어옴
+    // const self = this;
+    // const isMillenial = function () {
+    //   console.log(self);
+    //   // console.log(this.year >= 1981 && this.year <= 1996);
+    //   console.log(self.year >= 1981 && self.year <= 1996);
+    // };
+    // isMillenial();
+
+    // this 로 접근하기 위한 방법 Solution 2
+    // arrow function 으로 지정하여 부모 요소(jonas Object)을 this 로 받는다.
+    const isMillenial = () => {
+      console.log(this);
+      console.log(this.year >= 1981 && this.year <= 1996);
+    };
+    isMillenial();
+  },
+  great: () => {
+    console.log(this); // (172행 추가 시) firstName: Matilda
+    console.log(`Hey ${this.firstName}`);
+  },
+};
+
+jonas.great(); // → Hey undefined / (172행 추가 시) Hey Matilda
+// arrow function 은 this 키워드를 사용하지 못함 (Window 객체를 지칭)
+jonas.calcAge();
+
+// Arguments keyword
+const addExpr = function (a, b) {
+  console.log(arguments);
+  return a + b;
+};
+addExpr(2, 5); // Arguments(2) ...
+addExpr(2, 5, 8, 12); // Arguments(4) ...
+
+// arrow function 에서는 arguments 키워드 사용 불가능
+var addArrow = (a, b) => {
+  console.log(arguments);
+  return a + b;
+};
+addArrow(2, 5, 8); // → Uncaught ReferenceError: arguments is not defined
