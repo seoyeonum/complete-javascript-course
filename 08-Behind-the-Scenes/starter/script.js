@@ -221,3 +221,15 @@ var addArrow = (a, b) => {
   return a + b;
 };
 addArrow(2, 5, 8); // → Uncaught ReferenceError: arguments is not defined
+
+// ※ Where is memory allocated? (메모리 할당은 어디서 이루어지는가?)
+// 1. Primitives
+// : Number, String, Boolean, Undefined, Null, Symbol, Bright
+// → stored in CALL STACK
+
+// 2. Objects
+// : Object literals, Arrays, Functions, Many more...
+// → stored in HEAP
+
+// 3. References to object (== memory address)
+// → stored in CALL STACK
