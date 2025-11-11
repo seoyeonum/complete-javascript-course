@@ -168,7 +168,7 @@ matilda.calcAge(); // matilda에는 없지만 calcAge를 받아(166) 실행!
 
 const f = jonas.calcAge;
 f(); // → Uncaught TypeError: Cannot read properties of undefined (reading 'year')
-*/
+
 
 // var firstName = 'Matilda';
 
@@ -221,6 +221,7 @@ var addArrow = (a, b) => {
   return a + b;
 };
 addArrow(2, 5, 8); // → Uncaught ReferenceError: arguments is not defined
+*/
 
 // ※ Where is memory allocated? (메모리 할당은 어디서 이루어지는가?)
 // 1. Primitives
@@ -233,3 +234,58 @@ addArrow(2, 5, 8); // → Uncaught ReferenceError: arguments is not defined
 
 // 3. References to object (== memory address)
 // → stored in CALL STACK
+
+// Object References in Practice (Shallow vs. Deep Copies)
+
+const jessica1 = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+};
+
+function marryPerson(originalPerson, newLastName) {
+  originalPerson.lastName = newLastName;
+  return originalPerson;
+}
+
+const marriedJessica = marryPerson(jessica1, 'Davis');
+
+// const marriedJessica = jessic1;
+// marriedJessica.lastName = 'Davis';
+
+console.log('Before:', jessica1); // Before: {firstName: 'Jessica', lastName: 'Davis', age: 27}
+console.log('After:', marriedJessica); // After: {firstName: 'Jessica', lastName: 'Davis', age: 27}
+
+// ※ 객체를 완전히 새로 만들기 위해서는 어떻게 해야 하는가?
+const jessica = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+  family: ['Alice', 'Bob'],
+};
+
+// 1. Shallow Copy (얕은 카피)
+const jessicaCopy = { ...jessica }; // ... → spread operator
+jessicaCopy.lastName = 'Davis';
+
+console.log(jessica, jessicaCopy);
+// {firstName: 'Jessica', lastName: 'Williams', age: 27, family: Array(2)}
+// {firstName: 'Jessica', lastName: 'Davis', age: 27, family: Array(2)}
+
+// jessicaCopy.family.push('Mary');
+// jessicaCopy.family.push('John');
+
+// console.log('Before:', jessica); // {firstName: 'Jessica', lastName: 'Williams', age: 27, family: Array(4)}
+// console.log('After:', jessicaCopy); // After: {firstName: 'Jessica', lastName: 'Davis', age: 27, family: Array(4)}
+// : jessicaCopy에만 Mary와 John 추가되는 게 아니라, 기존 jessica에도 추가되는 모습
+// → jessica 객체의 family 역시 Object 값을 가지므로 참조변수!
+//   jessicaCopy의 family는 같은 Object 값을 가리키는 참조변수가 된다!
+
+// 2. Deep Copy/Clone
+const jessicaClone = structuredClone(jessica);
+
+jessicaClone.family.push('Mary');
+jessicaClone.family.push('John');
+
+console.log('Original:', jessica); // Original: {firstName: 'Jessica', lastName: 'Williams', age: 27, family: Array(2)}
+console.log('Clone:', jessicaClone); // Clone: {firstName: 'Jessica', lastName: 'Williams', age: 27, family: Array(4)}
