@@ -74,3 +74,18 @@ console.log(main, secondary); // → Vegetarian Italian
 // Recieve 2 return values from a function
 const [starter, mainCourse] = restaurant.order(2, 0); // → (2) ['Garlic Bread', 'Pizza']
 console.log(starter, mainCourse); // → Garlic Bread Pizza
+
+// ※ Nested destructuring
+const nested = [2, 4, [5, 6]]; // nested array (중첩 배열)
+// const [i, , j] = nested;
+// console.log(i, j); // 2 [5, 6]
+
+// 만약 중첩 배열도 분리하기를 원한다면?
+const [i, , [j, k]] = nested;
+console.log(i, j, k);
+
+// ※ Default values
+// const [p, q , r] = [8, 9];
+// console.log(p, q, r); // 8 9 undefined
+const [p = 1, q = 1, r = 1] = [8, 9];
+console.log(p, q, r); // 8 9 1
