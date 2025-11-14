@@ -30,26 +30,94 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // Open 24 hours
+      close: 24,
+    },
+  },
+
   order: function (starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
-  // openingHours: {
-  //   thu: {
-  //     open: 12,
-  //     close: 22,
-  //   },
-  //   fri: {
-  //     open: 11,
-  //     close: 23,
-  //   },
-  //   sat: {
-  //     open: 0, // Open 24 hours
-  //     close: 24,
-  //   },
-  // },
+  orderDelivery: function ({
+    starterIndex = 1,
+    mainIndex = 0,
+    time = '20:00',
+    address,
+  }) {
+    console.log(
+      `Order receiced! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+      // → Order receiced! undefined and Risotto will be delivered to Via del Sole, 21 at 22:30
+    );
+  },
 };
 
+restaurant.orderDelivery({
+  time: '22:30',
+  address: 'Via del Sole, 21',
+  mainIndex: 2,
+  startIndex: 2,
+});
+// {time: '22:30', address: 'Via del Sole, 21', mainIndex: 2, startIndex: 2}
+
+// default 지정하기
+restaurant.orderDelivery({ address: 'Via del Sole, 21', starterIndex: 1 });
+// → Order receiced! Bruschetta and Pizza will be delivered to Via del Sole, 21 at 20:00
+
+// ※ Destructuring Objects
+const { name, openingHours, categories } = restaurant;
+console.log(name, openingHours, categories);
+// → Classico Italiano
+// → fri
+// :
+// {open: 11, close: 23}
+// sat
+// :
+// {open: 0, close: 24}
+// thu
+// :
+// {open: 12, close: 22}
+// → ['Italian', 'Pizzeria', 'Vegetarian', 'Organic']
+
+// (Destructuring Objects 시) 다른 변수명을 부여(:)해주는 것도 가능
+const {
+  name: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
+console.log(restaurantName, hours, tags);
+
+// Default values (정의되지 않은 변수는 기본값 정의)
+const { menu = [], starterMenu: starters = [] } = restaurant;
+console.log(menu, starters);
+
+// Mutating variables
+let a = 111;
+let b = 999;
+const obj = { a: 23, b: 7, c: 14 };
+
+// { a, b } = obj; // → Uncaught SyntaxError: Unexpected token '='
+({ a, b } = obj);
+console.log(a, b); // → 23 7
+
+// ※ Nested Objects
+const {
+  fri: { open: o, close: c },
+} = openingHours;
+console.log(o, c); // → {open: 11, close: 23} → 11 23
+
+/*
+// ※ Destructuring Arays
 const arr = [2, 3, 4];
 const b = arr[0];
 const c = arr[1];
@@ -89,3 +157,4 @@ console.log(i, j, k);
 // console.log(p, q, r); // 8 9 undefined
 const [p = 1, q = 1, r = 1] = [8, 9];
 console.log(p, q, r); // 8 9 1
+*/
