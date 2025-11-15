@@ -62,6 +62,46 @@ const restaurant = {
   },
 };
 
+// ※ The Spread Operator (...)
+// Bad example
+const arr = [7, 8, 9];
+const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+console.log(badNewArr); // → [1, 2, 7, 8, 9]
+
+// Good example
+const newArr = [1, 2, ...arr];
+console.log(newArr); // → [1, 2, 7, 8, 9]
+
+// spread 연산자는 배열 내 구성 요소를 꺼내기에도 용이함
+console.log(...newArr); // → 1 2 7 8 9
+console.log(1, 2, 7, 8, 9); // → 1 2 7 8 9
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu); // → ['Pizza', 'Pasta', 'Risotto', 'Gnocci']
+
+// Spread 연산자는 destructuring arrays 와 유사한 기능을 한다.
+// 단, 모든 배열 요소를 가져오고, 변수를 추가로 생성하지 않는다는 차이가 있다.
+
+// Copy array
+const mainMenuCopy = [...restaurant.mainMenu]; // (Shallow copy 상태)
+
+// Join 2 arrays
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(menu);
+// → ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad', 'Pizza', 'Pasta', 'Risotto']
+
+// Iterables: arrays, strings, maps, sets. NOT objects
+const str = 'Jonas';
+const letters = [...str, ' ', 'S.'];
+console.log(letters); // → ['J', 'o', 'n', 'a', 's', ' ', 'S.']
+console.log(...str); // → J o n a s
+console.log('j', 'o'); // → j o
+
+// template literal 안에 spread operator 사용 불가
+// console.log(`${...str} Schmedtmann`)
+// → Uncaught SyntaxError: Unexpected token '...'
+
+/*
 restaurant.orderDelivery({
   time: '22:30',
   address: 'Via del Sole, 21',
@@ -115,6 +155,7 @@ const {
   fri: { open: o, close: c },
 } = openingHours;
 console.log(o, c); // → {open: 11, close: 23} → 11 23
+*/
 
 /*
 // ※ Destructuring Arays
