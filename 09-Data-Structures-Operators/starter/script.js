@@ -60,6 +60,12 @@ const restaurant = {
       // → Order receiced! undefined and Risotto will be delivered to Via del Sole, 21 at 22:30
     );
   },
+
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(
+      `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
+    );
+  },
 };
 
 // ※ The Spread Operator (...)
@@ -100,6 +106,30 @@ console.log('j', 'o'); // → j o
 // template literal 안에 spread operator 사용 불가
 // console.log(`${...str} Schmedtmann`)
 // → Uncaught SyntaxError: Unexpected token '...'
+
+// Real-world example
+const ingredients = [
+  // prompt("Let's make pasta! Ingredient 1?"), // ← shirimp
+  // prompt('Ingredient 2'), // ← bacon
+  // prompt('Ingredient 3'), // ← cheese
+];
+// prompt: 사용자로부터 데이터를 입력받을 수 있는 경고창
+// confirm: 사용자로부터 확인 의사를 받을 수 있는 경고창
+// alert: 사용자에게 데이터를 출력하는 경고창
+console.log(ingredients); // → ['shirimp', 'bacon', 'cheese']
+
+restaurant.orderPasta(ingredients[0], ingredients[1], ingredients[2]); // → Here is your delicious pasta with shirimp, bacon and cheese
+restaurant.orderPasta(...ingredients); // → Here is your delicious pasta with shirimp, bacon and cheese
+// 배열의 길이를 알 수 없는 상황에서 ...를 활용하는 게 더 바람직!
+
+// Objects
+const newRestaurant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe' };
+console.log(newRestaurant);
+
+const restaurantCopy = { ...restaurant };
+restaurantCopy.name = 'Ristorante Roma';
+console.log(restaurantCopy.name); // → Ristorante Roma
+console.log(restaurant.name); // → Classico Italiano
 
 /*
 restaurant.orderDelivery({
