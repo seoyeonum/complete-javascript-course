@@ -66,8 +66,65 @@ const restaurant = {
       `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
     );
   },
+
+  orderPizza: function (mainIngredient, ...orhterIngredients) {
+    console.log(mainIngredient);
+    console.log(orhterIngredients);
+  },
 };
 
+// ※ rest pattern and parameters
+
+// 1) Destructuring
+
+// SPREAD, because on RIGHT side of =
+const arr = [1, 2, ...[3, 4]];
+
+// REST, becuse on LEFT side of =
+const [a, b, ...others] = [1, 2, 3, 4, 5];
+console.log(a, b, others);
+// → 1 2 [3, 4, 5]
+
+// Uncaught SyntaxError: Rest element must be last element
+// const [pizza, , risotto, ...otherFood, bread] = [
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+console.log(pizza, risotto, otherFood);
+// → Pizza Risotto ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
+
+// Objects
+const { sat, ...weekdays } = restaurant.openingHours;
+console.log(weekdays);
+// → {fri: {open: 11, close: 23} thu:{open: 12, close: 22}}
+
+// 2) Functions
+// parameter 의 개수를 정하지 않고 받을 때 rest syntax를 활용
+// (spread 연산자와 rest syntax는 정반대의 기능을 한다.)
+const add = function (...numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+  console.log(sum);
+};
+
+add(2, 3); // → 5
+add(5, 3, 7, 2); // → 17
+add(8, 2, 5, 3, 2, 1, 4); // → 25
+
+const x = [23, 5, 7];
+// x 배열을 spread operator 를 활용하여 unpack 후 parameter 로 넘겨주기
+add(...x); // → 35
+
+restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
+// → mushrooms
+// → ['onion', 'olives', 'spinach']
+
+restaurant.orderPizza('mushrooms');
+// → mushrooms
+// → []
+
+/*
 // ※ The Spread Operator (...)
 // Bad example
 const arr = [7, 8, 9];
@@ -130,6 +187,7 @@ const restaurantCopy = { ...restaurant };
 restaurantCopy.name = 'Ristorante Roma';
 console.log(restaurantCopy.name); // → Ristorante Roma
 console.log(restaurant.name); // → Classico Italiano
+*/
 
 /*
 restaurant.orderDelivery({
