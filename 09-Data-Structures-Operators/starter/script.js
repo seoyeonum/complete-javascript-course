@@ -73,6 +73,39 @@ const restaurant = {
   },
 };
 
+console.log('----- OR -----');
+// Use ANY data type, return ANY data type, short-circuiting
+console.log(3 || 'Jonas'); // → 3
+console.log('' || 'Jonas'); // → Jonas
+console.log(true || 0); // → true
+console.log(undefined || null); // → null (null 도 falsy value지만 이렇게 나온다.)
+
+console.log(undefined || 0 || '' || 'Hello' || 23 || null); // → Hello
+
+restaurant.numGuests = 23; // 이게 0이라면 short-circuiting 에 문제가 생긴다...!?!?
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+console.log(guests1); // → 10
+
+const guests2 = restaurant.numGuests || 10;
+console.log(guests2); // → 10
+
+console.log('----- AND -----');
+console.log(0 && 'Jonas'); // → 0 (첫 값이 falsy value 라면 그 값을 출력)
+console.log(7 && 'Jonas'); // → Jonas
+
+console.log('Hello' && 23 && null && 'jonas'); // → null
+
+// Practical example
+if (restaurant.orderPizza) {
+  restaurant.orderPizza('mushrooms', 'spinach');
+}
+
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
+
+// 모든 if statement 를 short-circuiting 으로 만들라는 뜻이 아니다!
+// 오히려 가독성이 떨어지는 상황이 발생할 수 있음!
+
+/*
 // ※ rest pattern and parameters
 
 // 1) Destructuring
@@ -123,6 +156,7 @@ restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
 restaurant.orderPizza('mushrooms');
 // → mushrooms
 // → []
+*/
 
 /*
 // ※ The Spread Operator (...)
