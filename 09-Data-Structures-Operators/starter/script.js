@@ -73,7 +73,46 @@ const restaurant = {
   },
 };
 
-// ※ The Nullish Coalescing Operator
+// ※ Logical Assignment Operator (ES2021부터 도입)
+const rest1 = {
+  name: 'Capri',
+  // numGuests: 20,
+  numGuests: 0,
+};
+
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni Rossi',
+};
+
+// ※ OR assignment operator
+// rest1.numGuests = rest1.numGuests || 10;
+// rest2.numGuests = rest2.numGuests || 10;
+// rest1.numGuests ||= 10;
+// rest2.numGuests ||= 10;
+// console.log(rest1); // → {name: 'Capri', numGuests: 20}
+// console.log(rest2); // → {name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+// 딱 한 가지 상황을 제외하고는 위 연산자가 효과적이다.
+// (0을 가지고 있어 falsy value로 간주되는 상황)
+
+// ※ Nullish assignment operator (null or undefined)
+rest1.numGuests ??= 10;
+rest2.numGuests ??= 10;
+console.log(rest1); // → {name: 'Capri', numGuests: 0}
+console.log(rest2); // → {name: 'La Piazza', owner: 'Giovanni Rossi', numGuests: 10}
+// 0을 가지고 있더라도 0이 제대로 출력된다.
+
+// ※ AND assinment operator
+// rest1.owner = rest1.owner && '<ANONYMOUS>';
+// rest2.owner = rest2.owner && '<ANONYMOUS>';
+rest1.owner &&= '<ANONYMOUS>';
+rest2.owner &&= '<ANONYMOUS>';
+
+console.log(rest1); // → {name: 'Capri', numGuests: 0}
+console.log(rest2); // → {name: 'La Piazza', owner: '<ANONYMOUS>', numGuests: 10}
+
+/*
+// ※ The Nullish Coalescing Operator (Null 병합 연산자; ES2020부터 도입)
 // : short-circuiting 에 있어 0이 출력되도록 해보자!
 restaurant.numGuests = 0;
 
@@ -83,6 +122,7 @@ console.log(guests); // → 10
 // Nullish: null and undefined (NOT 0 or '')
 const guestCorrect = restaurant.numGuests ?? 10;
 console.log(guestCorrect); // → 0
+*/
 
 /*
 // ※ Short Circuiting (&& and ||)
