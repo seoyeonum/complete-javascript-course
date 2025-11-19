@@ -73,6 +73,20 @@ const restaurant = {
   },
 };
 
+// ※ The Nullish Coalescing Operator
+// : short-circuiting 에 있어 0이 출력되도록 해보자!
+restaurant.numGuests = 0;
+
+const guests = restaurant.numGuests || 10;
+console.log(guests); // → 10
+
+// Nullish: null and undefined (NOT 0 or '')
+const guestCorrect = restaurant.numGuests ?? 10;
+console.log(guestCorrect); // → 0
+
+/*
+// ※ Short Circuiting (&& and ||)
+
 console.log('----- OR -----');
 // Use ANY data type, return ANY data type, short-circuiting
 console.log(3 || 'Jonas'); // → 3
@@ -104,6 +118,7 @@ restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
 
 // 모든 if statement 를 short-circuiting 으로 만들라는 뜻이 아니다!
 // 오히려 가독성이 떨어지는 상황이 발생할 수 있음!
+*/
 
 /*
 // ※ rest pattern and parameters
