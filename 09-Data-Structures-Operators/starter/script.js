@@ -85,6 +85,64 @@ const rest2 = {
   owner: 'Giovanni Rossi',
 };
 
+// ※ Looping Arrays: The for-of Loof
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of menu) console.log(item);
+// →
+// Focaccia
+// Bruschetta
+// Garlic Bread
+// Caprese Salad
+// Pizza
+// Pasta
+// Risotto
+
+// array.entries() 하면 숫자와 함께 담긴 배열이 출력
+for (const item of menu.entries()) {
+  // console.log(item);
+  // →
+  // [1, 'Bruschetta']
+  // [2, 'Garlic Bread']
+  // [3, 'Caprese Salad']
+  // [4, 'Pizza']
+  // [5, 'Pasta']
+  // [6, 'Risotto']
+  // 위 코드와 같은 결과를 가져오는 하단의 코드
+  // console.log(`${item[0] + 1}: ${item[1]}`);
+  // →
+  // 1: Focaccia
+  // 2: Bruschetta
+  // 3: Garlic Bread
+  // 4: Caprese Salad
+  // 5: Pizza
+  // 6: Pasta
+  // 7: Risotto
+}
+
+console.log(...menu.entries()); // → Array Iterator {}
+// →
+// [0, 'Focaccia']
+// [1, 'Bruschetta']
+// [2, 'Garlic Bread']
+// [3, 'Caprese Salad']
+// [4, 'Pizza']
+// [5, 'Pasta']
+// [6, 'Risotto']
+
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1}: ${el}`);
+  // →
+  // 1: Focaccia
+  // 2: Bruschetta
+  // 3: Garlic Bread
+  // 4: Caprese Salad
+  // 5: Pizza
+  // 6: Pasta
+  // 7: Risotto
+}
+
+/*
 // ※ OR assignment operator
 // rest1.numGuests = rest1.numGuests || 10;
 // rest2.numGuests = rest2.numGuests || 10;
@@ -110,6 +168,7 @@ rest2.owner &&= '<ANONYMOUS>';
 
 console.log(rest1); // → {name: 'Capri', numGuests: 0}
 console.log(rest2); // → {name: 'La Piazza', owner: '<ANONYMOUS>', numGuests: 10}
+*/
 
 /*
 // ※ The Nullish Coalescing Operator (Null 병합 연산자; ES2020부터 도입)
