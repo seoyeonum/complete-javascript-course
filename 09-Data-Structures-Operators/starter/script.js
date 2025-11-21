@@ -70,6 +70,59 @@ const restaurant = {
   },
 };
 
+// ※ Looping Objects: Object Keys, Values, and Entries
+
+// Property NAMES
+const properties = Object.keys(openingHours);
+console.log(properties); // → ['thu', 'fri', 'sat']
+
+let openStr = `We are open on ${properties.length} days: `;
+// We are open on 3 days:
+
+for (const day of properties) {
+  openStr += `${day},`;
+}
+console.log(openStr); // → We are open on 3 days: thu,fri,sat,
+
+// Property VALUES
+const values = Object.values(openingHours);
+console.log(values);
+// →
+// [
+//  {open: 12, close: 22},
+//  {open: 11, close: 23},
+//  {open: 0, close: 24}
+// ]
+
+// Entry object
+const entries = Object.entries(openingHours);
+console.log(entries);
+// →
+// [
+//  ['thu', {open: 12, close: 22}],
+//  ['fri', {open: 11, close: 23}],
+//  ['sat', {open: 0, close: 24}]
+// ]
+
+// for (const x of entries) {
+// console.log(x);
+// →
+// ['thu', {open: 12, close: 22}]
+// ['fri', {open: 11, close: 23}]
+// ['sat', {open: 0, close: 24}]
+// }
+
+// [key, value]
+// + Object destructuring 을 활용해서 한 번에 출력
+for (const [key, { open, close }] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
+  // →
+  // On thu we open at 12 and close at 22
+  // On fri we open at 11 and close at 23
+  // On sat we open at 0 and close at 24
+}
+
+/*
 // ※ Optioanl Chaining (?. / ES2020 도입)
 if (restaurant.openingHours && restaurant.openingHours.mon)
   console.log(restaurant.openingHours.mon.open); // 실행되지 않음.
@@ -113,6 +166,7 @@ console.log(users[0]?.name ?? 'User array empty'); // → 'Jonas'
 
 if (users.length > 0) console.log(users[0].name);
 else console.log('user array empty'); // → 'Jonas'
+*/
 
 /*
 // ※ Looping Arrays: The for-of Loof (ES6 도입)
