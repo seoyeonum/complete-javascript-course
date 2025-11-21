@@ -70,19 +70,49 @@ const restaurant = {
   },
 };
 
-// ※ Logical Assignment Operator (ES2021부터 도입)
-const rest1 = {
-  name: 'Capri',
-  // numGuests: 20,
-  numGuests: 0,
-};
+// ※ Optioanl Chaining (?. / ES2020 도입)
+if (restaurant.openingHours && restaurant.openingHours.mon)
+  console.log(restaurant.openingHours.mon.open); // 실행되지 않음.
 
-const rest2 = {
-  name: 'La Piazza',
-  owner: 'Giovanni Rossi',
-};
+// console.log(restaurant.openingHours.mon.open);
+// → Uncaught TypeError: Cannot read properties of undefined (reading 'open')
 
-// ※ Enhanced Object Literal
+// ※ WITH optional chaining
+// : ?. 좌측 값이 존재하면 출력,아니면 undefined
+// 좌측 값이 0이거나 빈 문자열도 exist 하는 것으로 간주
+console.log(restaurant.openingHours.mon?.open); // → undefined
+console.log(restaurant.openingHours?.mon?.open); // → undefined
+// 즉, ?.를 추가하는 것 만으로도 Error 가 발생하는 것을 막을 수 있다!
+
+// Example
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+for (const day of days) {
+  // console.log(day);
+  // optional chaining 과 nullish coalescing operator 활용
+  const open = restaurant.openingHours[day]?.open ?? 'closed';
+  console.log(`On ${day}, we open at ${open}`);
+  // →
+  // On mon, we open at closed
+  // On tue, we open at closed
+  // On wed, we open at closed
+  // On thu, we open at 12
+  // On fri, we open at 11
+  // On sat, we open at 0
+  // On sun, we open at closed
+}
+
+// Methods
+console.log(restaurant.order?.(0, 1) ?? 'Method does not exist'); // → ['Focaccia', 'Pasta']
+console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist'); // → Method does not exist
+
+// Arrays
+// const users = [];
+const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
+console.log(users[0]?.name ?? 'User array empty'); // → 'Jonas'
+
+if (users.length > 0) console.log(users[0].name);
+else console.log('user array empty'); // → 'Jonas'
 
 /*
 // ※ Looping Arrays: The for-of Loof (ES6 도입)
@@ -144,6 +174,18 @@ for (const [i, el] of menu.entries()) {
 */
 
 /*
+// ※ Logical Assignment Operator (ES2021부터 도입)
+const rest1 = {
+  name: 'Capri',
+  // numGuests: 20,
+  numGuests: 0,
+};
+
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni Rossi',
+};
+
 // ※ OR assignment operator
 // rest1.numGuests = rest1.numGuests || 10;
 // rest2.numGuests = rest2.numGuests || 10;
