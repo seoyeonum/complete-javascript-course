@@ -70,6 +70,65 @@ const restaurant = {
   },
 };
 
+// ※ Sets
+// - ES6가 나오기 전까지 JavaScript는 Array 만을 자료 구조로 가지고 있었으나,
+// ES6 이후 Set과 Map 이 추가되었다.
+// - 다른 언어에서와 마찬가지로 Set은 중복된 내용이나 순서가 없다.
+// - Array와 마찬가지로 Set 도 Iterable이다.
+
+// Create Set
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+console.log(ordersSet); // → Set(3) {'Pasta', 'Pizza', 'Risotto'}
+
+console.log(new Set('Jonas')); // → Set(5) {'J', 'o', 'n', 'a', 's'}
+
+// size of Set
+console.log(ordersSet.size); // → 3
+
+// Check elements
+console.log(ordersSet.has('Pizza')); // → true
+console.log(ordersSet.has('Bread')); // → false
+
+// Add elements
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet); // → Set(4) {'Pasta', 'Pizza', 'Risotto', 'Garlic Bread'}
+
+// Delete elements
+ordersSet.delete('Risotto');
+console.log(ordersSet); // → Set(3) {'Pasta', 'Pizza', 'Garlic Bread'}
+console.log(ordersSet[0]); // → undefined
+// Set에는 순서가 없기 때문에 Index가 존재하지 않는다.
+// 순서가 필요하다면 Array를 활용하는 게 더 적합하다.
+
+// ordersSet.clear(); // 모든 element 삭제
+// console.log(ordersSet); // → Set(0) {size: 0}
+
+// Looping
+// : Set 역시 Iterable 이므로 looping 이 가능하다.
+for (const order of ordersSet) console.log(order);
+// →
+// Pasta
+// Pizza
+// Garlic Bread
+
+// Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+const staffUnique = [...new Set(staff)]; // Spread 연산자와 결합해 Array 형태로 만들기
+console.log(staffUnique); // → ['Waiter', 'Chef', 'Manager']
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+); //→ 3
+
+console.log(new Set('jonasschmedtmadnn')); // → Set(11) {'j', 'o', 'n', 'a', 's', …}
+/*
 // ※ Looping Objects: Object Keys, Values, and Entries
 
 // Property NAMES
@@ -121,6 +180,7 @@ for (const [key, { open, close }] of entries) {
   // On fri we open at 11 and close at 23
   // On sat we open at 0 and close at 24
 }
+*/
 
 /*
 // ※ Optioanl Chaining (?. / ES2020 도입)
