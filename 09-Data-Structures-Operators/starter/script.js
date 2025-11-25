@@ -18,24 +18,6 @@ const openingHours = {
 // const flights =
 //   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
-// const italianFoods = new Set([
-//   'pasta',
-//   'gnocchi',
-//   'tomatoes',
-//   'olive oil',
-//   'garlic',
-//   'basil',
-// ]);
-
-// const mexicanFoods = new Set([
-//   'tortillas',
-//   'beans',
-//   'rice',
-//   'tomatoes',
-//   'avocado',
-//   'garlic',
-// ]);
-
 // Data needed for first part of the section
 const restaurant = {
   name: 'Classico Italiano',
@@ -70,6 +52,68 @@ const restaurant = {
   },
 };
 
+// ※ New Operations To Make Sets Useful
+// ES2025 이후 추가된 7가지 메서드가 Set을 더욱 유용하게 만들었고,
+// JavaScript를 다른 프로그래밍 언어 수준으로 끌어올렸다.
+
+const italianFoods = new Set([
+  'pasta',
+  'gnocchi',
+  'tomatoes',
+  'olive oil',
+  'garlic',
+  'basil',
+]);
+
+const mexicanFoods = new Set([
+  'tortillas',
+  'beans',
+  'rice',
+  'tomatoes',
+  'avocado',
+  'garlic',
+]);
+
+// 1. Intersection Method (교차 메서드)
+const commonFoods = italianFoods.intersection(mexicanFoods);
+console.log('Intersction:', commonFoods); // → Intersction: Set(2) {'tomatoes', 'garlic'}
+console.log([...commonFoods]); // → ['tomatoes', 'garlic']
+// Tip: Set보다는 Array 형태로 작업하는 것이 더 유용하다.
+
+// 2. Union Method (중복 허용 없이 병합)
+const italianMexicanFusion = italianFoods.union(mexicanFoods);
+console.log('Union:', italianMexicanFusion);
+// → Union: Set(10) {'pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil', 'tortillas', 'beans', 'rice', 'avocado'}
+
+console.log([...italianFoods, ...mexicanFoods]);
+// → (12) ['pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil', 'tortillas', 'beans', 'rice', 'tomatoes', 'avocado', 'garlic']
+
+console.log(new Set([...italianFoods, ...mexicanFoods]));
+// → Set(10) {'pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil', 'tortillas', 'beans', 'rice', 'avocado'}
+
+console.log([...new Set([...italianFoods, ...mexicanFoods])]);
+// → (10) ['pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil', 'tortillas', 'beans', 'rice', 'avocado']
+
+// 3. Difference Method (첫 번째에는 있지만 두 번째에는 없는; 첫 번째 고유의 요소)
+const uniqueItalianFoods = italianFoods.difference(mexicanFoods);
+console.log('Difference italian:', uniqueItalianFoods);
+// → Difference italian: Set(4) {'pasta', 'gnocchi', 'olive oil', 'basil'}
+
+const uniqueMecianFoods = mexicanFoods.difference(italianFoods);
+console.log('Difference mexican:', uniqueMecianFoods);
+// → Difference mexican: Set(4) {'tortillas', 'beans', 'rice', 'avocado'}
+
+// 4. Symmetric Method (Intersection Method 의 정반대)
+const uniqueItalianAndMexcianFoods =
+  italianFoods.symmetricDifference(mexicanFoods);
+console.log(uniqueItalianAndMexcianFoods);
+// → Set(8) {'pasta', 'gnocchi', 'olive oil', 'basil', 'tortillas', …}
+
+// 추가로 3가지 방법이 있음 (isSupersetOf, isSubsetOf, isDisjointFrom)
+// 5. 앞의 배열이 뒤의 배열로부터 분리되어 있는가?
+console.log(italianFoods.isDisjointFrom(mexicanFoods)); // → false
+
+/*
 // ※ Sets
 // - ES6가 나오기 전까지 JavaScript는 Array 만을 자료 구조로 가지고 있었으나,
 // ES6 이후 Set과 Map 이 추가되었다.
@@ -128,6 +172,8 @@ console.log(
 ); //→ 3
 
 console.log(new Set('jonasschmedtmadnn')); // → Set(11) {'j', 'o', 'n', 'a', 's', …}
+*/
+
 /*
 // ※ Looping Objects: Object Keys, Values, and Entries
 
