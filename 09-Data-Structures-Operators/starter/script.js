@@ -52,6 +52,78 @@ const restaurant = {
   },
 };
 
+// ※ Maps: Fundamentals
+// Map이 Set 보다 유용하게 쓰인다!
+// Object 에서 key는 항상 String 이지만,
+// key는 어떤 유형이든 가질 수 있으며 심지어 Map일 수도 있다.
+
+const rest = new Map();
+
+// 1. Map.set() : chain 만들기
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy');
+console.log(rest.set(2, 'Lisbon, Portugal'));
+// → Map(3) {
+// 'name' => 'Classico Italiano',
+//  1 => 'Firenze, Italy',
+//  2 => 'Lisbon, Portugal'}
+
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open :D')
+  .set(false, 'We are closed :(');
+
+// 2. Map.get() : key로 value 가져오기
+console.log(rest.get('name')); // → Classico Italiano
+console.log(rest.get(true)); // → We are open :D
+console.log(rest.get('true')); // → undefined
+console.log(rest.get(1)); // → Firenze, Italy
+
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+// (time = 21일 때) → We are open :D
+// (time = 6일 때) → We are closed :(
+
+// ※ true, false를 key로 사용했을 때의 장점을 보여주고 있으나,
+// 코드의 가독성이 매우 떨어지고 있으니 위와 같은 상황은 피할 것!
+// (장점만 수용할 것!)
+
+// 3. Map.has() : key 존재 유무 확인
+console.log(rest.has('categories')); // → true
+
+// 4. Map.delete() : key 기반으로 map 구성 요소 삭제
+rest.delete(2);
+console.log(rest);
+// → Map(7) {
+// 'name' => 'Classico Italiano',
+//  1 => 'Firenze, Italy',
+//  'categories' => Array(4),
+//  'open' => 11,
+//  'close' => 23,
+//  true => "We are open :D",
+//  false => "We are closed :("}
+
+// 5. Map.size
+console.log(rest.size); // → 7
+
+// 6. Map.clear()
+// rest.clear();
+// console.log(rest); // → Map(0) {size: 0}
+
+// ※ Set 과 Map 모두 ES6 때 도입되어 겹치는 Method 가 많다!
+
+// ※ 배열을 key로 두었을 때
+const arr = [1, 2];
+rest.set(arr, 'Test');
+rest.set(document.querySelector('h1'), 'Heading'); // key 값에 무엇이든 넣을 수 있어 가능한 코드
+console.log(rest);
+console.log(rest.get(arr)); // → Test
+// arr 변수를 선언한 이유는, .set()에서의 key 값과 .get()에서의 key 값이 가리키는 주소가 같아야 하기 때문!
+// arr 변수 사용 없이 직접 [1,2]를 사용하면 서로 다른 주소값을 가리키게 되어 undefined 가 출력된다.
+
+/*
 // ※ New Operations To Make Sets Useful
 // ES2025 이후 추가된 7가지 메서드가 Set을 더욱 유용하게 만들었고,
 // JavaScript를 다른 프로그래밍 언어 수준으로 끌어올렸다.
@@ -112,6 +184,7 @@ console.log(uniqueItalianAndMexcianFoods);
 // 추가로 3가지 방법이 있음 (isSupersetOf, isSubsetOf, isDisjointFrom)
 // 5. 앞의 배열이 뒤의 배열로부터 분리되어 있는가?
 console.log(italianFoods.isDisjointFrom(mexicanFoods)); // → false
+*/
 
 /*
 // ※ Sets
