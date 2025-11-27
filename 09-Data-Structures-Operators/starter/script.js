@@ -52,6 +52,81 @@ const restaurant = {
   },
 };
 
+// ※ Maps: Iteration
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct 🎉'],
+  [false, 'Try again!'],
+]);
+console.log(question);
+// → Map(7) {
+// 'question' => 'What is the best programming language in the world?',
+// 1 => 'C',
+// 2 => 'Java',
+// 3 => 'JavaScript',
+// 'correct' => 3,
+// true => "Correct 🎉",
+// false => "Try again!"
+// }
+
+// Convert object to map
+console.log(Object.entries(openingHours));
+// → [
+// ['thu', {open: 12, close: 22}],
+// ['fri', {open: 11, close: 23}],
+// ['sat', {open: 0, close: 24}]
+// ]
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+// → Map(3) {
+// {'thu' => {open: 12, close: 22}},
+// {'fri' => {open: 11, close: 23}},
+// {'sat' => {open: 0, close: 24}}
+// }
+
+// Quiz app
+console.log(question.get('question'));
+for (const [key, value] of question) {
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+// const answer = Number(prompt('Your answer'));
+const answer = 3;
+console.log(answer);
+// →
+// What is the best programming language in the world?
+// Answer 1: C
+// Answer 2: Java
+// Answer 3: JavaScript
+
+console.log(question.get(question.get('correct') === answer));
+// (정답 숫자 3 입력 시) → Correct 🎉
+// (오답 입력 시) → Try again!
+
+// ※ Convert map to array
+// : 만약, Map을 다시 Array와 같은 Structure로 변환해야 한다면
+// Spread 연산자를 결합하여 사용!
+console.log([...question]);
+// →
+// [
+//   ['question', 'What is the best programming language in the world?'],
+//   [1, 'C'],
+//   [2, 'Java'],
+//   [3, 'JavaScript'],
+//   ['correct', 3],
+//   [true, 'Correct 🎉'],
+//   [false, 'Try again!'],
+// ]
+// console.log(question.entries()); // [...question]과 같다.
+console.log([...question.keys()]);
+// → ['question', 1, 2, 3, 'correct', true, false]
+console.log([...question.values()]);
+// → ['What is the best programming language in the world?', 'C', 'Java', 'JavaScript', 3, 'Correct 🎉', 'Try again!']
+
+/*
 // ※ Maps: Fundamentals
 // Map이 Set 보다 유용하게 쓰인다!
 // Object 에서 key는 항상 String 이지만,
@@ -122,6 +197,7 @@ console.log(rest);
 console.log(rest.get(arr)); // → Test
 // arr 변수를 선언한 이유는, .set()에서의 key 값과 .get()에서의 key 값이 가리키는 주소가 같아야 하기 때문!
 // arr 변수 사용 없이 직접 [1,2]를 사용하면 서로 다른 주소값을 가리키게 되어 undefined 가 출력된다.
+*/
 
 /*
 // ※ New Operations To Make Sets Useful
