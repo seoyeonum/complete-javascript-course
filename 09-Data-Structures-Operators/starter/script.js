@@ -52,6 +52,54 @@ const restaurant = {
   },
 };
 
+// ※ Working with String - Part 1
+const airline = 'TAP Air Korea';
+const plane = 'A320';
+
+// 문자열의 특정 문자 조회: index 0부터 시작
+console.log(plane[0]); // → A
+console.log(plane[1]); // → 3
+console.log(plane[2]); // → 2
+console.log('B737'[0]); // → B
+
+// 문자열의 길이 (공백 포함)
+console.log(airline.length); // → 13
+console.log('B737'.length); // → 4
+
+// 문자열 내 문자 위치(인덱스) 조회
+console.log(airline.indexOf('r')); // → 6
+console.log(airline.lastIndexOf('r')); // → 10
+console.log(airline.indexOf('Korea')); // → 8
+console.log(airline.indexOf('korea')); // → -1 (찾을 수 없음)
+
+// 문자열 슬라이싱(시작인덱스, 끝인덱스(포함X))
+// : 끝 인덱스 생략 시 끝까지 포함
+console.log(airline.slice(4)); // → Air Korea
+console.log(airline.slice(4, 7)); // → Air
+
+// 인덱스 넘버로 하드코딩하지 않고 해결해보자.
+console.log(airline.slice(0, airline.indexOf(' '))); // → TAP
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); // → Korea
+
+console.log(airline.slice(-2)); // → ea
+console.log(airline.slice(1, -1)); // → AP Air Kore
+
+const checkMiddleSeat = function (seat) {
+  // B and E are middle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') console.log('You got the middle seat 😂');
+  else console.log('You got lucky 😎');
+};
+
+checkMiddleSeat('11B'); // → You got the middle seat 😂
+checkMiddleSeat('23C'); // → You got lucky 😎
+checkMiddleSeat('3E'); // → You got the middle seat 😂
+
+console.log(new String('jonas')); // → String {'jonas'}
+console.log(typeof new String('jonas')); // → object
+
+console.log(typeof new String('jonas').slice(1)); // → string
+/*
 // ※ Maps: Iteration
 const question = new Map([
   ['question', 'What is the best programming language in the world?'],
@@ -125,6 +173,7 @@ console.log([...question.keys()]);
 // → ['question', 1, 2, 3, 'correct', true, false]
 console.log([...question.values()]);
 // → ['What is the best programming language in the world?', 'C', 'Java', 'JavaScript', 3, 'Correct 🎉', 'Try again!']
+*/
 
 /*
 // ※ Maps: Fundamentals
