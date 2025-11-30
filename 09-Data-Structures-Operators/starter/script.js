@@ -52,6 +52,75 @@ const restaurant = {
   },
 };
 
+// ※ Working with String - Part 2
+const airline = 'TAP Air Korea';
+
+console.log(airline.toLowerCase()); // → tap air korea
+console.log(airline.toUpperCase()); // → TAP AIR KOREA
+
+// Fix capitalization in name
+const passenger = 'jOnAS'; // Jonas
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect); // → Jonas
+
+// Comparing emails
+const email = 'hello@jonas.io';
+const loginEmail = '  Hello@Jonas.Io \n';
+
+// const lowerEmail = loginEmail.toLowerCase();
+// const trimmedEmail = lowerEmail.trim(); // 공백제거(개행문자도 제거)
+// console.log(trimmedEmail); // → hello@jonas.io
+
+// 아래와 같이 chaining 해도 좋다.
+const normalizedEmail = loginEmail.toLocaleLowerCase().trim();
+console.log(normalizedEmail); // → hello@jonas.io
+console.log(email === normalizedEmail); // → true
+
+// replacing
+const priceGB = '288,97￡';
+const priceUS = priceGB.replace('￡', '$').replace(',', '.');
+console.log(priceUS); // → 288.97$
+
+const announcement =
+  'All passengers come to boarding door 23. Boarding door 23!';
+console.log(announcement.replace('door', 'gate'));
+// → All passengers come to boarding gate 23. Boarding door 23!
+// 문자열의 첫 번째 항목만 교체하는 모습!
+console.log(announcement.replaceAll('door', 'gate'));
+// → All passengers come to boarding gate 23. Boarding gate 23!
+
+// 위 방법 외에도 정규식을 사용하는 방법이 있다.
+// 아래 정규식은 대소문자를 구분한다. /교체 대상 문자열/g(글로벌)
+console.log(announcement.replace(/door/g, 'gate'));
+// → All passengers come to boarding gate 23. Boarding gate 23!
+
+// Booleans
+const plane = 'Airbus A320neo';
+console.log(plane.includes('Airbus')); // → true
+console.log(plane.includes('Boeing')); // → false
+console.log(plane.startsWith('Air')); // → true
+console.log(plane.startsWith('A320')); // → false
+
+if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
+  console.log('Part of the NEW Airbus family'); // → Part of the NEW Airbus family
+}
+
+// Practice exercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('You are NOT allowed on board');
+  } else {
+    console.log('Welcome aboard!');
+  }
+};
+checkBaggage('I have a laptop, some food and a pocket Knife'); // → You are NOT allowed on board
+checkBaggage('Socks and camera'); // → Welcome aboard!
+checkBaggage('Got some snacks and a gun for protection'); // → You are NOT allowed on board
+
+/*
 // ※ Working with String - Part 1
 const airline = 'TAP Air Korea';
 const plane = 'A320';
@@ -99,6 +168,8 @@ console.log(new String('jonas')); // → String {'jonas'}
 console.log(typeof new String('jonas')); // → object
 
 console.log(typeof new String('jonas').slice(1)); // → string
+*/
+
 /*
 // ※ Maps: Iteration
 const question = new Map([
