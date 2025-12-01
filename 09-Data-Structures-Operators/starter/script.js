@@ -52,6 +52,72 @@ const restaurant = {
   },
 };
 
+// ※ Working with String - Part 3
+
+// 1.Split and Join
+console.log('a+very+nice+string'.split('+'));
+// → ['a', 'very', 'nice', 'string']
+console.log('Seoyeon Um'.split(' ')); // 공백도 괄호 안에 작성 필수!
+// → ['Seoyeon', 'Um']
+
+// destructuring 과 결합해보자
+const [firstName, lastName] = 'Seoyeon Um'.split(' ');
+
+// split과 반대 메서드인 join
+const newName = ['Ms.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // → Ms. Seoyeon UM
+
+// real examples
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+
+  for (const n of names) {
+    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+};
+capitalizeName('jessica ann smith davis'); // → Jessica Ann Smith Davis
+capitalizeName('jonas schmedtmann'); // → Jonas Schmedtmann
+
+// 2. Padding
+const message = 'Go to gate 23!';
+console.log(message.padStart(25, '+'));
+// → +++++++++++Go to gate 23!
+console.log(message.padStart(25, '+').padEnd(35, '+'));
+// → +++++++++++Go to gate 23!++++++++++
+
+console.log('Jonas'.padStart(25, '+'));
+// → ++++++++++++++++++++Jonas
+console.log('Jonas'.padStart(25, '+').padEnd(35, '+'));
+// → ++++++++++++++++++++Jonas++++++++++
+
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(12345678));
+// → ****5678
+console.log(maskCreditCard(4332987264797632));
+// → ************7632
+console.log(maskCreditCard('907205348587938223479'));
+// → *****************3479
+
+// 3. Repeat
+const message2 = 'Bad weather... All Departures Delayed... ';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} plane in line ${'✈'.repeat(n)}`);
+};
+
+planesInLine(5); // → There are 5 plane in line ✈✈✈✈✈
+planesInLine(12); // → There are 12 plane in line ✈✈✈✈✈✈✈✈✈✈✈✈
+console.log();
+/*
 // ※ Working with String - Part 2
 const airline = 'TAP Air Korea';
 
@@ -119,6 +185,7 @@ const checkBaggage = function (items) {
 checkBaggage('I have a laptop, some food and a pocket Knife'); // → You are NOT allowed on board
 checkBaggage('Socks and camera'); // → Welcome aboard!
 checkBaggage('Got some snacks and a gun for protection'); // → You are NOT allowed on board
+*/
 
 /*
 // ※ Working with String - Part 1
