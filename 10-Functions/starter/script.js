@@ -32,6 +32,7 @@ createBooking('LH123', 5); // → {flightNum: 'LH123', numPassengers: 5, price: 
 createBooking('LH123', undefined, 1000); // → {flightNum: 'LH123', numPassengers: 1, price: 1000}
 */
 
+/*
 // ※ How Passing Arguments Works: Value vs. Reference
 const flight = 'LH234';
 const jonas = {
@@ -70,3 +71,56 @@ checkIn(flight, jonas); // → Wrong passport!
 // passing by value vs. passing by references
 // ※ 자바스크립트는 참조를 통한 전달이 없다.
 // (혼란스럽겠지만) 참조를 전달한 것처럼 보여도, 결국 참조도 메모리 주소가 포함된 "값"이기 때문
+*/
+
+// ※ Functions Accepting Callback Functions
+
+const oneWord = function (str) {
+  return str.replace(/ /g, '').toLowerCase();
+  // 표현식으로 공백을 찾아 없앤 뒤 소문자 변환
+};
+
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(' ');
+  // 공백 기준으로 문자열 나눈 위 destructuring으로 첫 단어와 나머지(rest pattern) 문자 분리
+  return [first.toUpperCase(), ...others].join(' ');
+  // 첫 단어는 대문자로 변환, 나머지는 spread operator로 나누고 공백 문자를 기준으로 합치기
+};
+
+// Higher-order function
+const transformer = function (str, fn) {
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+  console.log(`Transformed by: ${fn.name}`); //.name은 모든 JS fn에 사용 가능!
+};
+
+transformer('JavaScript is the best!', upperFirstWord);
+// →
+// Original string: JavaScript is the best!
+// Transformed string: JAVASCRIPT is the best!
+// Transformed by: upperFirstWord
+
+transformer('JavaScript is the best!', oneWord);
+// →
+// Original string: JavaScript is the best!
+// Transformed string: javascriptisthebest!
+// Transformed by: oneWord
+
+// ※ JS uses callbacks all the time
+// (장접1) 코드가 기능적으로 잘 나뉘어 있다.
+// (장점2) 콜백 함수로 추상화(abstraction)를 만들 수 있다
+// : 자세한 내용을 숨길 수 있다.
+// : 콜백 함수가 어떻게 구성되어있는지 신경쓰지 않아도 된다.
+
+const high5 = function () {
+  console.log('👋🏻');
+};
+
+document.body.addEventListener('click', high5);
+// (본문(body) 클릭 시 콘솔) → 👋🏻
+
+['Jonas', 'Martha', 'Adam'].forEach(high5);
+// →
+// 👋🏻
+// 👋🏻
+// 👋🏻
