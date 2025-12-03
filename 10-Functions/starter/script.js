@@ -73,6 +73,7 @@ checkIn(flight, jonas); // → Wrong passport!
 // (혼란스럽겠지만) 참조를 전달한 것처럼 보여도, 결국 참조도 메모리 주소가 포함된 "값"이기 때문
 */
 
+/*
 // ※ Functions Accepting Callback Functions
 
 const oneWord = function (str) {
@@ -124,3 +125,25 @@ document.body.addEventListener('click', high5);
 // 👋🏻
 // 👋🏻
 // 👋🏻
+*/
+
+// ※ Functions Returning Functions
+// functions을 반환(return)하는 functions 을 살펴보자.
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greeterHey = greet('Hey');
+greeterHey('Jonas'); // → Hey Jonas
+greeterHey('Steven'); // → Hey Steven
+// 위 코드의 작동 구조는 closure 와 관련이 있다.(추후 학습)
+
+greet('Hello')('Jonas'); // → Hello Jonas
+
+// Challenge (convert into Arrow Fn)
+const greetArrow = greeting => name => console.log(`${greeting} ${name}`);
+greetArrow('Hi')('Joshua'); // → Hi Joshua
+// (짧지만 가독성이 떨어진다.)
