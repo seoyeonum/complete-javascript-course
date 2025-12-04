@@ -127,6 +127,7 @@ document.body.addEventListener('click', high5);
 // 👋🏻
 */
 
+/*
 // ※ Functions Returning Functions
 // functions을 반환(return)하는 functions 을 살펴보자.
 
@@ -147,3 +148,131 @@ greet('Hello')('Jonas'); // → Hello Jonas
 const greetArrow = greeting => name => console.log(`${greeting} ${name}`);
 greetArrow('Hi')('Joshua'); // → Hi Joshua
 // (짧지만 가독성이 떨어진다.)
+*/
+
+// ※ The call, apply and bind Methods
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  // book: function() {}
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book(239, 'Jonas Schmedtmann');
+// → Jonas Schmedtmann booked a seat on Lufthansa flight LH239
+lufthansa.book(635, 'John Smith');
+// → John Smith booked a seat on Lufthansa flight LH635
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+// Does NOT work
+// book(23, 'Sarah Williams');
+// → Uncaught TypeError: Cannot read properties of undefined (reading 'airline')
+// book은 lufthansa.book method를 copy해온 다른 function이다.
+// 즉, 더 이상 book fn 내의 this 키워드가 가리키는 값이 존재하지 않는다.
+
+// 1. Call method: 첫 번째 인수는 this 키워드가 가리키는 값을 의미
+book.call(eurowings, 23, 'Sarah Williams');
+// → Sarah Williams booked a seat on Eurowings flight EW23
+console.log(eurowings);
+// → {name: 'Eurowings', iataCode: 'EW', bookings: {flight: 'EW23', name: 'Sarah Williams'}}
+// book method는 lufthansa 내에 있지만, 이를 가져와 this 키워드가 다른 값을 가리키도록 돕는 call method
+
+book.call(lufthansa, 239, 'Mary Cooper');
+// → Mary Cooper booked a seat on Lufthansa flight LH239
+console.log(lufthansa);
+
+const swiss = {
+  airline: 'Swiss Air Lines',
+  iataCode: 'LX',
+  bookings: [],
+};
+
+book.call(swiss, 583, 'Mary Cooper');
+// → Mary Cooper booked a seat on Swiss Air Lines flight LX583
+console.log(swiss);
+
+// 2. Apply method: call method 와 유사
+// : this 키워드가 가리킬 인수 외에는 arr 로 넘긴다는 특징이 있다.
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, flightData);
+// → George Cooper booked a seat on Swiss Air Lines flight LX583
+console.log(swiss);
+
+// 모던 자바스크립트에서는 call 함수를 사용, spread 연산자로 배열을 풀어서 넘기는걸 선호
+book.call(swiss, ...flightData);
+// → George Cooper booked a seat on Swiss Air Lines flight LX583
+
+// 3. Bind method: this 키워드가 지칭할 값만 인수로 받아 새 함수를 반환
+
+// call method 형태와 비교
+// book.call(eurowings, 23, 'Sarah Williams');
+
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+const bookLX = book.bind(swiss);
+
+bookEW(23, 'Steven Williams');
+// → Steven Williams booked a seat on Eurowings flight EW23
+
+// 여러 인수를 받아 bind method 에 의해 반환된 함수는 해당 값들을 고정한다.
+// 따라서, 사용할 때는 채워지지 않은 함수만 받으면 된다!
+// (partial application)
+const bookEW23 = book.bind(eurowings, 23);
+bookEW23('Jonas Schmedtmann');
+// → Jonas Schmedtmann booked a seat on Eurowings flight EW23
+bookEW23('Martha Cooper');
+// → Martha Cooper booked a seat on Eurowings flight EW23
+
+// With Event Listeners
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  // console.log(this);
+  this.planes++;
+  console.log(this.planes);
+};
+
+// document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
+// → NaN
+// this 키워드가 event listener 안에서 쓰이는 경우, 개체 자체를 가리키게 된다.
+// 즉, 위 코드에서 this 는 button element를 지칭
+// 따라서 this 키워드의 지칭 대상을 수동으로 지정해줄 필요가 있다.
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+// → 301
+
+// Partial Application
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200)); // → 220
+
+// this 키워드가 존재하지 않을 경우 관습적으로 null 을 둔다.
+const addVAT = addTax.bind(null, 0.23);
+// addVAT = value => value + value * 0.23
+
+console.log(addVAT(100)); // → 123
+console.log(addVAT(23)); // → 28.29
+
+// bind method 사용하지 않고 같은 작업을 수행해보자
+// hint: use functions returning functions
+const addTaxRate = function (rate) {
+  return function (value) {
+    return value + value * rate;
+  };
+};
+const addVAT2 = addTaxRate(0.23);
+console.log(addVAT2(100)); // → 123
+console.log(addVAT2(23)); // → 28.29
