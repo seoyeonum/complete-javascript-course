@@ -150,6 +150,7 @@ greetArrow('Hi')('Joshua'); // → Hi Joshua
 // (짧지만 가독성이 떨어진다.)
 */
 
+/*
 // ※ The call, apply and bind Methods
 const lufthansa = {
   airline: 'Lufthansa',
@@ -276,3 +277,37 @@ const addTaxRate = function (rate) {
 const addVAT2 = addTaxRate(0.23);
 console.log(addVAT2(100)); // → 123
 console.log(addVAT2(23)); // → 28.29
+*/
+
+const runOnce = function () {
+  console.log('This will never run again');
+};
+runOnce();
+
+// ※ IIFE (이프이)
+// : Immediatley Invoked Function Expressions;
+// : 즉시 함수 호출식
+(function () {
+  console.log('This will never run again');
+  const isPrivate = 23;
+})();
+// 함수 이름을 쓰지 않으면
+// → Uncaught SyntaxError: Function statements require a function name
+// (전체를 괄호 안에 넣으면)
+// → (에러 안 남!)
+// (실행하기 위에 뒤에 괄호)()
+// → (즉시 호출) This will never run again
+
+// console.log(isPrivate);
+// → Uncaught ReferenceError: isPrivate is not defined
+
+// ※ Arrow fn의 즉시 호출 함수 표현식
+(() => console.log('This will ALSO never run again'))();
+// → This will ALSO never run again
+
+{
+  const isPrivate = 23;
+  var notPrivate = 46; // 블록을 무시하기 때문에 외부에서도 인식할 수 있음
+}
+// console.log(isPrivate); // → Uncaught ReferenceError: isPrivate is not defined
+console.log(notPrivate); // → 46
