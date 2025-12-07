@@ -279,6 +279,7 @@ console.log(addVAT2(100)); // → 123
 console.log(addVAT2(23)); // → 28.29
 */
 
+/*
 const runOnce = function () {
   console.log('This will never run again');
 };
@@ -311,3 +312,42 @@ runOnce();
 }
 // console.log(isPrivate); // → Uncaught ReferenceError: isPrivate is not defined
 console.log(notPrivate); // → 46
+*/
+
+// ※ Closure(폐쇄)
+// Closure 는 특정 상황에서 일어나는 것이지,
+// Array, Set 처럼 수동으로 만드는 것이 아니다.
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+// booker fn의 생성(global scope)
+const booker = secureBooking();
+
+// booker 호출
+booker(); // → 1 passengers
+booker(); // → 2 passengers
+booker(); // → 3 passengers
+
+console.dir(booker);
+// (console에 저장된 [[Scope]] 에서 확인 가능한 Closure)
+// → Closure (secureBooking) {passengerCount: 3}
+
+// 실제로 secureBooking()은 booker fn을 만들고 사라졌음에도
+// booker fn은 passengerCount 에 접근해 기능을 수행한다.(!!)
+// 스택을 벗어나 passengerCount 는 소멸한다고 배웠는데?
+
+// - 예외 상황인 "Closure"가 존재하기 때문.
+// (Becuase of the "closure", VE was moved to "heap" and NOT garbage collected)
+// - 함수는 자신을 생성한 변수환경(VE)의 실행 context 에 접근할 수 있다.
+// (A function has access to the variable environment (VE) of the execution context in which it was created)
+// - 이를 CLOSURE 라고 한다.
+// : VE attached to the function, exactly as it was at the time and place the function was created
+
+// 위 상황에서는 booker가 secureBooking에 "갇혔다"고 볼 수 있다.
+// 다른 표현으로는 booker가 closure 덕분에 secureBooking와 연결되어 접근 가능하다.
