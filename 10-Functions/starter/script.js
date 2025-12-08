@@ -314,6 +314,7 @@ runOnce();
 console.log(notPrivate); // → 46
 */
 
+/*
 // ※ Closure(폐쇄)
 // Closure 는 특정 상황에서 일어나는 것이지,
 // Array, Set 처럼 수동으로 만드는 것이 아니다.
@@ -351,3 +352,65 @@ console.dir(booker);
 
 // 위 상황에서는 booker가 secureBooking에 "갇혔다"고 볼 수 있다.
 // 다른 표현으로는 booker가 closure 덕분에 secureBooking와 연결되어 접근 가능하다.
+*/
+
+// ※ More Closure Examples
+
+// Example 1
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+g();
+f(); // → 46
+console.dir(f); // Closure (g) {a: 23}
+
+// f는 global 영역에 선언되었지만 g를 통해 닫힌다(closure)
+// g가 종료된 이후에도 f를 통해 g의 변수 환경(a)에 접근할 수 있다.
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f(); // → 46
+h(); // (f 함수를 재할당(Re-assigning f function))
+f(); // → 1554
+console.dir(f); // Closure (h) {b: 777}
+
+// Example 2 - Timer
+const boardPassengers = function (n, wait) {
+  // (Closure)
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+// 1. Closure 가 생성됨을 확인해보자.
+// 2. Closure 가 Scope Chain 보다 우위에 있음을 확인해보자.
+const perGroup = 1000; // (Scope Chain)
+boardPassengers(180, 3);
+// →
+// Will start boarding in 3 seconds
+// (3초 뒤)
+// We are now boarding all 180 passengers
+// There are 3 groups, each with 60 passengers
+
+// ※ setTimeout(함수, 밀리초)
+// : 밀리초(1000밀리초 = 1초) 뒤에 함수 실행
+// setTimeout(function () {
+//   console.log('TIMER');
+// }, 1000);
