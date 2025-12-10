@@ -74,3 +74,46 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+// ※ Simple Array Methods
+
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+// 1. SLICE
+console.log(arr.slice(2)); // → ['c', 'd', 'e']
+console.log(arr.slice(2, 4)); // → ['c', 'd']
+console.log(arr.slice(-2)); // → ['d', 'e']
+console.log(arr.slice(-1)); // → ['e']
+console.log(arr.slice(1, -2)); // → ['b', 'c']
+console.log(arr.slice()); // → ['a', 'b', 'c', 'd', 'e']
+console.log([...arr]); // → ['a', 'b', 'c', 'd', 'e']
+
+// 2. SPLICE
+// 원본 배열을 변경한다.(원래 배열의 일부를 가져오고 나머지는 남겨둔다.)
+// console.log(arr.splice(2)); // → ['c', 'd', 'e']
+// console.log(arr); // → ['a', 'b']
+arr.splice(-1);
+console.log(arr); // → ['a', 'b', 'c', 'd']
+
+// Splice에서 두 번째 인수는 인덱스가 아니라, 삭제하려는 요소의 수!
+const c = arr.splice(1, 2);
+console.log(arr); // → ['a', 'd']
+console.log(c); // →  ['b', 'c']
+
+// 3. REVERSE
+// 원본 배열을 변경한다.
+arr = ['a', 'b', 'c', 'd', 'e'];
+const arr2 = ['j', 'i', 'h', 'g', 'f'];
+console.log(arr2.reverse()); // → ['f', 'g', 'h', 'i', 'j']
+console.log(arr2); // → ['f', 'g', 'h', 'i', 'j']
+
+// 4. CONCAT
+const letters = arr.concat(arr2);
+console.log(letters);
+// → ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+console.log([...arr, ...arr2]);
+// → ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+
+// 5. JOIN
+console.log(letters.join('-'));
+// → a-b-c-d-e-f-g-h-i-j
