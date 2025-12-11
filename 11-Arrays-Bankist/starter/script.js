@@ -75,6 +75,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
+/*
 // ※ Simple Array Methods
 
 let arr = ['a', 'b', 'c', 'd', 'e'];
@@ -117,3 +118,22 @@ console.log([...arr, ...arr2]);
 // 5. JOIN
 console.log(letters.join('-'));
 // → a-b-c-d-e-f-g-h-i-j
+*/
+
+// ※ The New at Method
+// : ES2022부터 업데이트 된 at 메소드
+
+const arr = [23, 11, 64];
+console.log(arr[0]); // → 23
+console.log(arr.at(0)); // → 23
+
+// Getting last array element
+console.log(arr[arr.length - 1]); // → 64
+console.log(arr.slice(-1)[0]); // → 64
+console.log(arr.at(-1)); // → 64
+// 이처럼 .at 을 사용하면 마지막 요소의 값을 간단히 얻어낼 수 있다.
+// 어떤 메서드를 이용할지는 상황에 따라 다르다.
+
+// at 메서드는 String에도 이용 가능하다.
+console.log('jonas'.at(0)); // → j
+console.log('jonas'.at(-1)); // → s
