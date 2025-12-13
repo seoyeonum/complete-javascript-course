@@ -65,12 +65,6 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
@@ -140,6 +134,7 @@ console.log('jonas'.at(0)); // → j
 console.log('jonas'.at(-1)); // → s
 */
 
+/*
 // ※ Looping Arrays: forEach
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -166,3 +161,47 @@ movements.forEach(function (mov, i, arr) {
 // Movement 2: You deposited 450
 // Movement 3: You withdrew 400
 // ...
+*/
+
+// ※ forEach With Maps and Sets
+// : forEach 메소드는 Array 뿐 아니라 Map과 Set 에서도 쓸 수 있다.
+
+// Map
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+// →
+// USD: United States dollar
+// EUR: Euro
+// GBP: Pound sterling
+
+// Set
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique); // → Set(3) {'USD', 'GBP', 'EUR'}
+currenciesUnique.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+// →
+// USD: USD
+// EUR: EUR
+// GBP: GBP
+
+// 즉, Set 에서는 value와 key가 동일하다는 것인데,
+// 이는 Set 에서는 별도의 key나 index가 존재하지 않기 때문!
+// 따라서 key 인수를 생략할 수도 있었으나, 다른 forEach와 형식을 유지하여 개발자에게 혼란을 피하고자 함.
+
+// 실제로 사용할 때는,
+// 아래와 같이 _를 사용해 인수를 버리고, value 만 사용하면 된다.
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(`${value}: ${value}`);
+});
+// →
+// USD: USD
+// EUR: EUR
+// GBP: GBP
