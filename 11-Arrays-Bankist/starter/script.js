@@ -5,6 +5,9 @@
 // BANKIST APP
 
 // Data
+// (아래 데이터는 API에서 받아온 데이터로 가정한다.
+// 대부분 DB에서 가져온 데이터는 Object 형태이므로,
+// 아래에서도 Map 대신 Object 형태를 사용한다.)
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -33,9 +36,11 @@ const account4 = {
   pin: 4444,
 };
 
+// (실제 API 처럼 느껴지도록 아래와 같이 Array 형태로 묶었다.)
 const accounts = [account1, account2, account3, account4];
 
 // Elements
+// (개발 편의를 위해 선택자로 elements를 구성해두었다.)
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -60,6 +65,27 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = ''; // 기존 HTML 변경하기
+  // .textContent = 0
+
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type
+         movements__type--${type}">${i + 1} ${type}</div>
+        <div class="movements__value">${mov}€</div>
+      </div>
+      `;
+
+    // template literal로 만든 html을 추가
+    // element.insertAdjacentHTML 메소드는 (삽입방식, string)의 2가지 인수 필요
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+displayMovements(account1.movements);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -163,6 +189,7 @@ movements.forEach(function (mov, i, arr) {
 // ...
 */
 
+/*
 // ※ forEach With Maps and Sets
 // : forEach 메소드는 Array 뿐 아니라 Map과 Set 에서도 쓸 수 있다.
 
@@ -205,3 +232,4 @@ currenciesUnique.forEach(function (value, _, map) {
 // USD: USD
 // EUR: EUR
 // GBP: GBP
+*/
