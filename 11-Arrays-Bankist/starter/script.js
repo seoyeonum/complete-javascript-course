@@ -91,7 +91,7 @@ displayMovements(account1.movements);
 /////////////////////////////////////////////////
 // LECTURES
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -233,3 +233,40 @@ currenciesUnique.forEach(function (value, _, map) {
 // EUR: EUR
 // GBP: GBP
 */
+
+// ※ Data Transformations: map, filter, reduce
+// map: 각 요소를 연산 후 배열로 걸러냄
+// filter: 특정 조건을 만족하는 요소만 배열로 걸러냄
+// reduce: 각 요소를 돌며 하나의 값으로 결과 도출해냄
+
+// ※ The map Method
+const eurToUsd = 1.1;
+
+// map의 활용 (modern JS에서 추구하는 함수형 프로그래밍)
+// const movementsUSD = movements.map(function (mov) {
+//   return mov * eurToUsd;
+// });
+
+// arrow function 형태로 표현
+const movementsUSD = movements.map(mov => mov * eurToUsd);
+
+console.log(movements);
+// → [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(movementsUSD);
+// → [220.00000000000003, 495.00000000000006, -440.00000000000006, 3300.0000000000005, -715.0000000000001, -143, 77, 1430.0000000000002]
+
+// 기존 방식대로 풀이해도 같은 값을 얻을 수 있다.
+const movementUSDfor = [];
+for (const mov of movements) movementUSDfor.push(mov * eurToUsd);
+console.log(movementUSDfor);
+// → [220.00000000000003, 495.00000000000006, -440.00000000000006, 3300.0000000000005, -715.0000000000001, -143, 77, 1430.0000000000002]
+
+const movementsDescriptions = movements.map(
+  // 첫값, 인덱스, 배열
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+console.log(movementsDescriptions);
+// → 'Movement 1: You deposited 200', 'Movement 2: You deposited 450', 'Movement 3: You withdrew 400', 'Movement 4: You deposited 3000', 'Movement 5: You withdrew 650', 'Movement 6: You withdrew 130', 'Movement 7: You deposited 70', 'Movement 8: You deposited 1300']
