@@ -87,6 +87,20 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const createUsernames = function (accs) {
+  // 새로 배열을 만들려는 게 아니라, 원본 배열을 수정해야 하므로 forEach 사용
+  accs.forEach(function (acc) {
+    // acc 내에 username 속성 만들기
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts); // → stw
+console.log(accounts);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -234,6 +248,7 @@ currenciesUnique.forEach(function (value, _, map) {
 // GBP: GBP
 */
 
+/*
 // ※ Data Transformations: map, filter, reduce
 // map: 각 요소를 연산 후 배열로 걸러냄
 // filter: 특정 조건을 만족하는 요소만 배열로 걸러냄
@@ -270,3 +285,4 @@ const movementsDescriptions = movements.map(
 );
 console.log(movementsDescriptions);
 // → 'Movement 1: You deposited 200', 'Movement 2: You deposited 450', 'Movement 3: You withdrew 400', 'Movement 4: You deposited 3000', 'Movement 5: You withdrew 650', 'Movement 6: You withdrew 130', 'Movement 7: You deposited 70', 'Movement 8: You deposited 1300']
+*/
