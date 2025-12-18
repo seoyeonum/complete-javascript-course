@@ -287,6 +287,7 @@ console.log(movementsDescriptions);
 // → 'Movement 1: You deposited 200', 'Movement 2: You deposited 450', 'Movement 3: You withdrew 400', 'Movement 4: You deposited 3000', 'Movement 5: You withdrew 650', 'Movement 6: You withdrew 130', 'Movement 7: You deposited 70', 'Movement 8: You deposited 1300']
 */
 
+/*
 // ※ The filter Method
 const deposits = movements.filter(function (mov) {
   return mov > 0;
@@ -303,3 +304,32 @@ console.log(depositsFor); // → [200, 450, 3000, 70, 1300]
 
 const withdrawals = movements.filter(mov => mov < 0);
 console.log(withdrawals); // → [-400, -650, -130]
+*/
+
+// ※ The reduce Method
+console.log(movements);
+
+// (누적값, 현재값, 인덱스, 배열), acc의 첫 값
+// accumulator -> SNOWBALL
+// const balance = movements.reduce(function (acc, cur, i, arr) {
+//   console.log(`Iteration ${i}: ${acc}`);
+//   return acc + cur;
+// }, 0);
+
+//  → (acc의 연산 전 값이 출력)
+// Iteration 0: 0
+// Iteration 1: 200
+// Iteration 2: 650
+// Iteration 3: 250
+// Iteration 4: 3250
+// Iteration 5: 2600
+// Iteration 6: 2470
+// Iteration 7: 2540
+
+// arrow function으로 변경
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+
+console.log(balance); // → 3840
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+console.log(balance2); // → 3840
