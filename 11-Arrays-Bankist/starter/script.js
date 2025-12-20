@@ -87,6 +87,12 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+calcDisplayBalance(account1.movements);
+
 const createUsernames = function (accs) {
   // 새로 배열을 만들려는 게 아니라, 원본 배열을 수정해야 하므로 forEach 사용
   accs.forEach(function (acc) {
@@ -100,7 +106,7 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts); // → stw
-console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
