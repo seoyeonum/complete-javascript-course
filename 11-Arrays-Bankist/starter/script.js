@@ -93,6 +93,32 @@ const calcDisplayBalance = function (movements) {
 };
 calcDisplayBalance(account1.movements);
 
+// 입출금 소계 작성
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  // 입금이 있을 때마다 1.2%의 이자를 지급
+  // 이자가 1 이상인 경우에만 이자 소계에 합산하여 사용자에게 지급
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+calcDisplaySummary(account1.movements);
+
 const createUsernames = function (accs) {
   // 새로 배열을 만들려는 게 아니라, 원본 배열을 수정해야 하므로 forEach 사용
   accs.forEach(function (acc) {
@@ -312,6 +338,7 @@ const withdrawals = movements.filter(mov => mov < 0);
 console.log(withdrawals); // → [-400, -650, -130]
 */
 
+/*
 // ※ The reduce Method
 console.log(movements);
 
@@ -347,3 +374,30 @@ const max = movements.reduce((acc, mov) => {
 }, movements[0]);
 
 console.log(max); // → 3000
+*/
+
+// ※ The Magic of Chaining Methods
+// map, filter, reduce 메소드를 따로 사용하는 게 아니라 한 번에 엮어서 사용할 수도 있다.
+// (단, 디버깅이 어려울 수 있다. 따라서, 각 단계를 확인 후 연결하는 것이 좋다.)
+
+// 따라서,
+// 1) Chaining을 과도하게 사용해서는 안된다.
+// : 배열이 정말 큰 경우 수많은 메서드를 연결하면 성능 문제 발생 가능하므로 최적화를 고려해야 한다.
+// (작은 메서드들로 줄여야 한다.)
+
+// 2) 원본 배열을 변형하는 것은 좋지 않다.
+// : 대표적으로 splice, reverse 가 있다. 직접 chaining에 연결하지 않는 것이 관행이다.
+
+// PIPELINE
+const eurToUsd = 1.1;
+console.log(movements);
+
+const totalDepositUSD = movements
+  .filter(mov => mov > 0)
+  // .map(mov => mov * eurToUsd)
+  .map((mov, i, arr) => {
+    // console.log(arr);
+    return mov * eurToUsd;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositUSD); // → 5522.000000000001
