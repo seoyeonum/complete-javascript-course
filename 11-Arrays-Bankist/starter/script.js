@@ -376,6 +376,7 @@ const max = movements.reduce((acc, mov) => {
 console.log(max); // → 3000
 */
 
+/*
 // ※ The Magic of Chaining Methods
 // map, filter, reduce 메소드를 따로 사용하는 게 아니라 한 번에 엮어서 사용할 수도 있다.
 // (단, 디버깅이 어려울 수 있다. 따라서, 각 단계를 확인 후 연결하는 것이 좋다.)
@@ -401,3 +402,32 @@ const totalDepositUSD = movements
   })
   .reduce((acc, mov) => acc + mov, 0);
 console.log(totalDepositUSD); // → 5522.000000000001
+*/
+
+// ※ The find methods
+// 조건을 기반으로 값을 검색하는 메서드
+// 콜백함수를 전체 배열 요소에 대해 반복해서 실행한다.
+// "filter method와 달리 조건을 만족하는 첫 번째 값을 반환한다."
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements); // → [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(firstWithdrawal); // → -400
+
+console.log(accounts);
+// →
+// {
+//  {owner: 'Jonas Schmedtmann', movements: Array(8), interestRate: 1.2, pin: 1111, username: 'js'}
+//  {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
+//  {owner: 'Steven Thomas Williams', movements: Array(8), interestRate: 0.7, pin: 3333, username: 'stw'}
+//  {owner: 'Sarah Smith', movements: Array(5), interestRate: 1, pin: 4444, username: 'ss'}
+// }
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+// → {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
+
+let accountFind = {};
+for (const acc of accounts) {
+  if (acc.owner === 'Jessica Davis') accountFind = acc;
+}
+console.log(accountFind);
+// → {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
