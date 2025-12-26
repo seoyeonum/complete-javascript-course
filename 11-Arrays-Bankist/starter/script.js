@@ -85,39 +85,39 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
+// displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance}€`;
 };
-calcDisplayBalance(account1.movements);
+// calcDisplayBalance(account1.movements);
 
 // 입출금 소계 작성
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
   // 입금이 있을 때마다 1.2%의 이자를 지급
   // 이자가 1 이상인 경우에만 이자 소계에 합산하여 사용자에게 지급
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
-      console.log(arr);
+      // console.log(arr);
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-calcDisplaySummary(account1.movements);
+// calcDisplaySummary(account1.movements);
 
 const createUsernames = function (accs) {
   // 새로 배열을 만들려는 게 아니라, 원본 배열을 수정해야 하므로 forEach 사용
@@ -132,6 +132,39 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts); // → stw
+
+// Event Handler
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  // Prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  // optional operator로 currentAccount 미존재 시 undefined 반환
+  if (currentAccount?.pin === Number(inputLoginPin.value))
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+  containerApp.style.opacity = 100;
+
+  // Clear input fields
+  inputLoginUsername.value = inputLoginPin.value = '';
+  inputLoginPin.blur();
+
+  // Display movements
+  displayMovements(currentAccount.movements);
+
+  // Display balance
+  calcDisplayBalance(currentAccount.movements);
+
+  // Display summary
+  calcDisplaySummary(currentAccount);
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -404,6 +437,7 @@ const totalDepositUSD = movements
 console.log(totalDepositUSD); // → 5522.000000000001
 */
 
+/*
 // ※ The find methods
 // 조건을 기반으로 값을 검색하는 메서드
 // 콜백함수를 전체 배열 요소에 대해 반복해서 실행한다.
@@ -431,3 +465,4 @@ for (const acc of accounts) {
 }
 console.log(accountFind);
 // → {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
+*/
