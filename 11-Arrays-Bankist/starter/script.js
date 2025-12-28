@@ -156,19 +156,20 @@ btnLogin.addEventListener('click', function (e) {
   console.log(currentAccount);
 
   // optional operator로 currentAccount 미존재 시 undefined 반환
-  if (currentAccount?.pin === Number(inputLoginPin.value))
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
     }`;
-  containerApp.style.opacity = 100;
+    containerApp.style.opacity = 100;
 
-  // Clear input fields
-  inputLoginUsername.value = inputLoginPin.value = '';
-  inputLoginPin.blur();
+    // Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
 
-  // Update UI
-  updateUI(currentAccount);
+    // Update UI
+    updateUI(currentAccount);
+  }
 });
 
 btnTransfer.addEventListener('click', function (e) {
@@ -197,6 +198,33 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+// account 삭제 상황 가정해보기
+// (참고: find 와 findIndex는 모두 ES6 이후에 나온 Methods 이다.)
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  // console.log('Delete');
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+    // findIndex 는 indexOf 와 유사하지만,
+    // indexOf 는 배열에 요소 포함 여부에 따른 인덱스 값을 반환하고,
+    // findIndex 는 보다 복잡한 조건을 추가할 수 있다.
+
+    // Delete Account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = '';
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
