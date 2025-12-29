@@ -525,3 +525,23 @@ for (const acc of accounts) {
 console.log(accountFind);
 // → {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
 */
+
+// ※ The New findLast and findLastIndex Methods
+// - findLast: find 와 유사하나 배열 끝에서부터 조건에 부합하는 요소를 찾는다.
+// - findLastIndex: findIndex 와 유사하나 배열 끝에서부터 조건에 부합하는 요소의 인덱스를 찾는다.
+
+console.log(movements);
+const lastWithdrawal = movements.findLast(mov => mov < 0);
+console.log(lastWithdrawal); // → -130
+
+// 'Your latest large movement was X movements ago'
+const latestLargeMovementIndex = movements.findLastIndex(
+  mov => Math.abs(mov) > 2000
+);
+console.log(latestLargeMovementIndex);
+console.log(
+  `Your latest large movement was ${
+    movements.length - latestLargeMovementIndex
+  } movements ago`
+);
+// → Your latest large movement was 5 movements ago
