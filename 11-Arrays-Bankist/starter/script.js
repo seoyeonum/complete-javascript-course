@@ -198,6 +198,22 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+
+  inputLoanAmount.value = '';
+});
+
 // account 삭제 상황 가정해보기
 // (참고: find 와 findIndex는 모두 ES6 이후에 나온 Methods 이다.)
 btnClose.addEventListener('click', function (e) {
@@ -526,6 +542,7 @@ console.log(accountFind);
 // → {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
 */
 
+/*
 // ※ The New findLast and findLastIndex Methods
 // - findLast: find 와 유사하나 배열 끝에서부터 조건에 부합하는 요소를 찾는다.
 // - findLastIndex: findIndex 와 유사하나 배열 끝에서부터 조건에 부합하는 요소의 인덱스를 찾는다.
@@ -545,3 +562,30 @@ console.log(
   } movements ago`
 );
 // → Your latest large movement was 5 movements ago
+*/
+
+// ※ some and every
+
+// EQUALITY
+console.log(movements); // → [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(movements.includes(-130)); // → true
+// 위와 같이, includes 메소드는 정확히 해당 값과 일치하는 요소의 유무를 나타낸다.
+
+// SOME: CONDITION
+// 특정 조건에 부합하는 요소의 유무를 알고 싶다면 some 메소드를 활용 가능하다.
+console.log(movements.some(mov => mov === -130)); // → true
+
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits); // → true
+
+// EVERY
+// 모든 배열 요소가 특정 조건에 부합하는지의 유무를 알고 싶다면 every 메소드를 활용 가능하다.
+console.log(movements.every(mov => mov > 0)); // → false
+console.log(account4.movements.every(mov => mov > 0)); // → true
+
+// Separate callback
+// 함수를 따로 정의한 후 이를 some, every, filter 등에 결합해서 사용할 수도 있다.
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit)); // → true
+console.log(movements.every(deposit)); // → false
+console.log(movements.filter(deposit)); // → [200, 450, 3000, 70, 1300]
