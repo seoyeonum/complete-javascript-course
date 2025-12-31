@@ -564,6 +564,7 @@ console.log(
 // → Your latest large movement was 5 movements ago
 */
 
+/*
 // ※ some and every
 
 // EQUALITY
@@ -589,3 +590,40 @@ const deposit = mov => mov > 0;
 console.log(movements.some(deposit)); // → true
 console.log(movements.every(deposit)); // → false
 console.log(movements.filter(deposit)); // → [200, 450, 3000, 70, 1300]
+*/
+
+// ※ flat and flatMap
+
+// 1) flat
+// : callback 함수 없이 배열을 (1레벨에 한하여) flat 하게 만들 수 있다.
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat()); // → [1, 2, 3, 4, 5, 6, 7, 8]
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat()); // → [[Array(2)], 3, 4, Array(2), 7, 8]
+
+// 중첩된 정도가 깊다면, flat 의 depth를 인수로 지정할 수 있다.
+console.log(arrDeep.flat(2)); // → [[Array(2)], 3, 4, Array(2), 7, 8]
+
+// bankist 앱에서의 모든 입출금 내역을 flat하여 합산하고 싶다면,
+// const accountMovements = accounts.map(acc => acc.movements);
+// console.log(accountMovements); // → [Array(8), Array(8), Array(8), Array(5)]
+// const allMovements = accountMovements.flat();
+// console.log(allMovements); // → [200, 450, -400, 3000, ... , 1000, 700, 50, 90]
+// const overalBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
+// console.log(overalBalance); // → 17840
+
+// chaining 활용하여 모든 입출금 내역 합산
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance); // → 17840
+
+// 2) flatMap
+// map 거친 후 flat 작업까지 수행하는 메서드
+// 단, flat 과 달리 1레벨만큼의 flat 만 가능하므로, 중첩 정도가 크다면 flat 이용해야!
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance2); // → 17840
