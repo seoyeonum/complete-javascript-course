@@ -241,6 +241,7 @@ btnClose.addEventListener('click', function (e) {
 
   inputCloseUsername.value = inputClosePin.value = '';
 });
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -592,6 +593,7 @@ console.log(movements.every(deposit)); // → false
 console.log(movements.filter(deposit)); // → [200, 450, 3000, 70, 1300]
 */
 
+/*
 // ※ flat and flatMap
 
 // 1) flat
@@ -627,3 +629,40 @@ const overalBalance2 = accounts
   .flatMap(acc => acc.movements)
   .reduce((acc, mov) => acc + mov, 0);
 console.log(overalBalance2); // → 17840
+*/
+
+// ※ Sorting Arrays
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+
+// Strings
+// sort: 알파벳 순 정렬, 원본 배열 변경
+console.log(owners.sort()); // → ['Adam', 'Jonas', 'Martha', 'Zach']
+console.log(owners); // → ['Adam', 'Jonas', 'Martha', 'Zach']
+
+// Numbers
+console.log(movements); // → [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(movements.sort()); // → [-130, -400, -650, 1300, 200, 3000, 450, 70]
+// : sort 메소드는 문자열 기반 정렬을 수행한다.
+
+// sort의 callback 함수에서
+// return < 0 → a가 b보다 먼저 정렬(A, B) (keep order)
+// return = 0 → (keep order)
+// return > 0 → b가 a보다 먼저 정렬(B, A) (switch order)
+
+// Ascending
+// movements.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (b > a) return -1;
+// });
+movements.sort((a, b) => a - b);
+console.log(movements);
+// → [-650, -400, -130, 70, 200, 450, 1300, 3000]
+
+// Descending
+// movements.sort((a, b) => {
+//   if (a > b) return -1;
+//   if (b > a) return 1;
+// });
+movements.sort((a, b) => b - a);
+console.log(movements);
+// → [3000, 1300, 450, 200, 70, -130, -400, -650]
