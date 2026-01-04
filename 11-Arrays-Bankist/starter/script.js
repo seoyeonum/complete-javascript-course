@@ -682,6 +682,7 @@ console.log(movements);
 // → [3000, 1300, 450, 200, 70, -130, -400, -650]
 */
 
+/*
 // ※ Array Grouping
 
 console.log(movements);
@@ -716,3 +717,57 @@ console.log(groupedAccounts);
 // {premium: [{owner: 'Jonas Schmedtmann', ...}, {owner: 'Steven Thomas Williams', ...}],
 // standard: {owner: 'Jessica Davis', ...},
 // basic: [{owner: 'Sarah Smith', ...}]}
+*/
+
+// ※ More Ways of Creating and Filling Arrays
+// (empty arrays and fill methods)
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+// →[1, 2, 3, 4, 5, 6, 7]
+
+// new Array 생성자에 인수를 하나만 건네면 빈 배열이 생성된다.
+const x = new Array(7);
+console.log(x); // → [empty × 7]
+
+console.log(x.map(() => 5)); // → [empty × 7]
+// 빈 배열에 인수를 채우기 위해서는 map이 아닌 fill 이 필요하다.
+
+// 1) Array.fill
+// fill은 원본 배열을 변경한다.
+// x.fill(1);
+// console.log(x); // → [1, 1, 1, 1, 1, 1, 1]
+
+// fill(채울 요소, 첫 인덱스, 끝 인덱스)
+x.fill(1, 3, 5);
+console.log(x); // → [empty × 3, 1, 1, empty × 2]
+
+// 기존 배열 요소의 변경도 가능하다.
+arr.fill(23, 4, 6);
+console.log(arr); // → [1, 2, 3, 4, 23, 23, 7]
+
+// 2) Array.from
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y); // → [1, 1, 1, 1, 1, 1, 1]
+
+// Underbar(_)는 버려지는 변수를 의미한다.
+// const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z); // → [1, 2, 3, 4, 5, 6, 7]
+
+// API로부터 data를 받아오는 대신,
+// 화면에 그려진 data를 가져와 배열 만들기
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'), // 쿼리 선택자로 배열 요소 가져와
+    el => Number(el.textContent.replace('€', '')) // 콜백 함수로 유로 기호 제거
+  );
+
+  console.log(movementsUI);
+  // → [1300, 70, -130, -650, 3000, -400, 450, 200]
+
+  // 아래와 같이 spread operator 를 활용하는 방법도 있다.
+  // const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+  // console.log(movementsUI2);
+});
