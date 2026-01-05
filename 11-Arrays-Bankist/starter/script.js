@@ -719,6 +719,7 @@ console.log(groupedAccounts);
 // basic: [{owner: 'Sarah Smith', ...}]}
 */
 
+/*
 // ※ More Ways of Creating and Filling Arrays
 // (empty arrays and fill methods)
 
@@ -771,3 +772,35 @@ labelBalance.addEventListener('click', function () {
   // const movementsUI2 = [...document.querySelectorAll('.movements__value')];
   // console.log(movementsUI2);
 });
+*/
+
+// ※ Non-Destructive Alternatives: toReversed, toSorted, toSpliced, with
+
+console.log(movements);
+// → [200, 450, -400, 3000, -650, -130, 70, 1300]
+
+// 1) toReversed
+// slice 한 뒤 reverse 하면 원본 배열이 훼손되지 않는다. (non-destructive)
+// const reversedMov = movements.slice().reverse();
+
+// 위 코드를 간결히 만든 메소드가 toReversed 이다.
+const reversedMov = movements.toReversed();
+
+console.log(reversedMov);
+// → [1300, 70, -130, -650, 3000, -400, 450, 200]
+console.log(movements);
+// → [200, 450, -400, 3000, -650, -130, 70, 1300]
+
+// 2) toSorted (sort), toSpliced (splice) 역시 유사한 방식으로 작동한다.
+
+// 3) with
+// movements[1] = 2000;
+// console.log(movements);
+// → [200, 2000, -400, 3000, -650, -130, 70, 1300]
+
+// with 배열 사용 시 원본 배열은 훼손되지 않는다.
+const newMovements = movements.with(1, 2000);
+console.log(newMovements);
+// → [200, 2000, -400, 3000, -650, -130, 70, 1300]
+console.log(movements);
+// → [200, 450, -400, 3000, -650, -130, 70, 1300]
