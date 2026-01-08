@@ -164,7 +164,7 @@ btnLogin.addEventListener('click', function (e) {
   );
   console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
@@ -182,7 +182,7 @@ btnLogin.addEventListener('click', function (e) {
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const receiverAcc = accounts.find(
     acc => acc.username === inputTransferTo.value
   );
@@ -206,7 +206,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = +inputLoanAmount.value;
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -223,7 +223,7 @@ btnClose.addEventListener('click', function (e) {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
@@ -251,3 +251,57 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+// ※ Converting and Checking Numbers
+console.log(23 === 23.0); // → true
+
+// Base 10 - 0 to 9. 1/10 - 0.1 3/10 = 3.333333
+// Binary base 2 - 0 1
+console.log(0.1 + 0.2);
+console.log(0.1 + 0.2 === 0.3); // → false
+// 이진법에서는 0.1을 표현했을 때 위와 같은 문제가 발생한다.
+// (이는 JavaScript의 오류이므로, 받아들여야 한다.)
+
+// 1) Number() - 명시적 형변환
+console.log(Number('23')); // → 23
+
+// 2) '+' - 암묵적 형변환
+console.log(+'23'); // → 23
+// '+'를 붙이면 type coercion(자동 형변환)에 따라 숫자로 변환
+
+// 3) Parsing
+console.log(Number.parseInt('30px', 10)); // → 30
+console.log(Number.parseInt('e23', 10)); // → NaN
+// Parsing 은 숫자만을 찾아 변환한다. 단, 숫자로 시작해야만 가능하다.
+// parseInt(문자열, 진법) : 진법 생략 시 10진법 적용되나 명시하는 게 오류를 피할 수 있다.
+
+console.log(Number.parseFloat('   2.5rem   ')); // → 2.5
+console.log(Number.parseInt('   2.5rem   ')); // → 2.5
+// 문자열 공백은 무시된다.
+
+// console.log(parseFloat('   2.5rem   ')); // → 2.5
+// parsing 메소드는 global functions 이므로 Number을 생략할 수 있으나,
+// 이는 오래된 방식이므로, Number Object과 함께 호출하는 방식을 권장.
+
+// 4) isNaN
+// Checking if value is NaN
+console.log(Number.isNaN(20)); // → false
+console.log(Number.isNaN('20')); // → false
+console.log(Number.isNaN(+'20X')); // → true
+
+console.log(23 / 0); // → Infinity
+console.log(Number.isNaN(23 / 0)); // → false (무한대도 NaN는 아니므로..!)
+
+// 5) isFinite
+// Checking if value is number
+console.log(Number.isFinite(20)); // → true
+console.log(Number.isFinite('20')); // → false
+console.log(Number.isFinite(+'20X')); // → false
+console.log(Number.isFinite(23 / 0)); // → false
+// 어떤 값이 숫자인지 확인하는 가장 적합한 method
+
+// 6) isInteger
+// 어떤 값이 정수인지 여부만을 확인한다면 isInteger도 적합하다.
+console.log(Number.isInteger(23)); // → true
+console.log(Number.isInteger(23.0)); // → true
+console.log(Number.isInteger(23 / 0)); // → false
