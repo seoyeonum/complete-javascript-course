@@ -308,6 +308,7 @@ console.log(Number.isInteger(23.0)); // → true
 console.log(Number.isInteger(23 / 0)); // → false
 */
 
+/*
 // ※ Math and Rounding
 
 // 1) sqrt (square root)
@@ -360,3 +361,40 @@ console.log((2.345).toFixed(2)); // → 2.35(문자열)
 console.log(+(2.345).toFixed(2)); // → 2.35(숫자)
 // String methods 와 유사하게,
 // 원시형(primitive)은 자동으로 Boxing 되어 Math형태가 되므로, 메소드를 바로 쓸 수 있다.
+*/
+
+// ※ The Remainder Operator (나머지 연산자)
+
+console.log(5 % 2); // → 1
+console.log(5 / 2); // → 2.5
+// 5 = 2 * 2 + 1
+
+console.log(8 % 3); // → 2
+console.log(8 / 3); // 2.6666666666666665
+// 8 = 2 * 3 + 2
+
+// even: 0, 2, 4, 6, 8, 10, ...
+// odd: 1, 3, 5, 7, 9, ...
+
+console.log(6 % 2); // → 0
+console.log(6 / 2); // → 3
+
+console.log(7 % 2); // → 1
+console.log(7 / 2); // → 3.5
+
+// 홀짝 확인 함수
+const isEven = n => n % 2 === 0;
+
+console.log(isEven(8)); // → true
+console.log(isEven(23)); // → false
+console.log(isEven(514)); // → true
+
+// (로그인 후) 잔액 클릭 시, 짝수 행 배경 칠하기
+labelBalance.addEventListener('click', function () {
+  [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
+    // 0, 2, 4, 6, ...
+    if (i % 2 === 0) row.style.backgroundColor = 'orangered';
+    // 0, 3, 6, 9, ...
+    if (i % 3 === 0) row.style.backgroundColor = 'blue';
+  });
+});
