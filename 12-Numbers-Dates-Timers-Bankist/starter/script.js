@@ -363,6 +363,7 @@ console.log(+(2.345).toFixed(2)); // → 2.35(숫자)
 // 원시형(primitive)은 자동으로 Boxing 되어 Math형태가 되므로, 메소드를 바로 쓸 수 있다.
 */
 
+/*
 // ※ The Remainder Operator (나머지 연산자)
 
 console.log(5 % 2); // → 1
@@ -398,3 +399,30 @@ labelBalance.addEventListener('click', function () {
     if (i % 3 === 0) row.style.backgroundColor = 'blue';
   });
 });
+*/
+
+// ※ Numeric Seperator (ES2021 이후 버전)
+// 큰 숫자를 "_" 로 구분하여 가독성을 높여줌
+
+// 287,460,000,000
+const diameter = 287_460_000_000;
+console.log(diameter); // → 287460000000
+// 실제로 _는 무시된 채 log된다. (개발자 가독성만 높여줌)
+
+const price = 345_99;
+console.log(price);
+
+const transferFee1 = 15_00;
+const transferFee2 = 1_500;
+// 밑줄 만으로는 의미를 다르게 해석할 여지가 있다.
+
+// const PI = 3._1415;
+const PI = 3.1415;
+console.log(PI); // 3.1415
+// 숫자 맨 앞, 소수점과 인접한 위치 등에 _를 사용할 경우 에러 발생
+
+console.log(Number('230_000')); // → NaN
+// 위 경우 숫자를 제대로 작성해주어야 변환이 가능하다.
+
+console.log(parseInt('230_000')); // → 230
+// 문자가 포함된 부분 직전까지만 Parsing 된다.
