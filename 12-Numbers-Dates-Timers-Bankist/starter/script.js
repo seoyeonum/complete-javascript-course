@@ -429,6 +429,7 @@ console.log(parseInt('230_000')); // → 230
 // 문자가 포함된 부분 직전까지만 Parsing 된다.
 */
 
+/*
 // ※ Working with BigInt (ES2020+)
 
 console.log(2 ** 53 - 1); // → 9007199254740991
@@ -481,3 +482,54 @@ console.log(huge + ' is REALLY big!!!');
 // Divisions
 console.log(10n / 3n); // → 3n (소수점 부분이 잘림)
 console.log(10 / 3); // → 3.3333333333333335
+*/
+
+// ※ Creating Dates
+/*
+// 현재 시각 가져오기
+const now = new Date();
+console.log(now);
+// → Mon Jan 12 2026 16:13:51 GMT+0900 (한국 표준시)
+
+// 직접 작성하기
+console.log(new Date('Mon Jan 12 2026 16:12:23'));
+// → Mon Jan 12 2026 16:12:23 GMT+0900 (한국 표준시)
+console.log(new Date('December 24, 2015'));
+// → Thu Dec 24 2015 00:00:00 GMT+0900 (한국 표준시)
+
+console.log(new Date(account1.movementsDates[0]));
+// → Tue Nov 19 2019 06:31:17 GMT+0900 (한국 표준시)
+
+console.log(new Date(2037, 10, 19, 15, 23, 5));
+// → Thu Nov 19 2037 15:23:05 GMT+0900 (한국 표준시)
+// (JavaScript에서 Month 는 0~11로 구성)
+
+console.log(new Date(2037, 10, 33));
+// → Thu Dec 03 2037 00:00:00 GMT+0900 (한국 표준시)
+// (초과된 일자에 대해서는 자동으로 정상 날짜로 변환)
+
+console.log(new Date(0));
+// → Thu Jan 01 1970 09:00:00 GMT+0900 (한국 표준시)
+console.log(new Date(3 * 24 * 60 * 60 * 1000)); // 259200000 이 값을 TimeStamp라고 부른다.
+// → Sun Jan 04 1970 09:00:00 GMT+0900 (한국 표준시)
+
+*/
+// Working with dates
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future); // → Thu Nov 19 2037 15:23:05 GMT+0900 (한국 표준시)
+console.log(future.getFullYear()); // → 2037
+console.log(future.getMonth()); // → 10
+console.log(future.getDate()); // → 19
+console.log(future.getDay()); // → 4
+console.log(future.getHours()); // → 15
+console.log(future.getMinutes()); // → 23
+console.log(future.getSeconds()); // → 0
+console.log(future.toISOString()); // → 2037-11-19T06:23:00.000Z
+console.log(future.getTime()); // → 2142224580000
+
+console.log(new Date(2142224580000)); // → Thu Nov 19 2037 15:23:00 GMT+0900 (한국 표준시)
+
+console.log(Date.now()); // → 1768202807004
+
+future.setFullYear(2040);
+console.log(future); // → Mon Nov 19 2040 15:23:00 GMT+0900 (한국 표준시)
