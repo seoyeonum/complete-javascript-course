@@ -401,6 +401,7 @@ labelBalance.addEventListener('click', function () {
 });
 */
 
+/*
 // ※ Numeric Seperator (ES2021 이후 버전)
 // 큰 숫자를 "_" 로 구분하여 가독성을 높여줌
 
@@ -426,3 +427,57 @@ console.log(Number('230_000')); // → NaN
 
 console.log(parseInt('230_000')); // → 230
 // 문자가 포함된 부분 직전까지만 Parsing 된다.
+*/
+
+// ※ Working with BigInt (ES2020+)
+
+console.log(2 ** 53 - 1); // → 9007199254740991
+console.log(Number.MAX_SAFE_INTEGER); // → 9007199254740991
+// (자바스크립트가 표현할 수 있는 가장 큰 숫자)
+
+console.log(2 ** 53 + 1); // → 9007199254740992
+// (자바스크립트가 정확한 답을 표현할 수 없어짐.)
+
+// 데이터베이스 ID 혹은 실제 60비트 숫자 이상을 사용 시 더 큰 숫자가 필요하다.
+// ES2020+부터는 BigInt가 추가되어 더 큰 숫자를 쓸 수 있게 됐다.
+
+// 1) 끝에 n 붙이기
+console.log(92073825087459872436873469742395n);
+// (숫자만 썼을 때) → 9.207382508745987e+31
+// (끝에 n 붙일 때) → 92073825087459872436873469742395n
+
+// 2) BigInt 생성자 활용하기 (BigInt로 변환)
+console.log(BigInt(92073825087));
+// → 92073825087n
+
+// Operations
+console.log(10000n + 10000n);
+// → 20000n
+console.log(987452947359287019803487109n * 10000000n);
+// → 9874529473592870198034871090000000n
+// console.log(Math.sqrt(16n));
+// → Cannot convert a BigInt value to a number at Math.sqrt
+
+const huge = 23423987089082507358n;
+const num = 23;
+console.log(huge * BigInt(num));
+// → 538751703048897669234n
+
+// Exceptions
+// 1) 논리연산자
+console.log(20n > 15); // → ture
+console.log(20n === 20); // → false
+// === 의 경우, type coercion 이 적용되지 않는다.
+console.log(typeof 20n); // → bigint
+
+console.log(20n == '20'); // → ture
+// == 의 경우, type coercion 이 적용된다.
+
+// 2) 문자 결합(concat)
+console.log(huge + ' is REALLY big!!!');
+// → 23423987089082507358 is REALLY big!!!
+// BigInt 라도 잘 표현된다.
+
+// Divisions
+console.log(10n / 3n); // → 3n (소수점 부분이 잘림)
+console.log(10 / 3); // → 3.3333333333333335
