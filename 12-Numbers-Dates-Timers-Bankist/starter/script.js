@@ -81,7 +81,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const formatMovement = function (date) {
+const formatMovement = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
@@ -91,13 +91,13 @@ const formatMovement = function (date) {
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
-  else {
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const year = date.getFullYear();
 
-    return `${day}/${month}/${year}`;
-  }
+  // const day = `${date.getDate()}`.padStart(2, '0');
+  // const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  // const year = date.getFullYear();
+
+  // return `${day}/${month}/${year}`;
+  return new Intl.DateTimeFormat(locale).format(date);
 };
 
 const displayMovements = function (acc, sort = false) {
@@ -116,7 +116,7 @@ const displayMovements = function (acc, sort = false) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(movementDate);
-    const displayDate = formatMovement(date);
+    const displayDate = formatMovement(date, acc.locale);
 
     const html = `
       <div class="movements__row">
@@ -190,7 +190,20 @@ currentAccount = account1;
 updateUI(currentAccount);
 containerApp.style.opacity = 100;
 
-// day/month/year
+// Experimenting API
+const now = new Date();
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'numeric', // 'long', '2-digit', ...
+  year: 'numeric', // '2-digit', ...
+  weekday: 'long', // 'short'
+};
+const locale = navigator.language;
+console.log(locale); // → ko-KR
+labelDate.textContent = new Intl.DateTimeFormat('ko-KR', options).format(now);
+// (ISO Language Code 확인 후 적용)
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -210,12 +223,27 @@ btnLogin.addEventListener('click', function (e) {
 
     // Create current date and time
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, '0');
-    const month = `${now.getMonth() + 1}`.padStart(2, '0');
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, '0');
-    const min = `${now.getMinutes()}`.padStart(2, '0');
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric', // 'long', '2-digit', ...
+      year: 'numeric', // '2-digit', ...
+      // weekday: 'long', // 'short'
+    };
+    // const locale = navigator.language;
+    // console.log(locale); // → ko-KR
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(now);
+    // (ISO Language Code 확인 후 적용)
+    // const day = `${now.getDate()}`.padStart(2, '0');
+    // const month = `${now.getMonth() + 1}`.padStart(2, '0');
+    // const year = now.getFullYear();
+    // const hour = `${now.getHours()}`.padStart(2, '0');
+    // const min = `${now.getMinutes()}`.padStart(2, '0');
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -589,6 +617,7 @@ future.setFullYear(2040);
 console.log(future); // → Mon Nov 19 2040 15:23:00 GMT+0900 (한국 표준시)
 */
 
+/*
 // ※ Operations with Dates
 const future = new Date(2037, 10, 19, 15, 23);
 console.log(Number(future)); // → 2142224580000
@@ -600,3 +629,4 @@ const calcDaysPassed = (date1, date2) =>
 
 const days1 = calcDaysPassed(new Date(2037, 3, 4), new Date(2037, 3, 14));
 console.log(days1); // → 10
+*/
