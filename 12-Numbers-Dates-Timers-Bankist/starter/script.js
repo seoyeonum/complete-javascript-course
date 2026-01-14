@@ -302,14 +302,17 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
+    // Timer 추가로 Loan 요청 시 딜레이 시간 두기(2.5초)
+    setTimeout(function () {
+      // Add movement
+      currentAccount.movements.push(amount);
 
-    // Add Loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add Loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
@@ -646,6 +649,9 @@ const days1 = calcDaysPassed(new Date(2037, 3, 4), new Date(2037, 3, 14));
 console.log(days1); // → 10
 */
 
+/*
+// ※ Internationalizing Numbers (Intl)
+
 const num = 13242414.324;
 
 const option = {
@@ -668,3 +674,26 @@ console.log(
   navigator.language,
   new Intl.NumberFormat(navigator.language).format(num)
 );
+*/
+
+// ※ Timers: setTimeout and setInterval
+// setTimeout
+const ingredients = ['olives', 'spinach'];
+const pizzaTimer = setTimeout(
+  (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2} 🍕`),
+  3000,
+  ...ingredients
+); // (3초 뒤 출력)
+console.log('Waiting...');
+// Background에서 타이머를 실행하며 다음 코드를 수행 (비동기 JS)
+// 밀리초 이후 parameter는 설정한 밀리초 이후 같이 전달되어 활용 가능!
+
+if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
+// (3초 이후에도 반응이 없다.)
+
+// setInterval
+// setInterval(function () {
+//   const now = new Date();
+//   console.log(now);
+//   console.log(now.getDate()); // 현재 날짜를 실시간으로 반영 가능
+// }, 3000); // 매 3초마다 실행
