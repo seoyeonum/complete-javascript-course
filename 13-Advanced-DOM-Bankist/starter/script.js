@@ -87,3 +87,68 @@ document
     // 이전에는 아래와 같은 방법(DOM traversing)을 이용했다.
     // message.parentElement.removeChild(message);
   });
+
+// ※ Styles, Attributes and Classes
+// Styles (inline styles)
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+
+console.log(message.style.height); // → (아무것도 나오지 않는다.)
+console.log(message.style.color); // → (아무것도 나오지 않는다.)
+console.log(message.style.backgroundColor); // → rgb(55, 56, 61)
+// 직접 inline 설정한 값은 출력되지만,
+// 참조해온 값이나 명시되지 않은 값은 출력되지 않는다.
+// 실제 적용된 스타일 값을 찾아오기 위해서는, getComputedStyle을 통해 접근 가능하다.
+console.log(getComputedStyle(message).color); // → rgb(187, 187, 187)
+console.log(getComputedStyle(message).height); // → 49px
+
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height) + 30 + 'px';
+
+document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+// Attributes
+const logo = document.querySelector('.nav__logo');
+
+console.log(logo.alt); // → Bankist logo
+console.log(logo.src); // → http://127.0.0.1:8080/img/logo.png
+console.log(logo.className); // → nav__logo
+// 각 element에 있어야하는 표준 속성(standard)에 한해서만
+// 위 방식으로 속성을 찾아올 수 있다.
+
+logo.alt = 'Beautiful mininalist logo';
+
+// Non-standard
+console.log(logo.designer); // → undefined
+console.log(logo.getAttribute('designer')); // → Jonas
+logo.setAttribute('company', 'Bankist');
+
+console.log(logo.src); // → http://127.0.0.1:8080/img/logo.png (절대경로로 출력)
+console.log(logo.getAttribute('src')); // → img/logo.png (상대경로(있는 그대로)로 출력)
+
+const link = document.querySelector('.twitter-link');
+console.log(link.href); // → https://twitter.com/jonasschmedtman (절대경로로 출력)
+console.log(link.getAttribute('href')); // → https://twitter.com/jonasschmedtman (절대경로로 출력)
+// a 태그의 경우 둘 다 절대 경로로 출력
+
+// 단, a 태그라도 아래와 같이 출력되기도 한다.
+const link2 = document.querySelector('.nav__link--btn');
+console.log(link2.href); // → http://127.0.0.1:8080/# (절대경로로 출력)
+console.log(link2.getAttribute('href')); // → # (상대경로(있는 그대로)로 출력)
+
+// Data attributes
+// : HTML에서 data-version-number="3.0" 의 속성을 남길 경우,
+// dataset으로 접근해 해당 값을 가져올 수 있다.
+// (JS에서 접근 시 속성명은 Camel Case 사용해야 함에 유의)
+console.log(logo.dataset.versionNumber); // → 3.0
+
+// Classes
+logo.classList.add('c', 'j'); // DOM 요소에 지정한 클래스 값 추가 (이미 있으면 중복 추가 X)
+logo.classList.remove('c', 'j'); // DOM 요소에 지정한 클래스 값 제거 (이미 없으면 제거 X)
+logo.classList.toggle('c'); // DOM 요소에 지정한 클래스 값이 없으면 추가하고, 있으면 제거
+logo.classList.contains('c'); // DOM 요소에 지정한 클래스 값이 있는지 체크 (not 'includes')
+
+// Don't use
+// logo.className = 'jonas';
+// 위와 같은 방식으로 지정 시 모든 className 이 'jonas'로 override
+// 따라서, 위 방식은 지양해야 한다.
