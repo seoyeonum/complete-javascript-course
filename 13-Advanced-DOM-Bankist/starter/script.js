@@ -198,3 +198,70 @@ btnScrollTo.addEventListener('click', function (e) {
   // 최신 브라우저라면,
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+// ※ Types of Events and Event Handlers
+const h1 = document.querySelector('h1');
+const alertH1 = function (e) {
+  alert('addEventListener: Great! You are reading the heading :D');
+  // h1.removeEventListener('mouseenter', alertH1); // 실행 후 삭제
+};
+
+h1.addEventListener('mouseenter', alertH1);
+
+// EventListener 삭제는 코드 어디에서나 가능하다.
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+
+// old school way 1
+// h1.onmouseenter = function (e) {
+//   alert('addEventListener: Great! You are reading the heading :D');
+// };
+
+// old school way 2
+// HTML element tag 안에 직접 명시
+
+// 다른 방법 대신 addEventListener를 사용하는 이유(addEventListener의 장점)
+// 1. 동일한 이벤트에 여러 이벤트 리스너를 추가할 수 있다.
+// 2. 이벤트핸들러가 더 이상 필요하지 않을 경우 제거할 수 있다.
+
+// ※ Event Propagation in Practice (*propagation: 전달)
+
+// rgb(255,255,255)
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+// console.log(randomColor());
+
+// addEventListener 는 event의 캡쳐 단계의 이벤트는 수신하지 못하고,
+// bubbling 단계의 이벤트는 수신함.
+
+// .nav__link
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  console.log('LINK');
+  this.style.backgroundColor = randomColor();
+  console.log('LINK', e.target, e.currentTarget);
+  console.log(e.currentTarget === this);
+
+  // Stop propagation
+  // 사용하지 않음이 좋으나, 알아는 두자!
+  // e.stopPropagation();
+});
+
+// .nav__links
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  console.log('LINK');
+  this.style.backgroundColor = randomColor();
+  console.log('CONTAINER', e.target, e.currentTarget);
+});
+
+// .nav
+document.querySelector('.nav').addEventListener(
+  'click',
+  function (e) {
+    console.log('LINK');
+    this.style.backgroundColor = randomColor();
+    console.log('NAV', e.target, e.currentTarget);
+  },
+  false
+);
+// 기본값은 false. (true 지정 시, 캡쳐 단계에서의 이벤트까지만 수신함)
