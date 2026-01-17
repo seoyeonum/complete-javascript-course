@@ -90,7 +90,7 @@ btnScrollTo.addEventListener('click', function (e) {
 //   });
 // });
 
-// ※ Event Delegation
+// ※ Event Delegation (*delegation: 위임)
 // 1. Add event listener to common parent element
 // 2. Determine what element originated the event
 
@@ -294,3 +294,44 @@ document.querySelector('.nav').addEventListener(
 );
 // 기본값은 false. (true 지정 시, 캡쳐 단계에서의 이벤트까지만 수신함)
 */
+
+// ※ DOM Traversing (*traverse: 횡단하다, 탐색하다)
+// : 다른 요소를 기반으로 다른 요소를 선택하는 것
+
+const h1 = document.querySelector('h1');
+
+// 1) Going downwards: child
+console.log(h1.querySelectorAll('.highlight')); // → NodeList(2)
+console.log(h1.childNodes); // → NodeList(9)
+console.log(h1.children); // → HTMLCollection(3)
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'orangered';
+
+// 2) Going upwards: parents
+console.log(h1.parentNode); // → <div class="header__title">...</div>
+console.log(h1.parentElement); // → <div class="header__title">...</div>
+// 위 경우, parentNode도 element 이기 때문에 동일한 값이 출력
+
+// ※ element.closest
+// : 수많은 상위(부모) 요소 중 바로 위 요소 찾기 (클래스, 아이디 등으로)
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// "가장 가깝다"는 본인 요소를 포함한다.
+h1.closest('h1').style.background = 'var(--gradient-primary)';
+// .closest ↔ .querySelector
+
+// 3) Going sideways: siblings
+// 직계 형제 요소만 가져올 수 있다.
+console.log(h1.previousElementSibling);
+// → null
+console.log(h1.nextElementSibling);
+// → <h4>A simpler banking experience for a simpler life.</h4>
+
+// node 형태로도 찾을 수 있다.
+console.log(h1.previousSibling); // → #text
+console.log(h1.nextSibling); // → #text
+
+// 모든 형제 요소를 가져오기 위해서는, 요소.부모.자녀 로 탐색!
+console.log(h1.parentElement.children); // → HTMLCollection(4)
+[...h1.parentElement.children].forEach(function (el) {
+  if (el !== h1) el.style.transform = 'scale(0.5)';
+});
