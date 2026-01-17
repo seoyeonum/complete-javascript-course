@@ -1,12 +1,14 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
-
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+///////////////////////////////////////
+// Modal window
 
 const openModal = function (e) {
   e.preventDefault();
@@ -33,6 +35,76 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+///////////////////////////////////////////////////////////
+// Button scrolling
+btnScrollTo.addEventListener('click', function (e) {
+  // 1) getBoundingClientRect
+  // : 현재 좌표 출력 (*coordinate: 좌표)
+  // 언제나 y == height, x == left 이며, 그 값은 viewport 에 따라 상대적이다.
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+  console.log(e.target.getBoundingClientRect());
+
+  // 2) window.scrollX, scrollY
+  // : 스크롤 정도 출력
+  console.log('Current scroll (X/Y)', window.scrollX, window.scrollY);
+  // window.pageXOffset and pageYOffset are deprecated now.
+
+  // 3) document.documentElement.clientHeight, clientWidth
+  // : 현재 viewport의 높이/너비 출력
+  console.log(
+    'height/width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth,
+  );
+
+  // Scrolling
+  // window.scrollTo(
+  //   s1coords.left + window.scrollX,
+  //   s1coords.top + window.scrollY
+  // );
+  // 현 viewport 에서의 s1coords(Section1 좌표)의 시작지점 left와 top을 page(0,0) 위치에서 더해서 scroll
+  // + window.scrollx, window.scrollY
+  // (scroll position을 s1coords.left와 top에 더한 위치로 이동)
+  // (viewport에서 벗어난 영역만큼 더해주는 것!)
+
+  // window.scrollTo({
+  //   left: s1coords.left + window.scrollX,
+  //   top: s1coords.top + window.scrollY,
+  //   behavior: 'smooth', // 부드럽게 이동
+  // });
+
+  // 최신 브라우저라면,
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+///////////////////////////////////////////////////////////
+// Page navigation
+
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+// ※ Event Delegation
+// 1. Add event listener to common parent element
+// 2. Determine what element originated the event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  // console.log(e.target);
+  e.preventDefault();
+
+  // ※ Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    // console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 /*
@@ -154,51 +226,7 @@ logo.classList.contains('c'); // DOM 요소에 지정한 클래스 값이 있는
 // 따라서, 위 방식은 지양해야 한다.
 */
 
-// ※ Implement Smooth Scrolling
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-
-btnScrollTo.addEventListener('click', function (e) {
-  // 1) getBoundingClientRect
-  // : 현재 좌표 출력 (*coordinate: 좌표)
-  // 언제나 y == height, x == left 이며, 그 값은 viewport 에 따라 상대적이다.
-  const s1coords = section1.getBoundingClientRect();
-  console.log(s1coords);
-  console.log(e.target.getBoundingClientRect());
-
-  // 2) window.scrollX, scrollY
-  // : 스크롤 정도 출력
-  console.log('Current scroll (X/Y)', window.scrollX, window.scrollY);
-  // window.pageXOffset and pageYOffset are deprecated now.
-
-  // 3) document.documentElement.clientHeight, clientWidth
-  // : 현재 viewport의 높이/너비 출력
-  console.log(
-    'height/width viewport',
-    document.documentElement.clientHeight,
-    document.documentElement.clientWidth
-  );
-
-  // Scrolling
-  // window.scrollTo(
-  //   s1coords.left + window.scrollX,
-  //   s1coords.top + window.scrollY
-  // );
-  // 현 viewport 에서의 s1coords(Section1 좌표)의 시작지점 left와 top을 page(0,0) 위치에서 더해서 scroll
-  // + window.scrollx, window.scrollY
-  // (scroll position을 s1coords.left와 top에 더한 위치로 이동)
-  // (viewport에서 벗어난 영역만큼 더해주는 것!)
-
-  // window.scrollTo({
-  //   left: s1coords.left + window.scrollX,
-  //   top: s1coords.top + window.scrollY,
-  //   behavior: 'smooth', // 부드럽게 이동
-  // });
-
-  // 최신 브라우저라면,
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
-
+/*
 // ※ Types of Events and Event Handlers
 const h1 = document.querySelector('h1');
 const alertH1 = function (e) {
@@ -262,6 +290,7 @@ document.querySelector('.nav').addEventListener(
     this.style.backgroundColor = randomColor();
     console.log('NAV', e.target, e.currentTarget);
   },
-  false
+  false,
 );
 // 기본값은 false. (true 지정 시, 캡쳐 단계에서의 이벤트까지만 수신함)
+*/
