@@ -105,8 +105,39 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
+
+// Tabbed Component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// tabs.forEach(t => t.addEventListener('click', () => console.log('TAB')));
+// 똑같은 tab이 200개라면 동일한 함수가 200개 생성되며 웹이 느려질 것.
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  // console.log(clicked);
+
+  // Guard clause (가드 클로저)
+  // : 조건이 참이 아닐 경우 함수를 종료,
+  // 조건문을 단순화하고 코드 가독성을 높임
+  if (!clicked) return;
+
+  // Remove active classes
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+  clicked.classList.add('operations__tab--active');
+
+  // Activate content area
+  // console.log(clicked.dataset.tab);
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
+
 /*
 // ※ Selcting, Creating, and Deleting Elements
 console.log(document.documentElement);
@@ -295,6 +326,7 @@ document.querySelector('.nav').addEventListener(
 // 기본값은 false. (true 지정 시, 캡쳐 단계에서의 이벤트까지만 수신함)
 */
 
+/*
 // ※ DOM Traversing (*traverse: 횡단하다, 탐색하다)
 // : 다른 요소를 기반으로 다른 요소를 선택하는 것
 
@@ -335,3 +367,4 @@ console.log(h1.parentElement.children); // → HTMLCollection(4)
 [...h1.parentElement.children].forEach(function (el) {
   if (el !== h1) el.style.transform = 'scale(0.5)';
 });
+*/
