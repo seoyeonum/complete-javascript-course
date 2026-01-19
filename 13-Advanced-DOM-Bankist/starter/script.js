@@ -110,7 +110,7 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
   }
 });
 
-// Tabbed Component
+// ※ Tabbed Component
 
 // tabs.forEach(t => t.addEventListener('click', () => console.log('TAB')));
 // 똑같은 tab이 200개라면 동일한 함수가 200개 생성되며 웹이 느려질 것.
@@ -136,7 +136,7 @@ tabsContainer.addEventListener('click', function (e) {
     .classList.add('operations__content--active');
 });
 
-// Menu fade animation
+// ※ Menu fade animation
 // (1. 모든 event handler function은 단 한 개의 인수만을 가질 수 있다.)
 const handleHover = function (e) {
   // console.log(this, e.currentTarget);
@@ -158,6 +158,18 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 // mouseenter 은 event bubbling 이 발생 X (↔ mouseleave)
 // mouseover 은 event bubbling 이 발생한다는 차이가 있다. (↔ mouseout)
+
+// ※ Sticky navigation
+const initialCoords = section1.getBoundingClientRect();
+console.log(initialCoords);
+
+window.addEventListener('scroll', function () {
+  console.log(window.scrollY);
+  // scroll event 는 모든 스크롤 상황에서 발생하므로,
+  // (특히 모바일 환경에서) 성능이 매우 저하된다는 단점 존재.
+  if (this.window.scrollY > initialCoords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+});
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
