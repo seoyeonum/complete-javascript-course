@@ -160,16 +160,57 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 // mouseover 은 event bubbling 이 발생한다는 차이가 있다. (↔ mouseout)
 
 // ※ Sticky navigation
-const initialCoords = section1.getBoundingClientRect();
-console.log(initialCoords);
+// const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
 
-window.addEventListener('scroll', function () {
-  console.log(window.scrollY);
-  // scroll event 는 모든 스크롤 상황에서 발생하므로,
-  // (특히 모바일 환경에서) 성능이 매우 저하된다는 단점 존재.
-  if (this.window.scrollY > initialCoords.top) nav.classList.add('sticky');
+// window.addEventListener('scroll', function () {
+//   console.log(window.scrollY);
+//   // scroll event 는 모든 스크롤 상황에서 발생하므로,
+//   // (특히 모바일 환경에서) 성능이 매우 저하된다는 단점 존재.
+//   if (this.window.scrollY > initialCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+// ※ The Intersection Observer API
+// const obsCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// const obsOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// 1) threshold가 단일값의 경우
+// : intersectionRatio가 threshold에 도달했을 때 observe method 실행
+// 2) threshold가 배열의 경우
+// : intersectionRatio가 각 threshold에 도달했을 때 observe method 실행
+
+// *threshold(임계값, 한계점): 교차값(isIntersecting)이 true 가 되는 기준값(intersectionRatio)
+// *intersectionRatio: viewport(보이는 공간)에서 차지하는 비중
+
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+// console.log(navHeight);
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  // console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0, //%
+  rootMargin: `-${navHeight}px`, // %, rem (X) px (O)
 });
+headerObserver.observe(header);
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
