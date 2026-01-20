@@ -242,6 +242,41 @@ allSections.forEach(function (section) {
   section.classList.add('section--hidden'); // remove class 실행
 });
 
+// ※ Lazy loading images
+// (사양이 낮은 기기를 사용하는 사용자를 언제나 고려해야만 한다.)
+const imgTargets = document.querySelectorAll('img[data-src]');
+// console.log(imgTargets);
+// : img 중 data-src 속성을 가진 요소를 선택한다.
+
+// Callback function
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  // Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  // entry.target.classList.remove('lazy-img');
+  // 직접 클래스를 없애기 보다는, load 시 event를 추가하는 걸 권장.
+  // (데이터 속도가 느릴 경우, 저화질 이미지가 바로 노출될 수 있기 때문!)
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(entry.target);
+};
+
+// Observer
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
+
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
