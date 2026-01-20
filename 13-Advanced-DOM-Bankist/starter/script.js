@@ -212,6 +212,36 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 });
 headerObserver.observe(header);
 
+// ※ Reveal section
+const allSections = document.querySelectorAll('.section');
+
+// Callback Function
+const revealSection = function (entries, observer) {
+  // console.log(entries);
+  // const [entry] = entries; // destructuring assignment
+  // 보통 entry 하나만 받게 되어 쓰는 관례적 코드
+
+  // entry 가 동시에 여럿 들어오게 되는 경우 forEach 로 쓰는 것이 안전하다.
+  entries.forEach(entry => {
+    // Guard clause
+    if (!entry.isIntersecting) return; // 아무 것도 교차되지 않았다면, 아무것도 수행하지 말 것.
+
+    entry.target.classList.remove('section--hidden');
+    observer.unobserve(entry.target); // 해당 element를 더이상 관찰 X (다른 el은 관찰 유지)
+  });
+};
+
+// Observer
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null, // null 일 때 기준은 viewport
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section); // observer에게 관찰 예약을 걸어두는 것 (+ 특정 임계점 통과 시 콜백함수 비동기 호출)
+  section.classList.add('section--hidden'); // remove class 실행
+});
+
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
