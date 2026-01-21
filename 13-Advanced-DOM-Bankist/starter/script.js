@@ -604,3 +604,24 @@ console.log(h1.parentElement.children); // → HTMLCollection(4)
   if (el !== h1) el.style.transform = 'scale(0.5)';
 });
 */
+
+// ※ Lifecycle DOM events
+// *Lifecycle: 페이지에 처음 액세스했을 때부터 떠날 때까지
+
+// 1) DOMContent load 이후 실행
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML parsed and DOM tree built!', e);
+});
+
+// 2) window load 이후 실행
+window.addEventListener('load', function (e) {
+  console.log('Page fully loaded', e);
+});
+
+// 3) window 닫을 때 실행 (deprecated)
+// : 너무 많은 권한을 남용하는 개발자가 되지 말자.
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
