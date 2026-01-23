@@ -12,9 +12,9 @@ const Person = function (firstName, birthYear) {
   this.birthYear = birthYear;
 
   // Never do this
-  this.calcAge = function () {
-    console.log(2037 - this.birthYear);
-  };
+  // this.calcAge = function () {
+  //   console.log(2037 - this.birthYear);
+  // };
   // (instance 가 생성될 때마다 수없이 많은 함수 생성...)
   // (Prototype 상속을 통해 해결해야 한다!)
 };
@@ -38,3 +38,33 @@ const jay = 'Jay';
 
 console.log(jonas instanceof Person); // → true
 console.log(jay instanceof Person); // → false
+
+// ※ Prototypes
+console.log(Person.prototype);
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+jonas.calcAge(); // → 46
+matilda.calcAge(); // → 20
+
+// Object의 prototype 확인하기
+console.log(jonas.__proto__); // → {calcAge: ƒ}
+console.log(jonas.__proto__ === Person.prototype); // → true
+
+console.log(Person.prototype.isPrototypeOf(jonas)); // → true
+console.log(Person.prototype.isPrototypeOf(matilda)); // → true
+console.log(Person.prototype.isPrototypeOf(Person)); // → false
+
+// A.isPrototypeOf(B)
+// : A가 B의 프로토타입 체인 어딘가에 존재하는가?
+// (그래서 .prototypeOfLinkedObjects 가 더 정확한 느낌!)
+
+Person.prototype.species = 'Homo Sapiens';
+console.log(jonas.species, matilda.species);
+// → Homo Sapiens Homo Sapiens
+
+console.log(jonas.hasOwnProperty('firstName')); // → true
+console.log(jonas.hasOwnProperty('species')); // → false
+// jonas 객체 내부에 있는 것이 아니므로, false..!
