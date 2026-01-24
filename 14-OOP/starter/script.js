@@ -68,3 +68,31 @@ console.log(jonas.species, matilda.species);
 console.log(jonas.hasOwnProperty('firstName')); // → true
 console.log(jonas.hasOwnProperty('species')); // → false
 // jonas 객체 내부에 있는 것이 아니므로, false..!
+
+// ※ Prototypal Inheritance on Built-In Objects
+console.log(jonas.__proto__);
+
+// Object.prototype (top of prototype chain)
+console.log(jonas.__proto__.__proto__);
+console.log(jonas.__proto__.__proto__.__proto__); // → null
+
+console.dir(Person.prototype.constructor); // → ƒ Person(firstName, birthYear)
+
+const arr = [3, 6, 5, 4, 4, 5, 3]; // new Array === []
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype); // → true
+
+console.log(arr.__proto__.__proto__);
+
+// Add new method of Array
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique()); // → [3, 6, 5, 4]
+// (단, 혼자 진행하는 작은 프로젝트가 아닌 이상 위와 같은 방식은 지양하는 것이 좋다.)
+// 1) 이미 동일한 이름의 메서드가 존재할 수 있기 때문!
+// 2) 팀에서 작업 시 수많은 버그가 발생할 수 있기 때문!
+
+const h1 = document.querySelector('h1'); // 6~7단계로 구성된 prototype
+console.dir(x => x + 1);
