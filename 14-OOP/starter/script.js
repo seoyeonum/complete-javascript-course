@@ -1,6 +1,8 @@
 'use strict';
 
-/*
+// Array.from 은 Array Constructor 에 attached 된 함수이다.
+
+//////////////////////////////////////////////////
 // ※ Constructor Functions and the new Operator
 
 // Constructor Function은 대문자로 시작
@@ -39,6 +41,19 @@ const jay = 'Jay';
 
 console.log(jonas instanceof Person); // → true
 console.log(jay instanceof Person); // → false
+
+Person.hey = function () {
+  console.log('Hey there 🙌🏻');
+  console.log(this);
+};
+
+Person.hey();
+// →
+// Hey there 🙌🏻
+// ƒ (firstName, birthYear) {...}
+
+// jonas.hey(); // → Uncaught TypeError: jonas.hey is not a function
+// jonas 객체는 Person 객체의 hey()를 상속받지 못했다.
 
 // ※ Prototypes
 console.log(Person.prototype);
@@ -97,7 +112,6 @@ console.log(arr.unique()); // → [3, 6, 5, 4]
 
 const h1 = document.querySelector('h1'); // 6~7단계로 구성된 prototype
 console.dir(x => x + 1);
-*/
 
 // ※ ES6 Classes
 
@@ -112,6 +126,7 @@ class PersonCl {
     this.birthYear = birthYear;
   }
 
+  // Instance methods
   // class 내부, constructor 외부에 behavior 작성 시
   // Methods will be added to .prototype property
   calcAge() {
@@ -137,6 +152,12 @@ class PersonCl {
   // _변수명을 return 하기 위한 getter 생성성성
   get fullName() {
     return this._fullName;
+  }
+
+  // Static methods
+  static hey() {
+    console.log('Hey there 🙌🏻');
+    console.log(this);
   }
 }
 
@@ -164,8 +185,13 @@ jessica.greet(); // → Hey Jessica
 // 어느쪽이든, "프로토타입"과 "프로토타입의 상속"에 대해 이해하는 것이 중요하다..!
 
 // const walter = new PersonCl('Walter', 1965);
-//  → (alert) Walter is not a full name!
+// → (alert) Walter is not a full name!
 const walter = new PersonCl('Walter White', 1965);
+
+PersonCl.hey();
+// →
+// Hey there 🙌🏻
+// class PersonCl {...}
 
 // ※ Setters and Getters
 const account = {
