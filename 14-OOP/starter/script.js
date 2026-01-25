@@ -107,8 +107,8 @@ console.dir(x => x + 1);
 // class declaration
 // (class 도 일종의 function 이라고 이해하기!)
 class PersonCl {
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
@@ -121,11 +121,29 @@ class PersonCl {
   greet() {
     console.log(`Hey ${this.firstName}`);
   }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  // Set a property that already exists
+  set fullName(name) {
+    console.log(name);
+    // 기존 property 와 충돌을 피하고자 _변수명 으로 작성하는게 관례!
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  // _변수명을 return 하기 위한 getter 생성성성
+  get fullName() {
+    return this._fullName;
+  }
 }
 
-const jessica = new PersonCl('Jessica', 1996);
+const jessica = new PersonCl('Jessica Davis', 1996);
 console.log(jessica); // → PersonCl {firstName: 'Jessica', birthYear: 1996}
 jessica.calcAge(); // → 41
+console.log(jessica.age); // → 41
 
 console.log(jessica.__proto__ === PersonCl.prototype); // → true
 
@@ -144,3 +162,30 @@ jessica.greet(); // → Hey Jessica
 // (Class 를 사용하면, 시각적으로 모든 게 하나로 집합되어 있어 깔끔해보인다는 장점이 있다.)
 
 // 어느쪽이든, "프로토타입"과 "프로토타입의 상속"에 대해 이해하는 것이 중요하다..!
+
+// const walter = new PersonCl('Walter', 1965);
+//  → (alert) Walter is not a full name!
+const walter = new PersonCl('Walter White', 1965);
+
+// ※ Setters and Getters
+const account = {
+  owner: 'jonas',
+  movements: [200, 530, 120, 300],
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+// Getter & Setter 사용 시
+// 마치 property 인 것처럼 사용한다. (괄호X)
+// console.log(account.latest());
+console.log(account.latest); // → 300
+
+// account.latest(50);
+account.latest = 50;
+console.log(account.movements); // →(5) [200, 530, 120, 300, 50]
