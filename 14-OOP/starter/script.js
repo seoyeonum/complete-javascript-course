@@ -1,5 +1,6 @@
 'use strict';
 
+/*
 // ※ Constructor Functions and the new Operator
 
 // Constructor Function은 대문자로 시작
@@ -96,3 +97,50 @@ console.log(arr.unique()); // → [3, 6, 5, 4]
 
 const h1 = document.querySelector('h1'); // 6~7단계로 구성된 prototype
 console.dir(x => x + 1);
+*/
+
+// ※ ES6 Classes
+
+// class expression
+// const PersonCl = class {}
+
+// class declaration
+// (class 도 일종의 function 이라고 이해하기!)
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // class 내부, constructor 외부에 behavior 작성 시
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.firstName}`);
+  }
+}
+
+const jessica = new PersonCl('Jessica', 1996);
+console.log(jessica); // → PersonCl {firstName: 'Jessica', birthYear: 1996}
+jessica.calcAge(); // → 41
+
+console.log(jessica.__proto__ === PersonCl.prototype); // → true
+
+// PersonCl.prototype.greet = function () {
+//   console.log(`Hey ${this.firstName}`);
+// };
+jessica.greet(); // → Hey Jessica
+
+// **Class 를 활용하여 작업 시 주의할 점**
+// 1. Classes are NOT hoisted
+// 2. Class are first-class citizens
+// 3. Classes are executed in strict mode
+
+// constructor function 을 사용하는 것과 class 를 사용하는 것은
+// 온전히 개발자 취향의 차이이다.
+// (Class 를 사용하면, 시각적으로 모든 게 하나로 집합되어 있어 깔끔해보인다는 장점이 있다.)
+
+// 어느쪽이든, "프로토타입"과 "프로토타입의 상속"에 대해 이해하는 것이 중요하다..!
