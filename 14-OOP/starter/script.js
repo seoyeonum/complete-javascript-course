@@ -214,4 +214,31 @@ console.log(account.latest); // → 300
 
 // account.latest(50);
 account.latest = 50;
-console.log(account.movements); // →(5) [200, 530, 120, 300, 50]
+console.log(account.movements); // → (5) [200, 530, 120, 300, 50]
+
+// ※ Object.create
+// 가장 직관적으로 보이지만 실제로 가장 적게 사용하는 방식이기도 하다.
+
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+
+steven.name = 'Steven';
+steven.birthYear = 2002;
+steven.calcAge(); // → 35
+
+console.log(steven.__proto__ === PersonProto); // → true
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1979);
+sarah.calcAge(); // → 58
