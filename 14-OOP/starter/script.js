@@ -3,6 +3,7 @@
 // Array.from 은 Array Constructor 에 attached 된 함수이다.
 
 //////////////////////////////////////////////////
+/*
 // ※ Constructor Functions and the new Operator
 
 // Constructor Function은 대문자로 시작
@@ -242,3 +243,48 @@ console.log(steven.__proto__ === PersonProto); // → true
 const sarah = Object.create(PersonProto);
 sarah.init('Sarah', 1979);
 sarah.calcAge(); // → 58
+*/
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+// ※ Inheritance Between "Classes": Constructor Functions
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear); // call method (중요!!!)
+  this.course = course;
+};
+
+// Linking prototypes
+Student.prototype = Object.create(Person.prototype);
+// 이 시점에서 Student.prototype = {}
+
+// Student.prototype = Person.prototype
+// 이렇게 하지 않은 이유?
+// : 제대로된 prototype chain을 얻지 못한다.
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const mike = new Student('Mike', 2020, 'Coumputer Science');
+// console.log(mike);
+mike.introduce(); // → My name is Mike and I study Coumputer Scienc
+mike.calcAge(); // → 17
+
+console.log(mike.__proto__); // → Person {introduce: ƒ}
+console.log(mike.__proto__.__proto__); // → {calcAge: ƒ}
+
+console.log(mike instanceof Student); // → true
+console.log(mike instanceof Person); // → true
+console.log(mike instanceof Object); // → true
+
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor); // → ƒ Student(firstName, birthYear, course)
