@@ -392,48 +392,88 @@ jay.calcAge(); // → 27
 // ※ 실제 현실에서는 ES6 Classes(extend 키워드)를 사용하는 경우가 보편적이다!
 */
 
-// ※ Another Class Example
+// ※ Encapsulation
+// : Private Class Fields and Methods (ES2022)
+
+// 1) Public fields
+// 2) Private fields
+// 3) Public methods
+// 4) Private methods
+// STATIC version of these 4
 
 class Account {
+  // 1) Public fields : 필드 값과 이름만 입력하면 된다.
+  locale = navigator.language;
+  bank = 'Bankist';
+  // 2) Private fields : 필드명 앞에 #(해시태그) 붙이기
+  #movements = [];
+  #pin;
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
+    this.#pin = pin;
     this.movements = [];
-    this.locale = navigator.language;
+    // this.bank = 'Bankist';
+    // this.locale = navigator.language;
 
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
-  // Public interface
+  // Public interface (API)
+  // 3) Public methods
+  getMovements() {
+    return this.#movements;
+  }
+
   deposit(val) {
-    this.movements.push(val);
+    this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
-  approveLoan(val) {
+  // 4) Private methods
+  #approveLoan(val) {
+    // Fake method
     return true;
   }
 
   requestLoan(val) {
-    if (this.approveLoan(val)) {
+    if (this.#approveLoan(val)) {
       this.deposit(val);
       console.log(`Loan approved`);
     }
+    return this;
   }
+
+  // // STATIC
+  // static #test() {
+  //   console.log('TEST');
+  // }
 }
 
 const acc1 = new Account('Jonas', 'EUR', 1111);
+// acc1.deposit(300);
+// acc1.withdraw(100);
+const movements = acc1
+  .deposit(300)
+  .withdraw(100)
+  .withdraw(50)
+  .requestLoan(25000)
+  .withdraw(4000)
+  .getMovements();
 
-// acc1.movements.push(250);
-// acc1.movements.push(-140);
-acc1.deposit(250);
-acc1.withdraw(140);
-acc1.requestLoan(1000);
-acc1.approveLoan(1000);
+console.log(acc1);
+// console.log(acc1.#movements);
+// → Uncaught SyntaxError: Private field '#movements' must be declared in an enclosing class
+// acc1.#approvedLoan(323);
+// → Uncaught SyntaxError: Private field '#approvedLoan' must be declared in an enclosing class
 
-acc1.console.log(acc1);
-console.log(acc1.pin);
+// Account.test();
+// → script.js:465 Uncaught TypeError: Account.test is not a function
+
+console.log(movements);
