@@ -60,9 +60,9 @@ class Cycling extends Workout {
 }
 
 // test Running and Cycling classes
-const run1 = new Running([37.403, -126.9], 5.2, 24, 178);
-const cycling1 = new Cycling([37.403, -126.9], 27, 95, 523);
-console.log(run1, cycling1);
+// const run1 = new Running([37.403, -126.9], 5.2, 24, 178);
+// const cycling1 = new Cycling([37.403, -126.9], 27, 95, 523);
+// console.log(run1, cycling1);
 
 //////////////////////////////////////
 // APPLICATION ARCHITECTURE
@@ -82,7 +82,13 @@ class App {
   #workouts = [];
 
   constructor() {
+    // Get user's position
     this._getPosition();
+
+    // Get data from local storage
+    this._getLocalStorage();
+
+    // Attach event handlers
     form.addEventListener('submit', this._newWorkout.bind(this)); // bind.this 를 통해 수동으로 현재 객체(app)와 결합
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this)); // bind.this 를 통해 수동으로 현재 객체(app)와 결합
@@ -107,7 +113,7 @@ class App {
     console.log(`https://www.google.pt/maps/@${latitude},${longitude}`); // → 37.4031765 126.985908
 
     const coords = [latitude, longitude];
-    console.log(this);
+
     this.#map = L.map('map').setView(coords, this.#mapZoomLevel); // 뒤쪽 숫자는 zoom level
     // console.log(map);
 
@@ -118,6 +124,10 @@ class App {
 
     // Handling clicks on map
     this.#map.on('click', this._showForm.bind(this)); // .bind(this) 를 통해 수동으로 현재 객체(App) 결합
+
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -193,7 +203,6 @@ class App {
 
     // Add new object to workout array
     this.#workouts.push(workout);
-    console.log(workout);
 
     // Render workout on map as marker
     this._renderWorkoutMarker(workout);
@@ -203,6 +212,9 @@ class App {
 
     // Hide form + clear input fields
     this._hideForm();
+
+    // Set local storage to all workouts
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -282,7 +294,6 @@ class App {
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id,
     );
-    console.log(workout);
 
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
@@ -290,7 +301,30 @@ class App {
     });
 
     // using the public interface
-    workout.click();
+    // workout.click();
+  }
+
+  _setLocalStorage() {
+    // localStorage는 브라우저가 제공하는 API 이다.
+    // (아주 작은 양의 데이터만 저장하는 것을 권장. 속도 저하 + Blocking 때문..!)
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+    this.#workouts = data;
+
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  reset() {
+    // remove localStorage data
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 }
 
