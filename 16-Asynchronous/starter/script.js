@@ -11,6 +11,7 @@ const countriesContainer = document.querySelector('.countries');
 // https://countries-api-836d.onrender.com/countries/
 ///////////////////////////////////////
 /*
+// ※ Our First AJAX Call: XMLHttpRequest
 // old school way
 const getCountryData = function (country) {
   const request = new XMLHttpRequest();
@@ -40,11 +41,12 @@ const getCountryData = function (country) {
 
 // 아래 데이터는 비동기 방식으로 값을 가져오기에
 // 실행 때마다 그 순서가 달라질 수 있다.
-getCountryData('korea (republic of');
+getCountryData('korea (republic of)');
 getCountryData('canada');
 getCountryData('hungary');
 */
 
+// ※ Welcome to Callback Hell
 // callBack 함수의 실행 sequence를 만들어보자. (feat. Callback Hell)
 const renderCountry = function (data, className = '') {
   const html = `
@@ -63,6 +65,7 @@ const renderCountry = function (data, className = '') {
   countriesContainer.style.opacity = 1;
 };
 
+/*
 const getCountryAndNeighbour = function (country) {
   // AJAX call country 1
   const request = new XMLHttpRequest();
@@ -116,3 +119,28 @@ setTimeout(() => {
     }, 1000);
   }, 1000);
 }, 1000);
+*/
+
+// ※ Promises and the Fetch API
+
+// const request = new XMLHttpRequest();
+// request.open('GET', `https://restcountries.com/v2/name/${country}`);
+// request.send();
+
+const request = fetch(`https://restcountries.com/v2/name/canada`);
+console.log(request);
+
+// ※ What are PROMISES?
+// : An object that is used as a placeholder for the future result of an asynchronous operation
+// = A container for an asynchronously delivered value
+// = A container for a future value (response from AJAX call)
+
+// ※ Promise 의 장점
+// 1. 비동기 결과를 처리하기 위해 이벤트와 콜백 함수에 의존할 필요가 없어진다.
+// 2. 함수의 중첩 대신 promise를 연결하여 콜백 지옥을 벗어날 수 있다.
+// ** promise 는 ES6 이후 버전부터 가능하다.
+
+// ※ the promise lifecycle
+// 1) Pending
+// ↓ ASYNC TASK
+// 2) Settled (fulfilled or rejected)
