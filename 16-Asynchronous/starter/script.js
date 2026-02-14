@@ -127,8 +127,8 @@ setTimeout(() => {
 // request.open('GET', `https://restcountries.com/v2/name/${country}`);
 // request.send();
 
-const request = fetch(`https://restcountries.com/v2/name/canada`);
-console.log(request);
+// const request = fetch(`https://restcountries.com/v2/name/canada`);
+// console.log(request);
 
 // ※ What are PROMISES?
 // : An object that is used as a placeholder for the future result of an asynchronous operation
@@ -144,3 +144,26 @@ console.log(request);
 // 1) Pending
 // ↓ ASYNC TASK
 // 2) Settled (fulfilled or rejected)
+
+// ※ Consuming Promises
+
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v2/name/${country}`)
+//     .then(function (response) {
+//       console.log(response);
+//       return response.json();
+//       // response.json() 역시 비동기 함수이다. (즉, promise 를 반환한다.)
+//     })
+//     .then(function (data) {
+//       console.log(data);
+//       renderCountry(data[0]);
+//     });
+// };
+
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+
+getCountryData('korea (republic of)');
