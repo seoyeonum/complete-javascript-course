@@ -3,6 +3,28 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+const renderCountry = function (data, className = '') {
+  const html = `
+  <article class="country ${className}">
+    <img class="country__img" src="${data.flag}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(+data.population / 1000000).toFixed(1)} people</p>
+      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+    </div>
+  </article>
+  `;
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  // countriesContainer.style.opacity = 1;
+};
+
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  // countriesContainer.style.opacity = 1;
+};
+
 // NEW COUNTRIES API URL (use instead of the URL shown in videos):
 // https://restcountries.com/v2/name/portugal
 
@@ -48,6 +70,7 @@ getCountryData('hungary');
 
 // ※ Welcome to Callback Hell
 // callBack 함수의 실행 sequence를 만들어보자. (feat. Callback Hell)
+/*
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
@@ -64,6 +87,7 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
+*/
 
 /*
 const getCountryAndNeighbour = function (country) {
@@ -165,7 +189,10 @@ setTimeout(() => {
 const getCountryData = function (country) {
   // Country 1
   fetch(`https://restcountries.com/v2/name/${country}`)
-    .then(response => response.json())
+    .then(
+      response => response.json(),
+      // err => alert(err),
+    )
     .then(data => {
       renderCountry(data[0]);
       const neighbour = data[0].borders?.[0];
@@ -180,9 +207,25 @@ const getCountryData = function (country) {
       // response => response.json(),
       // );
     })
-    .then(response => response.json())
-    .then(data => renderCountry(data, 'neighbour'));
+    .then(
+      response => response.json(),
+      // err => alert(err),
+    )
+    .then(data => renderCountry(data, 'neighbour'))
+    .catch(err => {
+      // ※ Handling Rejected Promises
+      // 일일히 err 처리하는 대신 catch 구문으로 한 번에 처리 가능
+      console.error(`${err} 💥💥💥`);
+      renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      // 항상 일어나야 하는 일의 경우 finally 사용 (로딩 스피너 등)
+      countriesContainer.style.opacity = 1;
+    });
 };
 
-// getCountryData('korea (republic of)');
-getCountryData('hungary');
+btn.addEventListener('click', function () {
+  getCountryData('hungary');
+});
+
+// getCountryData('adfadfsd');
