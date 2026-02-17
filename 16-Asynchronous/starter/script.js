@@ -184,18 +184,30 @@ setTimeout(() => {
 //     });
 // };
 
+const getJSON = function (url, errMsg = 'Something went wrong') {
+  return fetch(url).then(response => {
+    if (!response.ok) throw new Error(`${errMsg} (${response.status})`);
+    return response.json();
+  });
+};
 // ※ Chaining Promises
 // : instead of callback hell, use flat chain of promises
+/*
 const getCountryData = function (country) {
   // Country 1
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(
-      response => response.json(),
-      // err => alert(err),
+      response => {
+        console.log(response);
+        if (!response.ok)
+          throw new Error(`Country not found (${response.status})`);
+        return response.json();
+      }, // err => alert(err),
     )
     .then(data => {
       renderCountry(data[0]);
-      const neighbour = data[0].borders?.[0];
+      // const neighbour = data[0].borders?.[0];
+      const neighbour = 'adsdfs';
 
       if (!neighbour) return;
 
@@ -207,10 +219,40 @@ const getCountryData = function (country) {
       // response => response.json(),
       // );
     })
-    .then(
-      response => response.json(),
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+      return response.json();
       // err => alert(err),
-    )
+    })
+    .then(data => renderCountry(data, 'neighbour'))
+    .catch(err => {
+      // ※ Handling Rejected Promises
+      // 일일히 err 처리하는 대신 catch 구문으로 한 번에 처리 가능
+      console.error(`${err} 💥💥💥`);
+      renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      // 항상 일어나야 하는 일의 경우 finally 사용 (로딩 스피너 등)
+      countriesContainer.style.opacity = 1;
+    });
+};
+*/
+
+const getCountryData = function (country) {
+  // Country 1
+  getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders?.[0];
+      if (!neighbour) throw new Error('No neighbour found!');
+
+      // Country 2
+      return getJSON(
+        `https://restcountries.com/v2/alpha/${neighbour}`,
+        'Country not found',
+      );
+    })
     .then(data => renderCountry(data, 'neighbour'))
     .catch(err => {
       // ※ Handling Rejected Promises
@@ -228,4 +270,5 @@ btn.addEventListener('click', function () {
   getCountryData('hungary');
 });
 
-// getCountryData('adfadfsd');
+// ※ Throwing Errors Manually
+getCountryData('australia');
