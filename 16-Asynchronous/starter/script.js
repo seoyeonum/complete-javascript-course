@@ -239,6 +239,7 @@ const getCountryData = function (country) {
 };
 */
 
+/*
 const getCountryData = function (country) {
   // Country 1
   getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
@@ -272,3 +273,20 @@ btn.addEventListener('click', function () {
 
 // ※ Throwing Errors Manually
 getCountryData('australia');
+*/
+
+console.log('Test start'); // 1
+setTimeout(() => console.log('0 sec timer'), 0); // 5
+Promise.resolve('Resolved promise 1').then(res => console.log(res)); // 3
+
+Promise.resolve('Resolved promise 2').then(res => {
+  for (let i = 0; i < 1000000000; i++) {}
+  console.log(res); // 4
+});
+console.log('Test end'); // 2
+
+// (1, 2) 콜백 함수 밖에 위치한 코드가 먼저 처리된다.
+// (3) 마이크로 작업 대기열에 있는 코드가 먼저 처리된다.
+// (4) 마이크로 작업 대기열에 있으며 작업이 무거운 코드가 나중에 처리된다.
+// (5) 콜백 큐에 위치한 코드가 가장 나중에 처리된다.
+// : setTimeout 으로 정교한 타이머 작업을 수행할 수 없다.
