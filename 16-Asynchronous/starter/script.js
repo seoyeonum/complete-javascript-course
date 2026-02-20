@@ -275,6 +275,7 @@ btn.addEventListener('click', function () {
 getCountryData('australia');
 */
 
+/*
 console.log('Test start'); // 1
 setTimeout(() => console.log('0 sec timer'), 0); // 5
 Promise.resolve('Resolved promise 1').then(res => console.log(res)); // 3
@@ -290,3 +291,57 @@ console.log('Test end'); // 2
 // (4) 마이크로 작업 대기열에 있으며 작업이 무거운 코드가 나중에 처리된다.
 // (5) 콜백 큐에 위치한 코드가 가장 나중에 처리된다.
 // : setTimeout 으로 정교한 타이머 작업을 수행할 수 없다.
+*/
+
+// ※ Building a Simple Promise
+
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery draw is happening 🔮');
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve(`You WIN 💰`);
+    } else {
+      reject(new Error('You lost your money 💩'));
+    }
+  }, 2000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+// Promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(1)
+  .then(() => {
+    console.log('1 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 second passed');
+    return wait(1);
+  })
+  .then(() => console.log('4 second passed'));
+
+// setTimeout(() => {
+//   console.log('1 second passed');
+//   setTimeout(() => {
+//     console.log('2 second passed');
+//     setTimeout(() => {
+//       console.log('3 second passed');
+//       setTimeout(() => {
+//         console.log('4 second passed');
+//       }, 1000);
+//     }, 1000);
+//   }, 1000);
+// }, 1000);
+
+Promise.resolve('abc').then(x => console.log(x));
+Promise.reject(new Error('Problem!')).catch(x => console.error(x));
