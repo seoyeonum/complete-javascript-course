@@ -6,18 +6,18 @@ const countriesContainer = document.querySelector('.countries');
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
-    <img class="country__img" src="${data.flag}" />
+    <img class="country__img" src="${data.flags.png}" />
     <div class="country__data">
-      <h3 class="country__name">${data.name}</h3>
+      <h3 class="country__name">${data.name.official}</h3>
       <h4 class="country__region">${data.region}</h4>
       <p class="country__row"><span>👫</span>${(+data.population / 1000000).toFixed(1)} people</p>
-      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
-      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+      <p class="country__row"><span>🗣️</span>${Object.values(data.languages)}</p>
+      <p class="country__row"><span>💰</span>${Object.values(data.currencies)[0].name}</p>
     </div>
   </article>
   `;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderError = function (msg) {
@@ -292,7 +292,7 @@ console.log('Test end'); // 2
 // (5) 콜백 큐에 위치한 코드가 가장 나중에 처리된다.
 // : setTimeout 으로 정교한 타이머 작업을 수행할 수 없다.
 */
-
+/*
 // ※ Building a Simple Promise
 
 const lotteryPromise = new Promise(function (resolve, reject) {
@@ -345,3 +345,54 @@ wait(1)
 
 Promise.resolve('abc').then(x => console.log(x));
 Promise.reject(new Error('Problem!')).catch(x => console.error(x));
+*/
+
+// ※ Promisifying the Geolocation API
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position), // 성공 시 callback (resolve에 position 넘기기)
+    //   err => reject(err), // 에러 시 callback
+    // );
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+    // *위와 동일하게, 자동으로 position이 전달된다.
+  });
+};
+
+// getPosition().then(pos => console.log(pos));
+
+// challenge1을 현재 위치 기준 조회로 refactoring
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      return fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`,
+      );
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
+      console.log(res);
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.city}, ${data.countryName}`);
+      // Korea%20(the%20Republic%20of)
+      // return fetch(`https://restcountries.com/v2/name/${data.countryName})`);
+      return fetch(` https://restcountries.com/v3.1/alpha/${data.countryCode}`);
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Country not found (${res.status})`);
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      renderCountry(data[0]);
+    })
+    .catch(err => console.error(`${err.message} 💥`));
+};
+
+btn.addEventListener('click', whereAmI);
