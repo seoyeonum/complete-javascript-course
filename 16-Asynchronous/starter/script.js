@@ -412,32 +412,55 @@ const getPosition = function () {
 // - 비동기로 내부에 있는 코드를 수행하는 동안 백그라운드에서 계속 수행
 // - 이후 프로미스를 자동으로 반환
 const whereAmI = async function () {
-  // Geolocation
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
 
-  // Reverse Geocoding
-  const resGeo = await fetch(
-    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`,
-  );
-  const dataGeo = await resGeo.json();
-  console.log(dataGeo);
+    // Reverse Geocoding
+    const resGeo = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`,
+    );
 
-  // Country data
-  // async/await 문법은 fetch/then 문법의 syntactic sugar*라는 점을 명심하자.
-  // (*문법적 설탕; 개발자의 편의를 위해 concreat syntax 를 확장한 것)
-  // fetch(`https://restcountries.com/v2/name/${country}`).then(res =>
-  //   console.log(res),
-  // );
+    if (!resGeo.ok) throw new Error('Problem getting location data');
 
-  const res = await fetch(
-    `https://restcountries.com/v2/name/${dataGeo.countryCode}`,
-  );
-  const data = await res.json();
-  console.log(data);
-  renderCountry(data[2] || data[1] || data[0]);
-  // 여러 나라가 검색되는 관계로, 한국 기준으로 인덱스 2를 추가
-  // 그 외의 경우 인덱스 1,0 국가가 조회되도록 설정
+    const dataGeo = await resGeo.json();
+    console.log(dataGeo);
+
+    // ※ async/await 문법은 fetch/then 문법의 syntactic sugar*라는 점을 명심하자.
+    // (*문법적 설탕; 개발자의 편의를 위해 concreat syntax 를 확장한 것)
+    // fetch(`https://restcountries.com/v2/name/${country}`).then(res =>
+    //   console.log(res),
+    // );
+
+    // Country data
+    const res = await fetch(
+      `https://restcountries.com/v2/name/${dataGeo.countryCode}`,
+    );
+    if (!res.ok) throw new Error('Problem getting country');
+
+    const data = await res.json();
+    console.log(data);
+    renderCountry(data[2] || data[1] || data[0]);
+    // 여러 나라가 검색되는 관계로, 한국 기준으로 인덱스 2를 추가
+    // 그 외의 경우 인덱스 1,0 국가가 조회되도록 설정
+  } catch (err) {
+    console.error(`${err} 💥`);
+    renderError(`💥 ${err.message}`);
+  }
 };
 whereAmI();
+whereAmI();
+whereAmI();
 console.log('FIRST');
+
+// ※ Error Handling With try...catch
+// - Java 에서도 전통적으로 사용된 에러 처리 방식
+
+// try {
+//   let y = 1;
+//   const x = 2;
+//   x = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
