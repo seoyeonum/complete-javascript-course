@@ -399,7 +399,7 @@ const whereAmI = function () {
 btn.addEventListener('click', whereAmI);
 */
 
-// ※ Consuming Promises with Async/Await
+// ※ Returning Values from Async Functions
 
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
@@ -408,9 +408,6 @@ const getPosition = function () {
 };
 
 // async function
-// - 동기식 코드처럼 보이지만,
-// - 비동기로 내부에 있는 코드를 수행하는 동안 백그라운드에서 계속 수행
-// - 이후 프로미스를 자동으로 반환
 const whereAmI = async function () {
   try {
     // Geolocation
@@ -425,13 +422,6 @@ const whereAmI = async function () {
     if (!resGeo.ok) throw new Error('Problem getting location data');
 
     const dataGeo = await resGeo.json();
-    console.log(dataGeo);
-
-    // ※ async/await 문법은 fetch/then 문법의 syntactic sugar*라는 점을 명심하자.
-    // (*문법적 설탕; 개발자의 편의를 위해 concreat syntax 를 확장한 것)
-    // fetch(`https://restcountries.com/v2/name/${country}`).then(res =>
-    //   console.log(res),
-    // );
 
     // Country data
     const res = await fetch(
@@ -440,27 +430,34 @@ const whereAmI = async function () {
     if (!res.ok) throw new Error('Problem getting country');
 
     const data = await res.json();
-    console.log(data);
     renderCountry(data[2] || data[1] || data[0]);
-    // 여러 나라가 검색되는 관계로, 한국 기준으로 인덱스 2를 추가
-    // 그 외의 경우 인덱스 1,0 국가가 조회되도록 설정
+
+    return `You are in ${dataGeo.city}, ${dataGeo.countryName}`;
   } catch (err) {
-    console.error(`${err} 💥`);
     renderError(`💥 ${err.message}`);
+
+    // Reject promise returnred from async function
+    throw err;
   }
 };
-whereAmI();
-whereAmI();
-whereAmI();
-console.log('FIRST');
 
-// ※ Error Handling With try...catch
-// - Java 에서도 전통적으로 사용된 에러 처리 방식
+console.log('1: Will get location');
+// const city = whereAmI();
+// console.log(city);
 
-// try {
-//   let y = 1;
-//   const x = 2;
-//   x = 3;
-// } catch (err) {
-//   alert(err.message);
-// }
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message} 💥`))
+//   .finally(() => console.log('3: Finished getting location'));
+
+// user IIFE
+// : 비동기 함수 내에서만 await 사용 가능하므로, 즉시 호출 가능 표현식을 활용!
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`2: ${err.message} 💥`);
+  }
+  console.log('3: Finished getting location');
+})();
