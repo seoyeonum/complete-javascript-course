@@ -6,13 +6,13 @@ const countriesContainer = document.querySelector('.countries');
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
-    <img class="country__img" src="${data.flags.png}" />
+    <img class="country__img" src="${data.flag}" />
     <div class="country__data">
-      <h3 class="country__name">${data.name.official}</h3>
+      <h3 class="country__name">${data.name}</h3>
       <h4 class="country__region">${data.region}</h4>
       <p class="country__row"><span>👫</span>${(+data.population / 1000000).toFixed(1)} people</p>
-      <p class="country__row"><span>🗣️</span>${Object.values(data.languages)}</p>
-      <p class="country__row"><span>💰</span>${Object.values(data.currencies)[0].name}</p>
+      <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+      <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
     </div>
   </article>
   `;
@@ -347,6 +347,7 @@ Promise.resolve('abc').then(x => console.log(x));
 Promise.reject(new Error('Problem!')).catch(x => console.error(x));
 */
 
+/*
 // ※ Promisifying the Geolocation API
 
 const getPosition = function () {
@@ -396,3 +397,47 @@ const whereAmI = function () {
 };
 
 btn.addEventListener('click', whereAmI);
+*/
+
+// ※ Consuming Promises with Async/Await
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+// async function
+// - 동기식 코드처럼 보이지만,
+// - 비동기로 내부에 있는 코드를 수행하는 동안 백그라운드에서 계속 수행
+// - 이후 프로미스를 자동으로 반환
+const whereAmI = async function () {
+  // Geolocation
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
+
+  // Reverse Geocoding
+  const resGeo = await fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`,
+  );
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
+
+  // Country data
+  // async/await 문법은 fetch/then 문법의 syntactic sugar*라는 점을 명심하자.
+  // (*문법적 설탕; 개발자의 편의를 위해 concreat syntax 를 확장한 것)
+  // fetch(`https://restcountries.com/v2/name/${country}`).then(res =>
+  //   console.log(res),
+  // );
+
+  const res = await fetch(
+    `https://restcountries.com/v2/name/${dataGeo.countryCode}`,
+  );
+  const data = await res.json();
+  console.log(data);
+  renderCountry(data[2] || data[1] || data[0]);
+  // 여러 나라가 검색되는 관계로, 한국 기준으로 인덱스 2를 추가
+  // 그 외의 경우 인덱스 1,0 국가가 조회되도록 설정
+};
+whereAmI();
+console.log('FIRST');
