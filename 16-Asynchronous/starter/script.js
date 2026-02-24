@@ -399,6 +399,7 @@ const whereAmI = function () {
 btn.addEventListener('click', whereAmI);
 */
 
+/*
 // ※ Returning Values from Async Functions
 
 const getPosition = function () {
@@ -461,3 +462,27 @@ console.log('1: Will get location');
   }
   console.log('3: Finished getting location');
 })();
+*/
+
+// ※ Running Promises in Parallel (*Parallel: 평행한)
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    // const [data1] = await getJSON(`https://restcountries.com/v2/name/${c1}`);
+    // const [data2] = await getJSON(`https://restcountries.com/v2/name/${c2}`);
+    // const [data3] = await getJSON(`https://restcountries.com/v2/name/${c3}`);
+    // console.log([data1.capital, data2.capital, data3.capital]);
+
+    // 여러 개의 비동기 연산을 동시에 수행해야 하는 상황과
+    // 서로 의존하지 않는 연산을 동시에 수행해야 하는 상황에서는
+    // 항상 Promise 를 사용하여 병렬로 실행해야 한다.
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v2/name/${c1}`),
+      getJSON(`https://restcountries.com/v2/name/${c2}`),
+      getJSON(`https://restcountries.com/v2/name/${c3}`),
+    ]);
+    console.log(data.map(d => d[0].capital));
+  } catch (err) {
+    console.error(err);
+  }
+};
+get3Countries('canada', 'hungary', 'korea (republic of)');
