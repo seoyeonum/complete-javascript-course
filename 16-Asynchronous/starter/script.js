@@ -463,7 +463,7 @@ console.log('1: Will get location');
   console.log('3: Finished getting location');
 })();
 */
-
+/*
 // ※ Running Promises in Parallel (*Parallel: 평행한)
 const get3Countries = async function (c1, c2, c3) {
   try {
@@ -486,3 +486,61 @@ const get3Countries = async function (c1, c2, c3) {
   }
 };
 get3Countries('canada', 'hungary', 'korea (republic of)');
+*/
+
+// ※ Other Promise Combinators: race, allSettled and any
+
+// 1) Promise.race ★
+// : 제일 먼저 setteled된 promise 가 승리(fulfilled)한다.
+// (fulfilled인지 rejected인지는 중요하지 않다.)
+(async function () {
+  const res = await Promise.race([
+    getJSON(`https://restcountries.com/v2/name/italy`),
+    getJSON(`https://restcountries.com/v2/name/taiwan`),
+    getJSON(`https://restcountries.com/v2/name/norway`),
+  ]);
+  console.log(res[0]);
+})();
+
+// race는 사용자 인터넷 연결 상황에 따라
+// 타임아웃 Promise 를 만들어 작업을 중단하는 식으로도 활용 가능!
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request took too long!'));
+    }, sec * 1000);
+  });
+};
+
+Promise.race([getJSON(`https://restcountries.com/v2/name/hungary`), timeout(5)])
+  .then(res => console.log(res[0]))
+  .catch(err => console.error(err));
+
+// 2-1) Promise.allSettled (*ES2020)
+Promise.allSettled([
+  Promise.resolve('Success'),
+  Promise.reject('Error'),
+  Promise.resolve('Another success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+// 2-2) Promise.all ★
+// Promise.all은 short circuit에 따라 reject를 마주하면 작업을 중단한다.
+Promise.all([
+  Promise.resolve('Success'),
+  Promise.reject('Error'),
+  Promise.resolve('Another success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+// 3) Promise.any (*ES2021)
+// 처음으로 fulfilled된 Promise만을 이행한다.
+Promise.any([
+  Promise.resolve('Success'),
+  Promise.reject('Error'),
+  Promise.resolve('Another success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
