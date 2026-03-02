@@ -59,3 +59,29 @@ console.log(cart);
 // 즉, import 시 단순히 cart 값을 복사해온 것이 아니라,
 // 주소값을 가져와 연결되어 있다는 것을 알 수 있다!
 // (imports are not copies of exports. instead, like a live connection.)
+
+// ※ Top-Level await (ES2022)
+// ES2022 이후 JS 모듈에서는 비동기 함수 외부에서 await 키워드를 사용할 수 있다.
+// 아래와 같은 await은 전체 실행을 차단하고 있는데,
+// 상황에 따라 이는 유용할 수도, 해로울 수도 있으니 신중히 활용해야 한다.
+
+// console.log('Start fetching');
+// const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+// const data = await res.json();
+// console.log(data);
+// console.log('Something');
+
+const getLastPost = async function () {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  const data = await res.json();
+  return { title: data.at(-1).title, text: data.at(-1).body };
+};
+
+const lastPost = getLastPost();
+console.log(lastPost); // Promise 반환
+
+// NOT very clean
+// lastPost.then(last => console.log(last)); // 기대했던 return value 반환
+
+const lastPost2 = await getLastPost();
+console.log(lastPost2);
