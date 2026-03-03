@@ -1,3 +1,4 @@
+/*
 // ※ An Overview of Modules in JavaScript
 
 // Module
@@ -85,3 +86,42 @@ console.log(lastPost); // Promise 반환
 
 const lastPost2 = await getLastPost();
 console.log(lastPost2);
+*/
+
+// ※ The Module Pattern
+// 한 번만 호출하도록 할 수 있는 IIFE로 보통 작성
+const ShoppingCart2 = (function () {
+  const cart = [];
+  const shippingCost = 10;
+  const totalPrice = 237;
+  const totalQuantity = 23;
+
+  const addToCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(
+      `${quantity} ${product} added to cart (Shippinng cost is ${shippingCost})`,
+    );
+  };
+
+  const orderStock = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(`${quantity} ${product} ordered from supplier`);
+  };
+
+  return {
+    addToCart,
+    cart,
+    totalPrice,
+    totalQuantity,
+  };
+})();
+
+ShoppingCart2.addToCart('apple', 4);
+ShoppingCart2.addToCart('pizza', 2);
+console.log(ShoppingCart2);
+// → {cart: Array(2), totalPrice: 237, totalQuantity: 23, addToCart: ƒ}
+console.log(ShoppingCart2.shippingCost); // → undefined
+
+// 이와 같이, IIFE를 활용하여 Private Module을 만들 수 있다.
+// (이게 모듈 패턴의 구현이다.)
+// 어떻게 이게 작동하는가? → "Closure" 때문!
