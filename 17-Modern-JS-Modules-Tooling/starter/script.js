@@ -87,7 +87,7 @@ console.log(lastPost); // Promise 반환
 const lastPost2 = await getLastPost();
 console.log(lastPost2);
 */
-
+/*
 // ※ The Module Pattern
 // 한 번만 호출하도록 할 수 있는 IIFE로 보통 작성
 const ShoppingCart2 = (function () {
@@ -125,3 +125,19 @@ console.log(ShoppingCart2.shippingCost); // → undefined
 // 이와 같이, IIFE를 활용하여 Private Module을 만들 수 있다.
 // (이게 모듈 패턴의 구현이다.)
 // 어떻게 이게 작동하는가? → "Closure" 때문!
+*/
+
+// ※ CommonJS Modules
+// : Node.js 환경에서 사용하는 모듈 시스템
+// - 브라우저 밖의 서버 환경(Node.js)에서 만들어진 방법
+
+// 문법1. Export
+export.addToCart = function (product, quantity) {
+  cart.push({ product, quantity });
+  console.log(
+    `${quantity} ${product} added to cart (Shippinng cost is ${shippingCost})`,
+  );
+};
+
+// 문법2. Import
+const {addToCart} = require('./shoppingCArt.js');
