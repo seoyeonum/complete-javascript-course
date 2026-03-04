@@ -126,7 +126,7 @@ console.log(ShoppingCart2.shippingCost); // → undefined
 // (이게 모듈 패턴의 구현이다.)
 // 어떻게 이게 작동하는가? → "Closure" 때문!
 */
-
+/*
 // ※ CommonJS Modules
 // : Node.js 환경에서 사용하는 모듈 시스템
 // - 브라우저 밖의 서버 환경(Node.js)에서 만들어진 방법
@@ -141,3 +141,21 @@ export.addToCart = function (product, quantity) {
 
 // 문법2. Import
 const {addToCart} = require('./shoppingCArt.js');
+*/
+
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+const state = {
+  cart: [
+    { product: 'bread', quantity: 5 },
+    { product: 'pizza', quantity: 5 },
+  ],
+  user: { loggedIn: true },
+};
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+
+state.user.loggedIn = false;
+console.log(stateClone);
+
+console.log(stateDeepClone);
