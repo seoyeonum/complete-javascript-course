@@ -1,4 +1,3 @@
-/*
 // ※ An Overview of Modules in JavaScript
 
 // Module
@@ -61,6 +60,7 @@ console.log(cart);
 // 주소값을 가져와 연결되어 있다는 것을 알 수 있다!
 // (imports are not copies of exports. instead, like a live connection.)
 
+/*
 // ※ Top-Level await (ES2022)
 // ES2022 이후 JS 모듈에서는 비동기 함수 외부에서 await 키워드를 사용할 수 있다.
 // 아래와 같은 await은 전체 실행을 차단하고 있는데,
@@ -143,7 +143,8 @@ export.addToCart = function (product, quantity) {
 const {addToCart} = require('./shoppingCArt.js');
 */
 
-import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+import cloneDeep from 'lodash-es';
 
 const state = {
   cart: [
@@ -159,3 +160,7 @@ state.user.loggedIn = false;
 console.log(stateClone);
 
 console.log(stateDeepClone);
+
+if (module.hot) {
+  module.hot.accept();
+}
