@@ -144,7 +144,7 @@ const {addToCart} = require('./shoppingCArt.js');
 */
 
 // import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
-import cloneDeep from 'lodash-es';
+import cloneDeep, { slice } from 'lodash-es';
 
 const state = {
   cart: [
@@ -164,3 +164,31 @@ console.log(stateDeepClone);
 if (module.hot) {
   module.hot.accept();
 }
+
+class Person {
+  #greeting = 'Hey';
+  constructor(name) {
+    this.name = name;
+    console.log(`${this.#greeting}, ${this.name}`);
+  }
+}
+
+const jonas = new Person('Jonas');
+
+console.log('Jonas' ?? null);
+
+console.log(cart.find(el => el.quantity >= 2));
+Promise.resolve('TEST').then(x => console.log(x));
+
+// Polyfill(충전솜)
+// Babel은 ESNext 문법을 ES5로 번역하지만 ES6 이후에만 존재하는 개념은 번역하지 못한다.
+// 따라서 이를 메꿔줄 polyfill 이 필요하며, 기존 babel-polyfill 모듈은 deprecated 되어
+// 현재는 수동으로 입력해주어야 한다.
+
+import 'core-js/stable';
+// 번들 크기가 우려된다면 아래와 같이 cherry pick 해서 설치도 가능하다!
+// import 'core-js/stable/array/find';
+// import 'core-js/stable/promise';
+
+// Polyfilling async functions
+import 'regenerator-runtime/runtime';
