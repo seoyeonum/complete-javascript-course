@@ -1,3 +1,4 @@
+'use strict';
 // ※ Writing clean and modern JavaScript
 
 // 1. Readable code
@@ -38,7 +39,7 @@
 // - Whenever posiible, run promises in parallel(Promise.all)
 // - Handle errors and promise rejections
 
-const budget = [
+const budget = Object.freeze([
   { value: 250, description: 'Sold old TV 📺', user: 'jonas' },
   { value: -45, description: 'Groceries 🥑', user: 'jonas' },
   { value: 3500, description: 'Monthly salary 👩‍💻', user: 'jonas' },
@@ -47,49 +48,91 @@ const budget = [
   { value: -20, description: 'Candy 🍭', user: 'matilda' },
   { value: -125, description: 'Toys 🚂', user: 'matilda' },
   { value: -1800, description: 'New Laptop 💻', user: 'jonas' },
-];
+]);
 
-const spendingLimits = {
+// (Object.freez는 소위 deep freeze는 아니라 내부 상태 변경이 가능하긴 하다!)
+// budget[0].value = 1000; // (변경 가능)
+// budget[9] = 'jonas'; // (변경 불가능)
+
+// Object.freeze를 활용하여 mutate 처리
+const spendingLimits = Object.freeze({
   jonas: 1500,
   matilda: 100,
-};
+});
+// spendingLimits.jay = 200; // (변경 불가능)
 
 // using optional chaining & nullish coalescing operator (ES2020)
-const getLimit = user => spendingLimits?.[user] ?? 0;
+const getLimit = (limits, user) => limits?.[user] ?? 0;
 
-const addExpense = function (value, description, user = 'jonas') {
-  user = user.toLowerCase();
+// Pure function :)
+const addExpense = function (
+  state,
+  limits,
+  value,
+  description,
+  user = 'jonas',
+) {
+  const cleanUser = user.toLowerCase();
 
-  if (value <= getLimit(user)) {
-    budget.push({ value: -value, description, user });
-  }
+  return value <= getLimit(limits, cleanUser)
+    ? [...state, { value: -value, description, user: cleanUser }]
+    : state;
 };
-addExpense(10, 'Pizza 🍕');
-addExpense(100, 'Going to movies 🍿', 'Matilda');
-addExpense(200, 'Stuff', 'Jay');
+const newBudget1 = addExpense(budget, spendingLimits, 10, 'Pizza 🍕');
+const newBudget2 = addExpense(
+  newBudget1,
+  spendingLimits,
+  100,
+  'Going to movies 🍿',
+  'Matilda',
+);
+const newBudget3 = addExpense(newBudget2, spendingLimits, 200, 'Stuff', 'Jay');
 
-const checkExpenses = function () {
-  for (const entry of budget)
-    if (entry.value < -getLimit(entry.user)) entry.flag = 'limit';
+// const checkExpenses2 = function (state, limits) {
+//   return state.map(entry => {
+//     return entry.value < -getLimit(limits, entry.user)
+//       ? { ...entry, flag: 'limit' }
+//       : entry;
+//   });
+//   // for (const entry of newBudget3)
+//   //   if (entry.value < -getLimit(limits, entry.user)) entry.flag = 'limit';
+// };
+
+// ↓ arrow fn
+
+const checkExpenses = (state, limits) =>
+  state.map(entry =>
+    entry.value < -getLimit(limits, entry.user)
+      ? { ...entry, flag: 'limit' }
+      : entry,
+  );
+
+const finalBudget = checkExpenses(newBudget3, spendingLimits);
+console.log(finalBudget);
+
+// Impure
+const logBigExpenses = function (state, bigLimit) {
+  const bigExpenses = state
+    .filter(entry => entry.value <= -bigLimit)
+    .map(entry => entry.description.slice(-2))
+    .join(' / ');
+  // .reduce((str, cur) => `${str} / ${cur.description}`, '');
+
+  console.log(bigExpenses);
+  // let output = '';
+  // for (const entry of budget)
+  //   output +=
+  //     entry.value <= -bigLimit ? `${entry.description.slice(-2)} / ` : '';
+  // // Emojis are 2 chars
+  // output = output.slice(0, -2); // Remove last '/ '
+  // console.log(output);
 };
-checkExpenses();
 
-const logBigExpenses = function (bigLimit) {
-  let output = '';
-  for (const entry of budget)
-    output +=
-      entry.value <= -bigLimit ? `${entry.description.slice(-2)} / ` : '';
-  // Emojis are 2 chars
-
-  output = output.slice(0, -2); // Remove last '/ '
-  console.log(output);
-};
-
-console.log(budget);
-logBigExpenses(500);
+logBigExpenses(finalBudget, 500);
 
 /////////////////////////////////////////////
 // ※ Declarative and Functional JavaScript Principles
+/*
 
 // 1. Two fundamentally different ways of writing code (paradigms)
 // 1) IMPERATIVE
@@ -138,3 +181,4 @@ const doubled2 = arr2.map(n => n * 2);
 // - Use the spread operator(...)
 // - Use the ternary (conditional) operator
 // - Use template literals
+*/
