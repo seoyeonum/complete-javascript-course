@@ -1,9 +1,18 @@
 import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
+// ※ HMR(Hot Module Replacement)
+// : Parcel(번들러)에서 제공하는 기능으로
+// 전체 페이지를 새로고침하지 않고 바뀐 모듈만 교체
+// (HMR이 가능한 환경인지 체크 후 / “이 모듈은 업데이트를 받아도 괜찮다”고 선언)
+if (module.hot) {
+  module.hot.accept();
+}
 
 // const recipeContainer = document.querySelector('.recipe');
 
@@ -33,6 +42,8 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
+    resultsView.renderSpinner();
+
     // 1) Get search query
     const query = searchView.getQuery();
     // guard clause
@@ -42,12 +53,12 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render results
-    console.log(model.state.search.results);
+    resultsView.render(model.state.search.results);
   } catch (err) {
     console.log(err);
   }
 };
-controlSearchResults();
+// controlSearchResults();
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
