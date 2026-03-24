@@ -4,13 +4,16 @@ import icons from 'url:../../img/icons.svg'; // Parcel 2
 // : 다른 클래스의 부모로서 활용할 것!
 export default class View {
   _data;
-  render(data) {
+  render(data, render = true) {
     // 데이터가 없거나 || 데이터가 Array 이며 그 길이가 0이거나
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
+
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
