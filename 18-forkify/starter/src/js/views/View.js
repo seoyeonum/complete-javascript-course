@@ -4,6 +4,16 @@ import icons from 'url:../../img/icons.svg'; // Parcel 2
 // : 다른 클래스의 부모로서 활용할 것!
 export default class View {
   _data;
+
+  /**
+   * Render the received object to the DOM
+   * @param {Object | Object[]} data The data to be rendered (e.g. recipe)
+   * @param {boolean} [render=true] If false, create markup string instead of rendering to the DOM
+   * @returns {undefined | string} A markup string is returned if render=false
+   * @this {Object} View instance
+   * @author Seoyeon Um
+   * @todo Finish implementation
+   */
   render(data, render = true) {
     // 데이터가 없거나 || 데이터가 Array 이며 그 길이가 0이거나
     if (!data || (Array.isArray(data) && data.length === 0))
